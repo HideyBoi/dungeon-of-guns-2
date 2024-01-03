@@ -44,8 +44,8 @@ public partial class SteamLobbyManager: Node {
 
         // TODO: Lobby was created. Now show that
 
-        NetworkManager.I.Server.Start(0, 5, NetworkManager.MessageHandlerGroupId);
-        NetworkManager.I.Client.Connect("127.0.0.1", messageHandlerGroupId: NetworkManager.MessageHandlerGroupId);
+        NetworkManager.I.Server.Start(0, 5);
+        NetworkManager.I.Client.Connect("127.0.0.1");
         NetworkManager.CurrentState = NetworkManager.GameState.LOBBY;
     }
 
@@ -68,7 +68,7 @@ public partial class SteamLobbyManager: Node {
         lobbyId = new CSteamID(callback.m_ulSteamIDLobby);
         CSteamID hostId = SteamMatchmaking.GetLobbyOwner(lobbyId);
 
-        NetworkManager.I.Client.Connect(hostId.ToString(), messageHandlerGroupId: NetworkManager.MessageHandlerGroupId);
+        NetworkManager.I.Client.Connect(hostId.ToString());
         // TODO: Game was connected, now what?
     }
 
