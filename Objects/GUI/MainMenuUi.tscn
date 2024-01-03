@@ -8,7 +8,7 @@ font_size = 24
 [sub_resource type="LabelSettings" id="LabelSettings_8vxip"]
 font_size = 9
 
-[node name="MainMenuUi" type="Control" node_paths=PackedStringArray("maxPlayersSelector", "lobbyPrivacySelector")]
+[node name="MainMenuUi" type="Control" node_paths=PackedStringArray("maxPlayersSelector", "lobbyPrivacySelector", "lobbyIdInput")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,6 +18,7 @@ grow_vertical = 2
 script = ExtResource("1_6ubcb")
 maxPlayersSelector = NodePath("HostMenu/Control/BG/FG/VBoxContainer/MaxPlayersSelector")
 lobbyPrivacySelector = NodePath("HostMenu/Control/BG/FG/VBoxContainer/PrivacySelector")
+lobbyIdInput = NodePath("JoinMenu/Control/BG/FG/VBoxContainer/LobbyIdInput")
 
 [node name="Join" type="Button" parent="."]
 layout_mode = 0
@@ -197,12 +198,11 @@ custom_minimum_size = Vector2(0, 8.925)
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="LobbyIdInput" type="SpinBox" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+[node name="LobbyIdInput" type="LineEdit" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
 layout_mode = 2
-max_value = 9.22337e+18
-value = 6.9697e+09
-rounded = true
-alignment = 1
+placeholder_text = "lobby id"
+virtual_keyboard_type = 2
+clear_button_enabled = true
 
 [node name="JoinButton" type="Button" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
 layout_mode = 2

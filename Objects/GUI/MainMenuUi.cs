@@ -8,7 +8,7 @@ public partial class MainMenuUi : Control
 
     [Export] SpinBox maxPlayersSelector;
     [Export] OptionButton lobbyPrivacySelector;
-    [Export] SpinBox lobbyIdInput;
+    [Export] LineEdit lobbyIdInput;
 
     public override void _Ready()
     {
@@ -41,7 +41,15 @@ public partial class MainMenuUi : Control
     }
 
     public void JoinLobby() {
-        SteamLobbyManager.I.JoinLobby((ulong)lobbyIdInput.Value);
+        ulong id = 0;
+        try {
+            id = ulong.Parse(lobbyIdInput.Text);
+        } catch {
+            GD.Print("Invalid.");
+            return;
+        }
+
+        SteamLobbyManager.I.JoinLobby(id);
     }
 
     // Called by SteamLobbyManager if the lobby was successfully created/connected to
