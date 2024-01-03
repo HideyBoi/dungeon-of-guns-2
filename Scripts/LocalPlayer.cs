@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Riptide;
 
 public partial class LocalPlayer : CharacterBody2D
 {
@@ -10,7 +11,6 @@ public partial class LocalPlayer : CharacterBody2D
 	enum CurrentState  { MOVING };
 	CurrentState currentState;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
 		switch (currentState)

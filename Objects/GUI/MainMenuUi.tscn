@@ -1,0 +1,227 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqyj31xhcdcst"]
+
+[ext_resource type="Script" path="res://Objects/GUI/MainMenuUi.cs" id="1_6ubcb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_q3qm7"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_8vxip"]
+font_size = 9
+
+[node name="MainMenuUi" type="Control" node_paths=PackedStringArray("maxPlayersSelector", "lobbyPrivacySelector")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6ubcb")
+maxPlayersSelector = NodePath("HostMenu/Control/BG/FG/VBoxContainer/MaxPlayersSelector")
+lobbyPrivacySelector = NodePath("HostMenu/Control/BG/FG/VBoxContainer/PrivacySelector")
+
+[node name="Join" type="Button" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 83.0
+offset_right = 35.0
+offset_bottom = 105.0
+theme_override_font_sizes/font_size = 10
+text = "Join"
+
+[node name="Host" type="Button" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 109.0
+offset_right = 35.0
+offset_bottom = 131.0
+theme_override_font_sizes/font_size = 10
+text = "Host"
+
+[node name="HostMenu" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="HostMenu"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="Panel" parent="HostMenu/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 95.0
+offset_top = 45.0
+offset_right = -95.0
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FG" type="Panel" parent="HostMenu/Control/BG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HostMenu/Control/BG/FG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+layout_mode = 2
+text = "Host Settings"
+label_settings = SubResource("LabelSettings_q3qm7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LobbyNote" type="Label" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35.325)
+layout_mode = 2
+text = "These settings can't be changed after the lobby has been created. You're going to need to make a new lobby if you want to change any of these settings."
+label_settings = SubResource("LabelSettings_8vxip")
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+custom_minimum_size = Vector2(0, 8.925)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MaxPlayersSelector" type="SpinBox" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+layout_mode = 2
+max_value = 99.0
+value = 16.0
+rounded = true
+alignment = 1
+prefix = "Max Players:"
+
+[node name="LobbyPrivacy" type="Label" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+custom_minimum_size = Vector2(0, 27.87)
+layout_mode = 2
+text = "Lobby Privacy"
+vertical_alignment = 2
+
+[node name="PrivacySelector" type="OptionButton" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+layout_mode = 2
+item_count = 3
+selected = 0
+popup/item_0/text = "Friends Only"
+popup/item_0/id = 0
+popup/item_1/text = "Public"
+popup/item_1/id = 2
+popup/item_2/text = "Invite Only"
+popup/item_2/id = 3
+
+[node name="HostButton" type="Button" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Start Hosting!"
+
+[node name="Close" type="Button" parent="HostMenu/Control/BG/FG"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -27.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "X"
+
+[node name="JoinMenu" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Control" type="Control" parent="JoinMenu"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BG" type="Panel" parent="JoinMenu/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 95.0
+offset_top = 45.0
+offset_right = -95.0
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FG" type="Panel" parent="JoinMenu/Control/BG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinMenu/Control/BG/FG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+layout_mode = 2
+text = "Join Lobby"
+label_settings = SubResource("LabelSettings_q3qm7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LobbyNote" type="Label" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35.325)
+layout_mode = 2
+text = "Get a lobby ID from your friend or group in order to join. Copy and paste it into the box below and hit join to play."
+label_settings = SubResource("LabelSettings_8vxip")
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+custom_minimum_size = Vector2(0, 8.925)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="LobbyIdInput" type="SpinBox" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+layout_mode = 2
+max_value = 9.22337e+18
+value = 6.9697e+09
+rounded = true
+alignment = 1
+
+[node name="JoinButton" type="Button" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Join Lobby!"
+
+[node name="Close" type="Button" parent="JoinMenu/Control/BG/FG"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -27.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "X"
+
+[connection signal="pressed" from="Join" to="JoinMenu" method="show"]
+[connection signal="pressed" from="Host" to="HostMenu" method="show"]
+[connection signal="pressed" from="HostMenu/Control/BG/FG/VBoxContainer/HostButton" to="." method="StartHosting"]
+[connection signal="pressed" from="HostMenu/Control/BG/FG/Close" to="HostMenu" method="hide"]
+[connection signal="pressed" from="JoinMenu/Control/BG/FG/VBoxContainer/JoinButton" to="." method="JoinLobby"]
+[connection signal="pressed" from="JoinMenu/Control/BG/FG/Close" to="JoinMenu" method="hide"]

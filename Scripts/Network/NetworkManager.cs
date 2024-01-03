@@ -1,0 +1,163 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Godot;
+using Riptide;
+using Riptide.Transports.Steam;
+using Riptide.Utils;
+
+partial class NetworkManager : Node {
+    [Serializable]
+    public class Player {
+        public ushort Id = 0;
+        public string name = "";
+    }
+    
+    public enum MessageIds : ushort
+    {
+        Hello = 1,
+    }
+
+    public const byte MessageHandlerGroupId = 206;
+
+    public static NetworkManager I;
+    
+    internal Server Server { get; private set; }
+    internal Client Client { get; private set; }
+
+    public static Dictionary<ushort, Player> ConnectedPlayers = new();
+
+    public enum GameState { NOT_CONNECTED, LOBBY, LOADING_GAME, IN_GAME, GAME_END }
+    public static GameState CurrentState = GameState.NOT_CONNECTED; 
+
+    public override void _Ready()
+    {
+        I = this;
+
+        if (!SteamManager.Initialized)
+        {
+            GD.PrintErr("Steam is not initialized!");
+            return;
+        }
+
+        RiptideLogger.Initialize(GD.Print, true);
+
+
+        SteamServer steamServer = new SteamServer();
+        Server = new Server(steamServer);
+        Server.ClientConnected += NewPlayerConnected;
+
+        Client = new Client(new SteamClient(steamServer));
+        Client.Connected += DidConnect;
+        Client.ConnectionFailed += FailedToConnect;
+        Client.ClientDisconnected += ClientPlayerLeft;
+        Client.Disconnected += DidDisconnect;
+
+        List<ushort> msgIdsToRelay = new();
+
+        foreach (MessageIds id in Enum.GetValues(typeof(MessageIds)))
+        {
+            msgIdsToRelay.Add((ushort)id);
+        }
+
+        //value needs to be 1 more than the highest ID in MessageIds
+        MessageRelayFilter filter = new MessageRelayFilter(msgIdsToRelay.Count + 1);
+
+        foreach (var id in msgIdsToRelay)
+        {
+            filter.EnableRelay(id);
+        }
+
+        Server.RelayFilter = filter;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Server.IsRunning)
+            Server.Update();
+
+        Client.Update();
+    }
+
+    public override void _ExitTree()
+    {
+        StopServer();
+        Server.ClientConnected -= NewPlayerConnected;
+
+        DisconnectClient();
+        Client.Connected -= DidConnect;
+        Client.ConnectionFailed -= FailedToConnect;
+        Client.ClientDisconnected -= ClientPlayerLeft;
+        Client.Disconnected -= DidDisconnect;
+    }
+
+    // Tell local server to stop
+    internal void StopServer()
+    {
+        Server.Stop();
+    }
+
+    // Tell local client to disconnect
+    internal void DisconnectClient()
+    {
+        Client.Disconnect();
+    }
+
+    private void NewPlayerConnected(object sender, ServerConnectedEventArgs e)
+    {
+        if (CurrentState != GameState.LOBBY && Server.IsRunning) {
+            Server.DisconnectClient(e.Client.Id);
+        }
+
+        Message msg = Message.Create(MessageSendMode.Reliable, MessageIds.Hello);
+        msg.AddUShort(Client.Id);
+        msg.AddString(Steamworks.SteamFriends.GetPersonaName());
+        Client.Send(msg);
+    }
+
+    private void DidConnect(object sender, EventArgs e)
+    {
+        Message msg = Message.Create(MessageSendMode.Reliable, MessageIds.Hello);
+        msg.AddUShort(Client.Id);
+        msg.AddString(Steamworks.SteamFriends.GetPersonaName());
+        Client.Send(msg);
+        GD.Print("Connected to " + SteamLobbyManager.I.lobbyId);
+    }
+
+    [MessageHandler((ushort)MessageIds.Hello)]
+    static void NewPlayer(Message msg) {
+        ushort Id = msg.GetUShort();
+        string name = msg.GetString();
+
+        // Player already handled, disregard.
+        if (ConnectedPlayers.ContainsKey(Id))
+            return;
+
+        Player newPlayer = new()
+        {
+            Id = Id,
+            name = name
+        };
+        ConnectedPlayers.Add(Id, newPlayer);
+    }
+
+    // Failed to connect to game, go back to main menu. Something else will show the error.
+    private void FailedToConnect(object sender, EventArgs e)
+    {
+        
+    }
+
+    // Remote player left, what to do... what to do...
+    private void ClientPlayerLeft(object sender, ClientDisconnectedEventArgs e)
+    {       
+        ConnectedPlayers.Remove(e.Id);
+    }
+
+    // Local player disconnected, what to do... what to do...
+    private void DidDisconnect(object sender, EventArgs e)
+    {
+        CurrentState = GameState.NOT_CONNECTED;
+        ConnectedPlayers.Clear();
+    }
+
+}
