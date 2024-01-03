@@ -10,7 +10,7 @@ public partial class SteamLobbyManager: Node {
     protected Callback<LobbyEnter_t> lobbyEnter;
 
     private const string HostAddressKey = "HostAddress";
-    public CSteamID lobbyId;
+    public CSteamID LobbyId {get; private set; }
 
     public override void _Ready()
     {
@@ -36,17 +36,17 @@ public partial class SteamLobbyManager: Node {
     {
         if (callback.m_eResult != EResult.k_EResultOK)
         {
-            // TODO: Lobby creation failed, tell the user and probably tell em why.
+            // TODO: Lobby creation failed, tell the user and tell em why.
             return;
         }
 
-        lobbyId = new CSteamID(callback.m_ulSteamIDLobby);
-
-        // TODO: Lobby was created. Now show that
+        LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
 
         NetworkManager.I.Server.Start(0, 5);
         NetworkManager.I.Client.Connect("127.0.0.1");
         NetworkManager.CurrentState = NetworkManager.GameState.LOBBY;
+
+        MainMenuUi.current.ShowLobbyScreen();
     }
 
     public void JoinLobby(ulong lobbyId)
@@ -65,17 +65,20 @@ public partial class SteamLobbyManager: Node {
         if (NetworkManager.I.Server.IsRunning)
             return;
 
-        lobbyId = new CSteamID(callback.m_ulSteamIDLobby);
-        CSteamID hostId = SteamMatchmaking.GetLobbyOwner(lobbyId);
+        LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
+        CSteamID hostId = SteamMatchmaking.GetLobbyOwner(LobbyId);
 
         NetworkManager.I.Client.Connect(hostId.ToString());
-        // TODO: Game was connected, now what?
+
+        MainMenuUi.current.ShowLobbyScreen();
     }
 
-    internal void LeaveLobby()
+    public void LeaveLobby()
     {
         NetworkManager.I.StopServer();
         NetworkManager.I.DisconnectClient();
-        SteamMatchmaking.LeaveLobby(lobbyId);
+        SteamMatchmaking.LeaveLobby(LobbyId);
+
+        SceneManager.I.ChangeScene("res://Objects/GUI/MainMenuUi.tscn");
     }
 }

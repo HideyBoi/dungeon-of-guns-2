@@ -6,9 +6,11 @@ public partial class MainMenuUi : Control
 {
     public static MainMenuUi current;
 
+    [Export] PackedScene lobby;
     [Export] SpinBox maxPlayersSelector;
     [Export] OptionButton lobbyPrivacySelector;
     [Export] LineEdit lobbyIdInput;
+    [Export] CanvasLayer connectingScreen;
 
     public override void _Ready()
     {
@@ -38,6 +40,7 @@ public partial class MainMenuUi : Control
         }
         
         SteamLobbyManager.I.CreateLobby(type, (int)maxPlayersSelector.Value);
+        ShowConnectingScreen();
     }
 
     public void JoinLobby() {
@@ -50,11 +53,16 @@ public partial class MainMenuUi : Control
         }
 
         SteamLobbyManager.I.JoinLobby(id);
+        ShowConnectingScreen();
     }
 
     // Called by SteamLobbyManager if the lobby was successfully created/connected to
     // or if the game has ended the the menu screen is being returned to. //
     public void ShowLobbyScreen() {
-        GD.Print("Not implemented");
+        SceneManager.I.ChangeScene(lobby.ResourcePath);
+    }
+
+    void ShowConnectingScreen() {
+        connectingScreen.Visible = true;
     }
 }

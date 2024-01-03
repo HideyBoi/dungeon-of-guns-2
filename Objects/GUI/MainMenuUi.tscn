@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqyj31xhcdcst"]
+[gd_scene load_steps=5 format=3 uid="uid://dqyj31xhcdcst"]
 
 [ext_resource type="Script" path="res://Objects/GUI/MainMenuUi.cs" id="1_6ubcb"]
+[ext_resource type="PackedScene" uid="uid://dfylv65c0yyqf" path="res://Objects/GUI/Lobby.tscn" id="2_hs34j"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_q3qm7"]
 font_size = 24
@@ -8,7 +9,7 @@ font_size = 24
 [sub_resource type="LabelSettings" id="LabelSettings_8vxip"]
 font_size = 9
 
-[node name="MainMenuUi" type="Control" node_paths=PackedStringArray("maxPlayersSelector", "lobbyPrivacySelector", "lobbyIdInput")]
+[node name="MainMenuUi" type="Control" node_paths=PackedStringArray("maxPlayersSelector", "lobbyPrivacySelector", "lobbyIdInput", "connectingScreen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,9 +17,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6ubcb")
+lobby = ExtResource("2_hs34j")
 maxPlayersSelector = NodePath("HostMenu/Control/BG/FG/VBoxContainer/MaxPlayersSelector")
 lobbyPrivacySelector = NodePath("HostMenu/Control/BG/FG/VBoxContainer/PrivacySelector")
 lobbyIdInput = NodePath("JoinMenu/Control/BG/FG/VBoxContainer/LobbyIdInput")
+connectingScreen = NodePath("Connecting")
 
 [node name="Join" type="Button" parent="."]
 layout_mode = 0
@@ -218,6 +221,45 @@ offset_left = -27.0
 offset_bottom = 31.0
 grow_horizontal = 0
 text = "X"
+
+[node name="Connecting" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="BG" type="Panel" parent="Connecting"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FG" type="Panel" parent="Connecting/BG"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 95.0
+offset_top = 45.0
+offset_right = -95.0
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Connecting/BG/FG"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Connecting to Lobby..."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="Join" to="JoinMenu" method="show"]
 [connection signal="pressed" from="Host" to="HostMenu" method="show"]

@@ -121,7 +121,11 @@ partial class NetworkManager : Node {
         msg.AddUShort(Client.Id);
         msg.AddString(Steamworks.SteamFriends.GetPersonaName());
         Client.Send(msg);
-        GD.Print("Connected to " + SteamLobbyManager.I.lobbyId);
+        GD.Print("Connected to " + SteamLobbyManager.I.LobbyId);
+        ConnectedPlayers.Add(Client.Id, new Player {
+            name = Steamworks.SteamFriends.GetPersonaName(),
+            Id = Client.Id
+        });
     }
 
     [MessageHandler((ushort)MessageIds.Hello)]
@@ -139,12 +143,17 @@ partial class NetworkManager : Node {
             name = name
         };
         ConnectedPlayers.Add(Id, newPlayer);
+
+        foreach (Player player in ConnectedPlayers.Values) {
+            GD.Print(player.name + " ID: " + player.Id);
+        }
     }
 
-    // Failed to connect to game, go back to main menu. Something else will show the error.
+    // Failed to connect to game, go back to main menu.
     private void FailedToConnect(object sender, EventArgs e)
     {
-        
+        SceneManager.I.ChangeScene("res://Objects/GUI/MainMenuUi.tscn");
+        // TODO: Tell em why you couldn't connect.
     }
 
     // Remote player left, what to do... what to do...
