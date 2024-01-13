@@ -60,7 +60,7 @@ partial class NetworkManager : Node {
             msgIdsToRelay.Add((ushort)id);
         }
 
-        //value needs to be 1 more than the highest ID in MessageIds
+        // Value needs to be 1 more than the highest ID in MessageIds
         MessageRelayFilter filter = new MessageRelayFilter(msgIdsToRelay.Count + 1);
 
         foreach (var id in msgIdsToRelay)
