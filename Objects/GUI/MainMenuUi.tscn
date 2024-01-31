@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dqyj31xhcdcst"]
 
 [ext_resource type="Script" path="res://Objects/GUI/MainMenuUi.cs" id="1_6ubcb"]
-[ext_resource type="PackedScene" uid="uid://dfylv65c0yyqf" path="res://Objects/GUI/Lobby.tscn" id="2_hs34j"]
+[ext_resource type="PackedScene" uid="uid://cwhd3lti0hfcx" path="res://Objects/GUI/Lobby.tscn" id="2_hs34j"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_q3qm7"]
 font_size = 24

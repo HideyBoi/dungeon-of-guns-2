@@ -1,7 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwhd3lti0hfcx"]
+[gd_scene load_steps=9 format=3 uid="uid://cwhd3lti0hfcx"]
 
+[ext_resource type="Theme" uid="uid://dd8pxex3rwxau" path="res://DefaultTheme.tres" id="1_n7m4c"]
 [ext_resource type="Script" path="res://Objects/GUI/LobbyUiManager.cs" id="1_preq1"]
 [ext_resource type="PackedScene" uid="uid://cqe22byepta7l" path="res://Objects/GUI/PlayerlistItem.tscn" id="2_gfsbb"]
+[ext_resource type="Script" path="res://Objects/GUI/LobbySettingsManager.cs" id="4_aidtt"]
+[ext_resource type="PackedScene" uid="uid://cbems1yjd83uv" path="res://world.tscn" id="4_ktcal"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eslae"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y45bf"]
+bg_color = Color(0.419608, 0.0588235, 0.14902, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_3scst"]
+font_size = 8
 
 [node name="Lobby" type="Control" node_paths=PackedStringArray("playerListContainer")]
 layout_mode = 3
@@ -10,22 +25,219 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_n7m4c")
 script = ExtResource("1_preq1")
 playerListContainer = NodePath("HSplitContainer/Playerlist/ScrollContainer/VBoxContainer")
 playerListItem = ExtResource("2_gfsbb")
+gameWorld = ExtResource("4_ktcal")
 
 [node name="HSplitContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Settings" type="Panel" parent="HSplitContainer"]
+[node name="Settings" type="Panel" parent="HSplitContainer" node_paths=PackedStringArray("gamemode", "mapSize", "livesCount", "infiniteLivesToggle")]
 custom_minimum_size = Vector2(273, 0)
 layout_mode = 2
+script = ExtResource("4_aidtt")
+gamemode = NodePath("ScrollContainer/VBoxContainer/Gamemode/OptionButton")
+mapSize = NodePath("ScrollContainer/VBoxContainer/MapSize/Count")
+livesCount = NodePath("ScrollContainer/VBoxContainer/LivesCount/Count")
+infiniteLivesToggle = NodePath("ScrollContainer/VBoxContainer/LivesCount/Infinite")
+
+[node name="ResetConfirm" type="ConfirmationDialog" parent="HSplitContainer/Settings"]
+title = ""
+initial_position = 2
+size = Vector2i(270, 80)
+unresizable = true
+borderless = true
+always_on_top = true
+ok_button_text = "Reset"
+dialog_text = "Are you sure you want to reset all settings to their default values?"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Settings"]
+custom_minimum_size = Vector2(19.035, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Settings/ScrollContainer"]
+layout_mode = 2
+
+[node name="Manage" type="PanelContainer" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 24)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_eslae")
+
+[node name="ResetToDefaults" type="Button" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Manage"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_y45bf")
+text = "Reset"
+
+[node name="Gamemode" type="Panel" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 24)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Gamemode"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -6.0
+offset_right = 44.0
+offset_bottom = 6.0
+grow_vertical = 2
+text = "Gamemode:"
+label_settings = SubResource("LabelSettings_3scst")
+
+[node name="OptionButton" type="OptionButton" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Gamemode"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -10.0
+offset_right = -2.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+item_count = 1
+selected = 0
+popup/item_0/text = "FFA"
+popup/item_0/id = 0
+
+[node name="MapSize" type="Panel" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 24)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -6.0
+offset_right = 44.0
+offset_bottom = 6.0
+grow_vertical = 2
+text = "Map Size:"
+label_settings = SubResource("LabelSettings_3scst")
+
+[node name="Count" type="SpinBox" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 2.0
+offset_right = 152.0
+offset_bottom = 22.0
+max_value = 99.0
+rounded = true
+alignment = 1
+prefix = "Size:"
+
+[node name="Lar" type="Button" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -105.0
+offset_top = -9.0
+offset_right = -69.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 7
+text = "Large"
+
+[node name="Med" type="Button" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -67.0
+offset_top = -9.0
+offset_right = -31.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 7
+text = "Medium"
+
+[node name="Small" type="Button" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -29.0
+offset_top = -9.5
+offset_right = -2.0
+offset_bottom = 9.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 7
+text = "Small"
+
+[node name="LivesCount" type="Panel" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 24)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -6.0
+offset_right = 44.0
+offset_bottom = 6.0
+grow_vertical = 2
+text = "Lives
+"
+label_settings = SubResource("LabelSettings_3scst")
+
+[node name="Count" type="SpinBox" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 2.0
+offset_right = 199.0
+offset_bottom = 22.0
+theme = ExtResource("1_n7m4c")
+max_value = 99.0
+rounded = true
+alignment = 1
+prefix = "Count:"
+
+[node name="Infinite" type="CheckBox" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -59.0
+offset_top = -12.0
+offset_right = -3.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "Infinite"
 
 [node name="Playerlist" type="Panel" parent="HSplitContainer"]
 custom_minimum_size = Vector2(273, 0)
@@ -44,18 +256,42 @@ horizontal_scroll_mode = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Playerlist/ScrollContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="."]
+[node name="ReadyUp" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -20.5
-offset_top = -29.0
-offset_right = 20.5
-offset_bottom = -10.0
-grow_horizontal = 2
+offset_left = 3.0
+offset_top = -22.0
+offset_right = 44.0
+offset_bottom = -3.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 7
 text = "Ready Up"
+
+[node name="LeaveGame" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_top = -22.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 7
+text = "Leave Game"
+
+[connection signal="confirmed" from="HSplitContainer/Settings/ResetConfirm" to="HSplitContainer/Settings" method="ResetSettings"]
+[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Manage/ResetToDefaults" to="HSplitContainer/Settings/ResetConfirm" method="show"]
+[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Gamemode/OptionButton" to="HSplitContainer/Settings" method="UpdateValues"]
+[connection signal="value_changed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize/Count" to="HSplitContainer/Settings" method="UpdateValues"]
+[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize/Lar" to="HSplitContainer/Settings" method="MapSizePreset" binds= [6]]
+[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize/Med" to="HSplitContainer/Settings" method="MapSizePreset" binds= [4]]
+[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize/Small" to="HSplitContainer/Settings" method="MapSizePreset" binds= [2]]
+[connection signal="value_changed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount/Count" to="HSplitContainer/Settings" method="UpdateValues"]
+[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount/Infinite" to="HSplitContainer/Settings" method="UpdateValues"]
+[connection signal="pressed" from="ReadyUp" to="." method="ReadyButton"]
