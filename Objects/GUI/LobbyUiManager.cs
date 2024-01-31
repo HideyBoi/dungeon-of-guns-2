@@ -90,6 +90,8 @@ public partial class LobbyUiManager : Control
 		ushort pId = msg.GetUShort();
 		bool isReady = msg.GetBool();
 
+		GD.Print(pId + " is ready " + isReady);
+
 		if (isReady) {
 			I.readyPlayers.Add(pId, isReady);
 		} else {

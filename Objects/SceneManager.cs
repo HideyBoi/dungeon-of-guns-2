@@ -53,6 +53,8 @@ public partial class SceneManager : Node
 		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.StartSceneLoad);
 		msg.AddString(resourcePath);
 		NetworkManager.I.Client.Send(msg);
+
+		loadingRemotely = true;
 	}
 
 	void LoadingAnimationFinished() {
@@ -82,9 +84,13 @@ public partial class SceneManager : Node
 		if (!loadingRemotely) {
 			loadingScreenAnimator.Play("FadeOut");
 		} else {
-			Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.CompleteLoading);
+			Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.DoneLoading);
 			msg.AddUShort(NetworkManager.I.Client.Id);
-			NetworkManager.I.Client.Send(msg);
+
+			if (!NetworkManager.I.Server.IsRunning)
+				NetworkManager.I.Client.Send(msg);
+			else
+				HandleDoneLoading(msg);
 
 			loadingRemotely = false;
 		}
@@ -105,6 +111,8 @@ public partial class SceneManager : Node
 				
 				Message msg2 = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.CompleteLoading);
 				NetworkManager.I.Client.Send(msg2);
+
+				I.loadingScreenAnimator.Play("FadeOut");
 			}
 		}
 	}
