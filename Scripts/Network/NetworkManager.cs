@@ -175,6 +175,8 @@ partial class NetworkManager : Node {
 	{
 		CurrentState = GameState.NOT_CONNECTED;
 		ConnectedPlayers.Clear();
+
+		SceneManager.I.ChangeScene("res://Objects/GUI/MainMenuUi.tscn");
 	}
 
 }
