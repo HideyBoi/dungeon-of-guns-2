@@ -11,6 +11,7 @@ public partial class LobbyUiManager : Control
 	[Export] VBoxContainer playerListContainer;
 	[Export] PackedScene playerListItem;
 	[Export] PackedScene gameWorld;
+	[Export] Button readyButton;
 
     public override void _Ready()
     {
@@ -70,8 +71,10 @@ public partial class LobbyUiManager : Control
 	public void ReadyButton() {
 		if (ready) {
 			readyPlayers.Remove(id);
+			readyButton.Text = "Ready up!";
 		} else {
 			readyPlayers.Add(id, true);
+			readyButton.Text = "Unready";
 		}
 		ready = !ready;
 
