@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://csfuqbb725tms"]
+
+[ext_resource type="TileSet" uid="uid://b0pvykbnygpd3" path="res://Sprites/Dungeon/DungeonTileset.tres" id="1_m1ui3"]
+
+[node name="Dungeon" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("1_m1ui3")
+format = 2
+layer_0/name = "Objects"
+layer_0/y_sort_enabled = true
+layer_1/name = "Walls"
+layer_1/y_sort_enabled = true
+layer_1/navigation_enabled = false
+layer_1/tile_data = PackedInt32Array()
+layer_2/name = "Floor"
+layer_2/y_sort_enabled = true
+layer_2/navigation_enabled = false
+layer_2/tile_data = PackedInt32Array()

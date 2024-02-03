@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbems1yjd83uv"]
+
+[ext_resource type="Texture2D" uid="uid://d0p51q7r3w2vb" path="res://Sprites/placeholder/gamering.png" id="1_5k52u"]
+[ext_resource type="PackedScene" uid="uid://tsfpfpuarod2" path="res://Objects/Player/LocalPlayer.tscn" id="2_u4hvx"]
+[ext_resource type="PackedScene" uid="uid://b7v3whibaf6h7" path="res://Objects/Dungeon/Test1.tscn" id="4_3ie6k"]
+
+[node name="World" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Gamering" type="Sprite2D" parent="."]
+position = Vector2(45, 23)
+texture = ExtResource("1_5k52u")
+
+[node name="Gamering2" type="Sprite2D" parent="."]
+position = Vector2(84, 38)
+rotation = 0.587631
+texture = ExtResource("1_5k52u")
+
+[node name="LocalPlayer" parent="." instance=ExtResource("2_u4hvx")]
+
+[node name="TileMap" parent="." instance=ExtResource("4_3ie6k")]
+position = Vector2(-62, -54)

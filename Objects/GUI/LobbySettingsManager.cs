@@ -35,7 +35,7 @@ public partial class LobbySettingsManager : Panel
 	}
 
 	// Dummy value is just to get Godot to link a signal here.
-	public void UpdateValues(float dummy = 0) {UpdateValues(); GD.Print("new" + dummy);}
+	public void UpdateValues(float dummy = 0) {UpdateValues();}
 	public void UpdateValues() {
 		gamerules["gamemode"] = gamemode.Selected.ToString();
 		gamerules["map_size"] = mapSize.Value.ToString();

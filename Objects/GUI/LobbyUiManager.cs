@@ -85,7 +85,7 @@ public partial class LobbyUiManager : Control
 
 		if (NetworkManager.I.Server.IsRunning) {
 			CheckReadyState();
-		}	
+		}
 	}
 
 	[MessageHandler((ushort)NetworkManager.MessageIds.ReadyState)]
