@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://baanajs4vvkkc"]
+[gd_scene load_steps=7 format=3 uid="uid://baanajs4vvkkc"]
 
 [ext_resource type="TileSet" uid="uid://b0pvykbnygpd3" path="res://Sprites/Dungeon/DungeonTileset.tres" id="1_nbuf2"]
+[ext_resource type="Script" path="res://Objects/Dungeon/Room.cs" id="2_csdcw"]
+[ext_resource type="PackedScene" uid="uid://cu567q3bu62qm" path="res://Objects/Dungeon/Transitions/0.tscn" id="3_vlkeg"]
+[ext_resource type="PackedScene" uid="uid://bxjbu464ndfw6" path="res://Objects/Dungeon/Transitions/1.tscn" id="4_x0yf3"]
+[ext_resource type="PackedScene" uid="uid://cfq4q5muqhjs1" path="res://Objects/Dungeon/Transitions/2.tscn" id="5_el0cc"]
+[ext_resource type="PackedScene" uid="uid://qgifwid8bvvc" path="res://Objects/Dungeon/Transitions/3.tscn" id="6_ubbk1"]
 
-[node name="TileMap" type="TileMap"]
+[node name="TileMap" type="TileMap" node_paths=PackedStringArray("sides")]
 tile_set = ExtResource("1_nbuf2")
 format = 2
 layer_0/name = "Floor"
@@ -11,3 +16,22 @@ layer_1/name = "Walls"
 layer_1/tile_data = PackedInt32Array(0, 327680, 1, 65536, 327680, 2, 131072, 393216, 5, 524288, 327680, 2, 1, 393216, 1, 65537, 393216, 2, 2, 393216, 1, 65538, 393216, 2, 3, 393216, 5, 65539, 393216, 2, 6, 458752, 5, 65542, 393216, 2, 7, 393216, 1, 65543, 393216, 2, 8, 393216, 1, 65544, 393216, 2, 9, 393216, 1, 10, 393216, 1, 11, 393216, 1, 12, 393216, 1, 13, 393216, 1, 65545, 393216, 2, 65546, 393216, 2, 65547, 393216, 2, 65548, 393216, 2, 65549, 393216, 2, 15, 458752, 1, 65551, 458752, 2, 131087, 458752, 2, 524303, 458752, 6, 65550, 393216, 2, 14, 393216, 1, 262159, 458752, 5, 327695, 393216, 2, 196623, 458752, 2, 196608, 393216, 2, 393216, 393216, 6, 458752, 327680, 2, 655360, 327680, 2, 655375, 458752, 2, 720896, 327680, 3, 720897, 393216, 3, 720898, 393216, 3, 720899, 393216, 3, 720900, 393216, 3, 720901, 393216, 3, 720902, 393216, 3, 720903, 393216, 3, 720904, 393216, 3, 720905, 393216, 6, 720908, 458752, 6, 720909, 393216, 3, 720910, 393216, 3, 720911, 458752, 3, 589824, 327680, 2, 589839, 458752, 2)
 layer_2/name = "Objects"
 layer_2/tile_data = PackedInt32Array()
+script = ExtResource("2_csdcw")
+sides = [NodePath("0"), NodePath("1"), NodePath("2"), NodePath("3")]
+
+[node name="0" parent="." instance=ExtResource("3_vlkeg")]
+position = Vector2(80, 0)
+
+[node name="1" parent="." instance=ExtResource("4_x0yf3")]
+position = Vector2(256, 104)
+
+[node name="2" parent="." instance=ExtResource("5_el0cc")]
+position = Vector2(176, 192)
+
+[node name="3" parent="." instance=ExtResource("6_ubbk1")]
+position = Vector2(0, 72)
+
+[connection signal="OnTransition" from="0" to="." method="RoomExited"]
+[connection signal="OnTransition" from="1" to="." method="RoomExited"]
+[connection signal="OnTransition" from="2" to="." method="RoomExited"]
+[connection signal="OnTransition" from="3" to="." method="RoomExited"]

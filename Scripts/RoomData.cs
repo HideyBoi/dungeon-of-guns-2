@@ -8,9 +8,6 @@ public partial class RoomData {
 
 	// Top, Right, Bottom, Left
 	public bool[] isConnected = new bool[4];
-	
-	// Godot necessity
-	public RoomData() {}
 
 	public static Sides GetCorrespondingSide(Sides original) {
 		return original switch

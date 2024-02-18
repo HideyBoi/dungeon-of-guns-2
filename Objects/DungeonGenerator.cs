@@ -1,4 +1,3 @@
-using Edgar.Legacy.Core.MapLayouts;
 using Godot;
 using Riptide;
 using System;
@@ -25,6 +24,7 @@ public partial class DungeonGenerator : Node2D
 	public Room[,] GameMap { get; private set;}
 	int desiredSize = 0;
 	int maxRooms;
+	int minRooms;
 	int minConnections;
 
 	public override void _Ready()
@@ -49,11 +49,12 @@ public partial class DungeonGenerator : Node2D
 			//return;
 		}
 
-		maxRooms = (int)(desiredSize * 1.6);
+		maxRooms = desiredSize * 2;
+		minRooms = (int)(desiredSize * 1.6);
 		minConnections = desiredSize * 4;
 
-		currentMap = new RoomData[desiredSize * desiredSize, desiredSize * desiredSize];
-		GameMap = new Room[desiredSize * desiredSize, desiredSize * desiredSize];
+		currentMap = new RoomData[desiredSize * 2, desiredSize * 2];
+		GameMap = new Room[desiredSize * 2, desiredSize * 2];
 
 		GD.Print(currentMap.GetLength(0));
 
@@ -77,6 +78,12 @@ public partial class DungeonGenerator : Node2D
 			stillWorking = roomsToTick.Count > 0;
 		}
 
+		if (roomCount < minRooms) {
+			GD.Print($"Expected {minRooms}, got {roomCount}. Restarting generation.");
+			StartGen();		
+			return;
+		}
+
 		Message headerMessage = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataHeader);
 		headerMessage.AddInt(currentMap.GetLength(0));
 
@@ -94,12 +101,16 @@ public partial class DungeonGenerator : Node2D
 						Room room = possibleRooms[GD.Randi() % possibleRooms.Length].Instantiate<Room>(); 
 						room.SetupRoom(new Vector2I(i, j), currentMap[i, j].isConnected);
 						room.Position = new Vector2(i, j) * distance;
+						GameMap[i,j] = room;
 						AddChild(room);
 					}
 				}
 			}
 
 			GD.Print("Room count: " + roomCount);
+
+			Node2D player = (Node2D)GetTree().GetNodesInGroup("Player")[0];
+			player.Position = firstRoom.pos * distance;
 		});
 	}
 
@@ -130,13 +141,20 @@ public partial class DungeonGenerator : Node2D
 
 		for (int i = 0; i < 4; i++)
 		{
-			
+			Vector2I workingPos;
+			try {
+				// Get the room slot in the direction of that is being checked
+				workingPos = GetDir(i, pos);
 
-			// Get the room slot in the direction of that is being checked
-			Vector2I workingPos = GetDir(i, pos);
-			// Checks if the new room is off the bounds of the map and moves on
-			if (workingPos == Vector2I.MinValue) {
-				sides[i] = false;
+				// Check if a room is already connecting to this room
+				RoomData room = currentMap[workingPos.X, workingPos.Y];
+				if (room != null) {
+					if (room.GetSide(RoomData.GetCorrespondingSide((RoomData.Sides)i))) {
+						sides[i] = true;
+						continue;
+					}
+				}
+			} catch (IndexOutOfRangeException) {
 				continue;
 			}
 
@@ -145,17 +163,19 @@ public partial class DungeonGenerator : Node2D
 			if (chance > connectionChance) {
 				sides[i] = false;
 			} else {
-				sides[i] = true;
-				// Check if room already exists in this position.
 				RoomData room = currentMap[workingPos.X, workingPos.Y];
+
+				// Check if room already exists in this position.
 				if (room == null) {	
 					if (roomCount < maxRooms) {
 						roomsToTick.Add(workingPos);
 						roomCount++;
-					}             			
+						sides[i] = true;  
+					}          			
 				} else {
 					GD.Print(i + " -> " + RoomData.GetCorrespondingSide((RoomData.Sides)i));
 					room.SetSide(RoomData.GetCorrespondingSide((RoomData.Sides)i), true);
+					sides[i] = true;
 				}
 			}
 		}
@@ -183,11 +203,11 @@ public partial class DungeonGenerator : Node2D
 
 		// Make sure position is on the board
 		if (newPos.Y > currentMap.GetLength(1) || newPos.Y < 0) {
-			return Vector2I.MinValue;
+			throw new IndexOutOfRangeException();
 		}
 			
 		if (newPos.X > currentMap.GetLength(0) || newPos.X < 0) {
-			return Vector2I.MinValue;
+			throw new IndexOutOfRangeException();
 		}
 			
 		return newPos;

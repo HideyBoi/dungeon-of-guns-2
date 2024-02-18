@@ -1,18 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://b7v3whibaf6h7"]
+[gd_scene load_steps=7 format=3 uid="uid://b7v3whibaf6h7"]
 
 [ext_resource type="TileSet" uid="uid://b0pvykbnygpd3" path="res://Sprites/Dungeon/DungeonTileset.tres" id="1_pe2hl"]
 [ext_resource type="Script" path="res://Objects/Dungeon/Room.cs" id="2_vk8ud"]
-[ext_resource type="Texture2D" uid="uid://b3w82x7qbmssw" path="res://Sprites/Dungeon/fade.png" id="3_eysu3"]
-[ext_resource type="Texture2D" uid="uid://kkpo1m4520y2" path="res://Sprites/Dungeon/overlay_top.png" id="4_gjp8c"]
-[ext_resource type="Texture2D" uid="uid://bdy3bchjlho5w" path="res://Sprites/Dungeon/overlay_right.png" id="5_1ugga"]
-[ext_resource type="Texture2D" uid="uid://bq51kr7nl31xu" path="res://Sprites/Dungeon/overlay_bottom.png" id="6_hd7hn"]
-[ext_resource type="Texture2D" uid="uid://bdjsey2y1qwgq" path="res://Sprites/Dungeon/overlay_left.png" id="7_xdxbh"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n0w8f"]
-size = Vector2(46, 5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2lft"]
-size = Vector2(27, 15)
+[ext_resource type="PackedScene" uid="uid://cu567q3bu62qm" path="res://Objects/Dungeon/Transitions/0.tscn" id="3_fce4t"]
+[ext_resource type="PackedScene" uid="uid://bxjbu464ndfw6" path="res://Objects/Dungeon/Transitions/1.tscn" id="4_71aq1"]
+[ext_resource type="PackedScene" uid="uid://cfq4q5muqhjs1" path="res://Objects/Dungeon/Transitions/2.tscn" id="5_j2iqb"]
+[ext_resource type="PackedScene" uid="uid://qgifwid8bvvc" path="res://Objects/Dungeon/Transitions/3.tscn" id="6_2rp20"]
 
 [node name="TileMap" type="TileMap" node_paths=PackedStringArray("sides")]
 tile_set = ExtResource("1_pe2hl")
@@ -26,223 +19,19 @@ layer_2/tile_data = PackedInt32Array()
 script = ExtResource("2_vk8ud")
 sides = [NodePath("0"), NodePath("1"), NodePath("2"), NodePath("3")]
 
-[node name="0" type="Node2D" parent="."]
+[node name="0" parent="." instance=ExtResource("3_fce4t")]
 position = Vector2(80, 0)
 
-[node name="True" type="Sprite2D" parent="0"]
-visible = false
-z_index = 4096
-z_as_relative = false
-position = Vector2(0, 8)
-rotation = 3.14159
-texture = ExtResource("3_eysu3")
-metadata/_aseprite_wizard_config_ = {
-"keep_anim_length": false,
-"layer": "",
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": false,
-"op_exp": false,
-"player": "",
-"source": ""
-}
+[node name="1" parent="." instance=ExtResource("4_71aq1")]
+position = Vector2(160, 88)
 
-[node name="Trigger" type="Area2D" parent="0/True"]
-rotation = -3.14159
+[node name="2" parent="." instance=ExtResource("5_j2iqb")]
+position = Vector2(80, 176)
 
-[node name="Collider" type="CollisionShape2D" parent="0/True/Trigger"]
-position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_n0w8f")
+[node name="3" parent="." instance=ExtResource("6_2rp20")]
+position = Vector2(0, 88)
 
-[node name="playerDropIn" type="Node2D" parent="0/True"]
-position = Vector2(2.7887e-05, -11)
-
-[node name="False" type="Sprite2D" parent="0"]
-visible = false
-position = Vector2(0, 16)
-texture = ExtResource("4_gjp8c")
-metadata/_aseprite_wizard_config_ = {
-"keep_anim_length": false,
-"layer": "",
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": false,
-"op_exp": false,
-"player": "",
-"source": ""
-}
-
-[node name="Wall" type="StaticBody2D" parent="0/False"]
-
-[node name="Collider" type="CollisionShape2D" parent="0/False/Wall"]
-shape = SubResource("RectangleShape2D_f2lft")
-disabled = true
-
-[node name="1" type="Node2D" parent="."]
-position = Vector2(152, 88)
-
-[node name="True" type="Sprite2D" parent="1"]
-visible = false
-z_index = 4096
-z_as_relative = false
-position = Vector2(1.00002, -1)
-rotation = -1.5708
-texture = ExtResource("3_eysu3")
-metadata/_aseprite_wizard_config_ = {
-"keep_anim_length": false,
-"layer": "",
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": false,
-"op_exp": false,
-"player": "",
-"source": ""
-}
-
-[node name="Trigger" type="Area2D" parent="1/True"]
-rotation = -3.14159
-
-[node name="Collider" type="CollisionShape2D" parent="1/True/Trigger"]
-position = Vector2(7.00001, -6.99997)
-shape = SubResource("RectangleShape2D_n0w8f")
-
-[node name="playerDropIn" type="Node2D" parent="1/True"]
-position = Vector2(-14, -4.00007)
-
-[node name="False" type="Sprite2D" parent="1"]
-visible = false
-texture = ExtResource("5_1ugga")
-metadata/_aseprite_wizard_config_ = {
-"keep_anim_length": false,
-"layer": "",
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": false,
-"op_exp": false,
-"player": "",
-"source": ""
-}
-
-[node name="Wall" type="StaticBody2D" parent="1/False"]
-
-[node name="Collider" type="CollisionShape2D" parent="1/False/Wall"]
-position = Vector2(5.5, 8)
-shape = SubResource("RectangleShape2D_f2lft")
-disabled = true
-
-[node name="2" type="Node2D" parent="."]
-position = Vector2(80, 168)
-
-[node name="True" type="Sprite2D" parent="2"]
-visible = false
-z_index = 4096
-z_as_relative = false
-texture = ExtResource("3_eysu3")
-metadata/_aseprite_wizard_config_ = {
-"keep_anim_length": false,
-"layer": "",
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": false,
-"op_exp": false,
-"player": "",
-"source": ""
-}
-
-[node name="Trigger" type="Area2D" parent="2/True"]
-rotation = -3.14159
-
-[node name="Collider" type="CollisionShape2D" parent="2/True/Trigger"]
-position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_n0w8f")
-
-[node name="playerDropIn" type="Node2D" parent="2/True"]
-position = Vector2(-2.63058e-06, 1)
-
-[node name="False" type="Sprite2D" parent="2"]
-visible = false
-texture = ExtResource("6_hd7hn")
-metadata/_aseprite_wizard_config_ = {
-"keep_anim_length": false,
-"layer": "",
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": false,
-"op_exp": false,
-"player": "",
-"source": ""
-}
-
-[node name="Wall" type="StaticBody2D" parent="2/False"]
-
-[node name="Collider" type="CollisionShape2D" parent="2/False/Wall"]
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_f2lft")
-disabled = true
-
-[node name="3" type="Node2D" parent="."]
-position = Vector2(8, 88)
-
-[node name="True" type="Sprite2D" parent="3"]
-visible = false
-z_index = 4096
-z_as_relative = false
-position = Vector2(0, 1)
-rotation = 1.5708
-texture = ExtResource("3_eysu3")
-metadata/_aseprite_wizard_config_ = {
-"keep_anim_length": false,
-"layer": "",
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": false,
-"op_exp": false,
-"player": "",
-"source": ""
-}
-
-[node name="Trigger" type="Area2D" parent="3/True"]
-position = Vector2(10, -3.61999e-05)
-rotation = -3.14159
-
-[node name="Collider" type="CollisionShape2D" parent="3/True/Trigger"]
-position = Vector2(7.00001, -6.99997)
-shape = SubResource("RectangleShape2D_n0w8f")
-
-[node name="playerDropIn" type="Node2D" parent="3/True"]
-position = Vector2(9.99999, -2.00004)
-
-[node name="False" type="Sprite2D" parent="3"]
-visible = false
-texture = ExtResource("7_xdxbh")
-metadata/_aseprite_wizard_config_ = {
-"keep_anim_length": false,
-"layer": "",
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": false,
-"op_exp": false,
-"player": "",
-"source": ""
-}
-
-[node name="Wall" type="StaticBody2D" parent="3/False"]
-position = Vector2(-11, 0)
-
-[node name="Collider" type="CollisionShape2D" parent="3/False/Wall"]
-position = Vector2(5.5, 8)
-shape = SubResource("RectangleShape2D_f2lft")
-disabled = true
-
-[connection signal="body_entered" from="0/True/Trigger" to="." method="RoomExited" binds= [2]]
-[connection signal="body_entered" from="1/True/Trigger" to="." method="RoomExited" binds= [2]]
-[connection signal="body_entered" from="2/True/Trigger" to="." method="RoomExited" binds= [2]]
-[connection signal="body_entered" from="3/True/Trigger" to="." method="RoomExited" binds= [2]]
+[connection signal="OnTransition" from="0" to="." method="RoomExited"]
+[connection signal="OnTransition" from="1" to="." method="RoomExited"]
+[connection signal="OnTransition" from="2" to="." method="RoomExited"]
+[connection signal="OnTransition" from="3" to="." method="RoomExited"]
