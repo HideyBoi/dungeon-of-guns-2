@@ -57,7 +57,7 @@ public class ConfigManager
 		{
 			// Add gamerules here. Set them up to be configured in the gamerule menu later.
 			{ "gamemode", "0" },
-			{ "map_size", "2" },
+			{ "map_size", "4" },
 			{ "lives_count", "3" },
 			{ "infinite_lives", "false" }
 		};

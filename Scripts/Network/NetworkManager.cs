@@ -21,6 +21,8 @@ partial class NetworkManager : Node {
 		StartSceneLoad,
 		DoneLoading,
 		CompleteLoading,
+		MapDataHeader,
+		MapDataPayload,
 	}
 
 	public const byte MessageHandlerGroupId = 206;

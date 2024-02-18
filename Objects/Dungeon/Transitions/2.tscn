@@ -1,0 +1,66 @@
+[gd_scene load_steps=6 format=3 uid="uid://cfq4q5muqhjs1"]
+
+[ext_resource type="Texture2D" uid="uid://b3w82x7qbmssw" path="res://Sprites/Dungeon/fade.png" id="1_d23ux"]
+[ext_resource type="Script" path="res://Objects/Dungeon/Transitions/Transition.cs" id="1_kshb3"]
+[ext_resource type="Texture2D" uid="uid://bq51kr7nl31xu" path="res://Sprites/Dungeon/overlay_bottom.png" id="2_1ntws"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n0w8f"]
+size = Vector2(64, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2lft"]
+size = Vector2(64, 16)
+
+[node name="2" type="Node2D"]
+script = ExtResource("1_kshb3")
+sideId = 2
+
+[node name="True" type="Sprite2D" parent="."]
+visible = false
+z_index = 4096
+z_as_relative = false
+position = Vector2(0, -8)
+texture = ExtResource("1_d23ux")
+metadata/_aseprite_wizard_config_ = {
+"keep_anim_length": false,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": false,
+"player": "",
+"source": ""
+}
+
+[node name="Trigger" type="Area2D" parent="True"]
+
+[node name="Collider" type="CollisionShape2D" parent="True/Trigger"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_n0w8f")
+
+[node name="playerDropIn" type="Node2D" parent="True"]
+position = Vector2(-2.63058e-06, 1)
+
+[node name="False" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -8)
+texture = ExtResource("2_1ntws")
+metadata/_aseprite_wizard_config_ = {
+"keep_anim_length": false,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": false,
+"player": "",
+"source": ""
+}
+
+[node name="Wall" type="StaticBody2D" parent="False"]
+
+[node name="Collider" type="CollisionShape2D" parent="False/Wall"]
+shape = SubResource("RectangleShape2D_f2lft")
+disabled = true
+
+[connection signal="body_entered" from="True/Trigger" to="." method="OnEntered"]

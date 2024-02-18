@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://cm4lrgrrp2c4p"]
+
+[ext_resource type="Script" path="res://Scripts/RoomData.cs" id="1_0d0ed"]
+[ext_resource type="PackedScene" uid="uid://jpw56rxovuji" path="res://Objects/Dungeon/Corridors/H_Test1.tscn" id="2_qdk1q"]
+
+[resource]
+script = ExtResource("1_0d0ed")
+width = 2
+height = 3
+tileMap = ExtResource("2_qdk1q")
+sides = Array[int]([0, 1, 2, 3])
+doorPos = Array[Vector2i]([Vector2i(3, 5), Vector2i(5, 3), Vector2i(3, 0), Vector2i(0, 3)])

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://buvr7l20legoi"]
+
+[ext_resource type="TileSet" uid="uid://b0pvykbnygpd3" path="res://Sprites/Dungeon/DungeonTileset.tres" id="1_frka1"]
+
+[node name="TileMap" type="TileMap"]
+tile_set = ExtResource("1_frka1")
+format = 2
+layer_0/name = "Floor"
+layer_0/tile_data = PackedInt32Array(2, 65536, 2, 65538, 65536, 2, 131074, 65536, 2, 196610, 65536, 2, 3, 196608, 2, 65539, 196608, 2, 131075, 196608, 2, 196611, 196608, 2)
+layer_1/name = "Walls"
+layer_1/tile_data = PackedInt32Array(1, 327680, 2, 65537, 327680, 2, 131073, 327680, 2, 196609, 327680, 2, 4, 458752, 2, 65540, 458752, 2, 131076, 458752, 2, 196612, 458752, 2)
+layer_2/name = "Objects"
+layer_2/tile_data = PackedInt32Array()
