@@ -119,7 +119,11 @@ public partial class SceneManager : Node
 		I.loadingScreenAnimator.Play("FadeOut");
 		// Start game somehow, probably grab a spawn point now since it's easy.
 	}
-	public static void CompleteLoading() {I.loadingScreenAnimator.Play("FadeOut");}
+	public static void CompleteLoading() { 
+		MainThreadInvoker.InvokeOnMainThread(() => {
+			I.loadingScreenAnimator.Play("FadeOut");
+		});
+	}
 
 	private void ClientPlayerLeft(object sender, ClientDisconnectedEventArgs e)
 	{	   

@@ -60,8 +60,6 @@ public partial class DungeonGenerator : Node2D
 		currentMap = new RoomData[desiredSize * 2, desiredSize * 2];
 		GameMap = new Room[desiredSize * 2, desiredSize * 2];
 
-		GD.Print(currentMap.GetLength(0));
-
 		// Set the first room
 		RoomData firstRoom = new();
 		// GetLength(0) is the X axis, GetLength(1) is the Y axis
@@ -89,17 +87,16 @@ public partial class DungeonGenerator : Node2D
 			return;
 		}
 
-		finishedPlayers = new()
-        {
-            { NetworkManager.I.Client.Id, true }
-        };
+		finishedPlayers = new();
+      	Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
+		done.AddUShort(NetworkManager.I.Client.Id);
+		HandleMapDataCompleted(done);
 
-		if (NetworkManager.I.Server.IsRunning) {
-			Message headerMessage = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataHeader);
-			headerMessage.AddInt(currentMap.GetLength(0));
-			headerMessage.AddInt(roomCount);
-			NetworkManager.I.Client.Send(headerMessage);
-		}
+		Message headerMessage = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataHeader);
+		headerMessage.AddInt(currentMap.GetLength(0));
+		headerMessage.AddInt(roomCount);
+		NetworkManager.I.Client.Send(headerMessage);
+
 
 		MainThreadInvoker.InvokeOnMainThread(() => {
 			for (int i = 0; i < currentMap.GetLength(0); i++)
@@ -185,7 +182,8 @@ public partial class DungeonGenerator : Node2D
 		if (!NetworkManager.I.Server.IsRunning)
 			return;
 		
-		I.finishedPlayers.Add(msg.GetUShort(), true);
+		ushort pId = msg.GetUShort();
+		I.finishedPlayers.Add(pId, true);
 
 		if (I.finishedPlayers.Count == NetworkManager.ConnectedPlayers.Count) {
 			Message msg2 = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.CompleteLoading);
