@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfq4q5muqhjs1"]
+[gd_scene load_steps=7 format=3 uid="uid://cfq4q5muqhjs1"]
 
 [ext_resource type="Texture2D" uid="uid://b3w82x7qbmssw" path="res://Sprites/Dungeon/fade.png" id="1_d23ux"]
 [ext_resource type="Script" path="res://Objects/Dungeon/Transitions/Transition.cs" id="1_kshb3"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0w8f"]
 size = Vector2(64, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cb4w4"]
+size = Vector2(64, 2.99998)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f2lft"]
 size = Vector2(64, 16)
@@ -20,6 +23,7 @@ z_index = 4096
 z_as_relative = false
 position = Vector2(0, -8)
 texture = ExtResource("1_d23ux")
+offset = Vector2(0, 16)
 metadata/_aseprite_wizard_config_ = {
 "keep_anim_length": false,
 "layer": "",
@@ -40,6 +44,12 @@ shape = SubResource("RectangleShape2D_n0w8f")
 
 [node name="playerDropIn" type="Node2D" parent="True"]
 position = Vector2(-2.63058e-06, 1)
+
+[node name="Wall" type="StaticBody2D" parent="True"]
+
+[node name="Collider" type="CollisionShape2D" parent="True/Wall"]
+position = Vector2(-3.29574e-05, 13)
+shape = SubResource("RectangleShape2D_cb4w4")
 
 [node name="False" type="Sprite2D" parent="."]
 visible = false

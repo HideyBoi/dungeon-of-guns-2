@@ -8,14 +8,14 @@ public partial class LocalPlayer : CharacterBody2D
 	[Export] float speedChange = 7;
 	[Export] AnimatedSprite2D playerSprite;
 	float lastX = 0;
-	enum CurrentState  { MOVING };
-	CurrentState currentState;
+	enum PlayerMoveState  { MOVING };
+	PlayerMoveState currentState;
 
 	public override void _PhysicsProcess(double delta)
 	{
 		switch (currentState)
 		{
-			case CurrentState.MOVING:
+			case PlayerMoveState.MOVING:
 				TickMove(delta);
 				break;
 		}	

@@ -23,6 +23,7 @@ partial class NetworkManager : Node {
 		CompleteLoading,
 		MapDataHeader,
 		MapDataPayload,
+		MapDataCompleted
 	}
 
 	public const byte MessageHandlerGroupId = 206;

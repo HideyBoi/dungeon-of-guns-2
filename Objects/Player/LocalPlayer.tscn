@@ -1,9 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://tsfpfpuarod2"]
+[gd_scene load_steps=12 format=3 uid="uid://tsfpfpuarod2"]
 
 [ext_resource type="Script" path="res://Scripts/LocalPlayer.cs" id="1_a1cue"]
 [ext_resource type="SpriteFrames" uid="uid://b5o3pa4nm5hf8" path="res://Sprites/placeholder/player.aseprite" id="2_ddmsq"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_ggiyq"]
-[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2D.gd" id="4_4eqoe"]
 [ext_resource type="Script" path="res://Objects/Player/TransitionAnimation.cs" id="5_oco3x"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pw7ud"]
@@ -366,36 +364,12 @@ shape = SubResource("CapsuleShape2D_pw7ud")
 
 [node name="Cam" type="Camera2D" parent="."]
 
-[node name="PhantomCameraHost" type="Node" parent="Cam"]
-script = ExtResource("3_ggiyq")
-
-[node name="Follow" type="Node2D" parent="."]
-script = ExtResource("4_4eqoe")
-priority_override = false
-priority = 0
-zoom = Vector2(1, 1)
-follow_mode = 2
-follow_target = NodePath("..")
-follow_parameters/target_offset = Vector2(0, 0)
-follow_parameters/damping = false
-frame_preview = true
-pixel_perfect = false
-limit/draw_limits = false
-limit/left = -10000000
-limit/top = -10000000
-limit/right = 10000000
-limit/bottom = 10000000
-limit/limit_node_target = NodePath("")
-limit/smoothed = false
-tween_parameters = null
-tween_on_load = true
-inactive_update_mode = 0
-
 [node name="transition" type="AnimationPlayer" parent="."]
 root_node = NodePath("transitionOverlay")
 libraries = {
 "": SubResource("AnimationLibrary_3fbb5")
 }
+speed_scale = 0.7
 script = ExtResource("5_oco3x")
 
 [node name="transitionOverlay" type="CanvasLayer" parent="transition"]

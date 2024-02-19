@@ -105,14 +105,11 @@ public partial class SceneManager : Node
 
 		if (NetworkManager.I.Server.IsRunning) {
 			if (finishedPlayers.Count == NetworkManager.ConnectedPlayers.Count) {
-				// World gen
+				GameManager gm = (GameManager)I.GetTree().GetNodesInGroup("GameManager")[0];
+				gm.StartGame();
+
 				// Player spawning can be handled by something in the game world because that's easy
 				// Player starting positions can be obtained after the world is done being generated because that's easy
-				
-				Message msg2 = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.CompleteLoading);
-				NetworkManager.I.Client.Send(msg2);
-
-				I.loadingScreenAnimator.Play("FadeOut");
 			}
 		}
 	}
@@ -122,11 +119,16 @@ public partial class SceneManager : Node
 		I.loadingScreenAnimator.Play("FadeOut");
 		// Start game somehow, probably grab a spawn point now since it's easy.
 	}
+	public static void CompleteLoading() {I.loadingScreenAnimator.Play("FadeOut");}
 
 	private void ClientPlayerLeft(object sender, ClientDisconnectedEventArgs e)
 	{	   
 		try {
 			finishedPlayers.Remove(e.Id);
+
+			if (DungeonGenerator.I == null) {
+				DungeonGenerator.I.finishedPlayers.Remove(e.Id);
+			}
 		} catch {
 			GD.Print("Player left, but was not finished, so nothing to remove.");
 		}

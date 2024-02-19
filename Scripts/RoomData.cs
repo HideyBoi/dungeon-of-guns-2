@@ -9,6 +9,8 @@ public partial class RoomData {
 	// Top, Right, Bottom, Left
 	public bool[] isConnected = new bool[4];
 
+    public int roomId;
+
 	public static Sides GetCorrespondingSide(Sides original) {
 		return original switch
         {

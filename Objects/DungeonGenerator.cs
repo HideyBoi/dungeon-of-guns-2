@@ -2,9 +2,9 @@ using Godot;
 using Riptide;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 
 public partial class DungeonGenerator : Node2D
 {
@@ -20,8 +20,7 @@ public partial class DungeonGenerator : Node2D
 	[ExportGroup("Debug")]
 	[Export] bool force = false;
 
-	RoomData[,] currentMap; 
-	public Room[,] GameMap { get; private set;}
+	RoomData[,] CurrentMap;
 	int desiredSize = 0;
 	int maxRooms;
 	int minRooms;
@@ -31,12 +30,16 @@ public partial class DungeonGenerator : Node2D
 	{
 		I = this;
 
-		if (NetworkManager.I.Server.IsRunning || force) {
-			ruleData = ConfigManager.LoadGamerulePreset();
-
-			Thread thread = new(StartGen);
-			thread.Start();	
+		if (force) {
+			Start();
 		}			
+	}
+
+	public void Start() {
+		ruleData = ConfigManager.LoadGamerulePreset();
+
+		Thread thread = new(StartGen);
+		thread.Start();	
 	}
 
     void StartGen() {
@@ -45,27 +48,27 @@ public partial class DungeonGenerator : Node2D
 		if (desiredSize < 3) {
 			GD.PrintErr("Houston, we fucked up.");
 			
-			//NetworkManager.I.Server.Stop();
-			//return;
+			NetworkManager.I.Server.Stop();
+			return;
 		}
 
 		maxRooms = desiredSize * 2;
 		minRooms = (int)(desiredSize * 1.6);
 		minConnections = desiredSize * 4;
 
-		currentMap = new RoomData[desiredSize * 2, desiredSize * 2];
-		GameMap = new Room[desiredSize * 2, desiredSize * 2];
+		CurrentMap = new RoomData[desiredSize * 2, desiredSize * 2];
 
-		GD.Print(currentMap.GetLength(0));
+		GD.Print(CurrentMap.GetLength(0));
 
 		// Set the first room
 		RoomData firstRoom = new();
 		// GetLength(0) is the X axis, GetLength(1) is the Y axis
 		// Set the new room in the middle of the map
-		int x = currentMap.GetLength(0) / 2;
-		int y = currentMap.GetLength(1) / 2;
-		currentMap[x, y] = firstRoom;
+		int x = CurrentMap.GetLength(0) / 2;
+		int y = CurrentMap.GetLength(1) / 2;
+		CurrentMap[x, y] = firstRoom;
 		firstRoom.pos = new Vector2I(x, y);
+		roomCount = 1;
 
 		roomsToTick = new List<Vector2I>
         {
@@ -84,38 +87,105 @@ public partial class DungeonGenerator : Node2D
 			return;
 		}
 
-		Message headerMessage = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataHeader);
-		headerMessage.AddInt(currentMap.GetLength(0));
-
 		if (NetworkManager.I.Server.IsRunning) {
+			Message headerMessage = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataHeader);
+			headerMessage.AddInt(CurrentMap.GetLength(0));
+			headerMessage.AddInt(roomCount);
 			NetworkManager.I.Client.Send(headerMessage);
 		}
 
 		MainThreadInvoker.InvokeOnMainThread(() => {
-			for (int i = 0; i < currentMap.GetLength(0); i++)
+			for (int i = 0; i < CurrentMap.GetLength(0); i++)
 			{
-				for (int j = 0; j < currentMap.GetLength(1); j++)
+				for (int j = 0; j < CurrentMap.GetLength(1); j++)
 				{
-					if (currentMap[i, j] != null) {
+					if (CurrentMap[i, j] != null) {
+						int roomId = (int)(GD.Randi() % possibleRooms.Length);
+						CurrentMap[i, j].roomId = roomId;
 
-						Room room = possibleRooms[GD.Randi() % possibleRooms.Length].Instantiate<Room>(); 
-						room.SetupRoom(new Vector2I(i, j), currentMap[i, j].isConnected);
+						Room room = possibleRooms[roomId].Instantiate<Room>(); 
+						room.SetupRoom(new Vector2I(i, j), CurrentMap[i, j].isConnected);
 						room.Position = new Vector2(i, j) * distance;
-						GameMap[i,j] = room;
 						AddChild(room);
+
+						Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataPayload);
+						msg.AddInt(i); // x
+						msg.AddInt(j); // y
+						msg.AddInt(roomId);
+						msg.AddBools(CurrentMap[i, j].isConnected);
+						NetworkManager.I.Client.Send(msg);
 					}
 				}
 			}
 
 			GD.Print("Room count: " + roomCount);
 
-			Node2D player = (Node2D)GetTree().GetNodesInGroup("Player")[0];
-			player.Position = firstRoom.pos * distance;
+			//Node2D player = (Node2D)GetTree().GetNodesInGroup("Player")[0];
+			//player.Position = (firstRoom.pos * distance) + new Vector2(64, 64);
 		});
 	}
 
+	[MessageHandler((ushort)NetworkManager.MessageIds.MapDataHeader)]
+	public static void HandleMapDataHeader(Message msg) {
+		int dataSize = msg.GetInt();
+
+		I.CurrentMap = new RoomData[dataSize, dataSize];
+
+		I.roomCount = msg.GetInt();
+
+		I.finishedPlayers = new();
+	}
+
+	[MessageHandler((ushort)NetworkManager.MessageIds.MapDataPayload)]
+	public static void HandleMapDataPayload(Message msg) {
+		Vector2I dataPos = new Vector2I(msg.GetInt(), msg.GetInt());
+		int roomId = msg.GetInt();
+		bool[] sides = msg.GetBools();
+
+        RoomData roomData = new()
+        {
+            pos = dataPos,
+            isConnected = sides,
+            roomId = roomId
+        };
+		I.CurrentMap[dataPos.X, dataPos.Y] = roomData;
+
+        Room room = I.possibleRooms[roomId].Instantiate<Room>(); 
+		room.SetupRoom(new Vector2I(dataPos.X, dataPos.X), sides);
+		room.Position = new Vector2(dataPos.X, dataPos.Y) * I.distance;
+		I.AddChild(room);
+
+		I.roomCount++;
+
+		// Do we have all the rooms now?
+		if ((I.payloadCount != 0) && (I.roomCount == I.payloadCount)) {
+			I.finishedPlayers.Add(NetworkManager.I.Client.Id, true);
+
+			Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
+			done.AddUShort(NetworkManager.I.Client.Id);
+			NetworkManager.I.Client.Send(done);
+		}
+	}
+
+	int payloadCount;
+	public Dictionary<ushort, bool> finishedPlayers;
+	[MessageHandler((ushort)NetworkManager.MessageIds.MapDataCompleted)]
+	public static void HandleMapDataCompleted(Message msg) {
+		if (!NetworkManager.I.Server.IsRunning)
+			return;
+		
+		I.finishedPlayers.Add(msg.GetUShort(), true);
+
+		if (I.finishedPlayers.Count == NetworkManager.ConnectedPlayers.Count) {
+			Message msg2 = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.CompleteLoading);
+			NetworkManager.I.Client.Send(msg2);
+
+			SceneManager.CompleteLoading();
+		}
+	}
+
 	List<Vector2I> roomsToTick;
-	int roomCount = 1;
+	int roomCount;
 
 	void TickCreateRoomData() {
 		List<Vector2I> tickingRooms = new(); 
@@ -131,7 +201,7 @@ public partial class DungeonGenerator : Node2D
 				isConnected = CheckSides(tickingRooms[i]),
             };
 
-			currentMap[tickingRooms[i].X, tickingRooms[i].Y] = newData;
+			CurrentMap[tickingRooms[i].X, tickingRooms[i].Y] = newData;
         }
 	}
 
@@ -147,7 +217,7 @@ public partial class DungeonGenerator : Node2D
 				workingPos = GetDir(i, pos);
 
 				// Check if a room is already connecting to this room
-				RoomData room = currentMap[workingPos.X, workingPos.Y];
+				RoomData room = CurrentMap[workingPos.X, workingPos.Y];
 				if (room != null) {
 					if (room.GetSide(RoomData.GetCorrespondingSide((RoomData.Sides)i))) {
 						sides[i] = true;
@@ -163,7 +233,7 @@ public partial class DungeonGenerator : Node2D
 			if (chance > connectionChance) {
 				sides[i] = false;
 			} else {
-				RoomData room = currentMap[workingPos.X, workingPos.Y];
+				RoomData room = CurrentMap[workingPos.X, workingPos.Y];
 
 				// Check if room already exists in this position.
 				if (room == null) {	
@@ -202,11 +272,11 @@ public partial class DungeonGenerator : Node2D
 		}
 
 		// Make sure position is on the board
-		if (newPos.Y > currentMap.GetLength(1) || newPos.Y < 0) {
+		if (newPos.Y > CurrentMap.GetLength(1) || newPos.Y < 0) {
 			throw new IndexOutOfRangeException();
 		}
 			
-		if (newPos.X > currentMap.GetLength(0) || newPos.X < 0) {
+		if (newPos.X > CurrentMap.GetLength(0) || newPos.X < 0) {
 			throw new IndexOutOfRangeException();
 		}
 			

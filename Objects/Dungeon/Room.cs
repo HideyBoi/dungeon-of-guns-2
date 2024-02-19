@@ -43,7 +43,7 @@ public partial class Room : TileMap
 				position = new Vector2(dropIn.GlobalPosition.X + (body.GlobalPosition.X - origin.X), dropIn.GlobalPosition.Y);
 
 				if (body.IsInGroup("Player")) {
-					body.GetNode<TransitionAnimation>("./transition").Transition("goUp", position);
+					body.GetNode<TransitionAnimation>("./transition").Transition("goDown", position);
 				} else {
 					body.GlobalPosition = position;
 				}
@@ -73,7 +73,7 @@ public partial class Room : TileMap
 				position = new Vector2(dropIn.GlobalPosition.X + (body.GlobalPosition.X - origin.X), dropIn.GlobalPosition.Y);
 			
 				if (body.IsInGroup("Player")) {
-					body.GetNode<TransitionAnimation>("./transition").Transition("goDown", position);
+					body.GetNode<TransitionAnimation>("./transition").Transition("goUp", position);
 				} else {
 					body.GlobalPosition = position;
 				}
