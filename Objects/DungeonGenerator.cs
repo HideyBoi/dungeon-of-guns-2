@@ -135,8 +135,8 @@ public partial class DungeonGenerator : Node2D
 
 	[MessageHandler((ushort)NetworkManager.MessageIds.MapDataHeader)]
 	public static void HandleMapDataHeader(Message msg) {
+		GD.Print("Got map header.");
 		int dataSize = msg.GetInt();
-
 		I.currentMap = new RoomData[dataSize, dataSize];
 
 		I.roomCount = msg.GetInt();
@@ -165,8 +165,11 @@ public partial class DungeonGenerator : Node2D
 
 		I.payloadCount++;
 
+		GD.Print($"Got payload {I.payloadCount}.");
+
 		// Do we have all the rooms now?
 		if ((I.roomCount != 0) && (I.roomCount == I.payloadCount)) {
+			GD.Print("Got all payloads.");
 			I.finishedPlayers.Add(NetworkManager.I.Client.Id, true);
 
 			Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
