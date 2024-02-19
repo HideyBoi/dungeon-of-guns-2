@@ -79,7 +79,7 @@ partial class NetworkManager : Node {
 		Server.RelayFilter = filter;
 	}
 
-	public override void _PhysicsProcess(double delta)
+	public override void _Process(double delta)
 	{
 		if (Client == null)
 			return;
