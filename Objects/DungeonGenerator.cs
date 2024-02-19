@@ -90,13 +90,12 @@ public partial class DungeonGenerator : Node2D
 		finishedPlayers = new();
       	Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
 		done.AddUShort(NetworkManager.I.Client.Id);
-		HandleMapDataCompleted(done);
+		HandleMapDataCompleted(done);	
 
-		Message headerMessage = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataHeader);
-		headerMessage.AddInt(currentMap.GetLength(0));
-		headerMessage.AddInt(roomCount);
-		NetworkManager.I.Client.Send(headerMessage);
-
+		List<int> mapX = new();
+		List<int> mapY = new();
+		List<int> mapRoomId = new();
+		List<bool> mapConnections = new();
 
 		MainThreadInvoker.InvokeOnMainThread(() => {
 			for (int i = 0; i < currentMap.GetLength(0); i++)
@@ -113,12 +112,13 @@ public partial class DungeonGenerator : Node2D
 						GameMap[i,j] = room;
 						AddChild(room);
 
-						Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataPayload);
-						msg.AddInt(i); // x
-						msg.AddInt(j); // y
-						msg.AddInt(roomId);
-						msg.AddBools(currentMap[i, j].isConnected);
-						NetworkManager.I.Client.Send(msg);
+						// add room data to payload
+						mapX.Add(i);
+						mapY.Add(j);
+						mapRoomId.Add(roomId);
+						foreach (bool side in  currentMap[i, j].isConnected) {
+							mapConnections.Add(side);
+						}
 					}
 				}
 			}
@@ -128,45 +128,57 @@ public partial class DungeonGenerator : Node2D
 			//Node2D player = (Node2D)GetTree().GetNodesInGroup("Player")[0];
 			//player.Position = (firstRoom.pos * distance) + new Vector2(64, 64);
 		});
+
+		Message roomData = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapData);
+		// header
+		roomData.AddInt(currentMap.GetLength(0));
+		roomData.AddInt(roomCount);
+		// payload
+		roomData.AddInts(mapX.ToArray());
+		roomData.AddInts(mapY.ToArray());
+		roomData.AddInts(mapRoomId.ToArray());
+		roomData.AddBools(mapConnections.ToArray());
+
+		NetworkManager.I.Client.Send(roomData);
 	}
 
-	[MessageHandler((ushort)NetworkManager.MessageIds.MapDataHeader)]
-	public static void HandleMapDataHeader(Message msg) {
-		GD.Print("Got map header.");
-		int dataSize = msg.GetInt();
-		I.currentMap = new RoomData[dataSize, dataSize];
+	[MessageHandler((ushort)NetworkManager.MessageIds.MapData)]
+	public static void HandleMapData(Message msg) {
+		int dataLength = msg.GetInt();
+		int roomCount = msg.GetInt();
 
-		I.roomCount = msg.GetInt();
+		// Setup standard data
+		I.currentMap = new RoomData[dataLength, dataLength];
+		I.GameMap = new Room[dataLength, dataLength];
 
-		I.finishedPlayers = new();
-	}
+		int[] roomX = msg.GetInts();
+		int[] roomY = msg.GetInts();
+		int[] roomId = msg.GetInts();
+		bool[] connections = msg.GetBools();
+		
+		for (int i = 0; i < roomCount; i++)
+		{
+			// Assemble bool array from composite bool array
+			List<bool> roomConnections = new();
+			for (int j = i * 4; j < (i * 4) + 4; j++)
+			{
+				roomConnections.Add(connections[j]);
+			}
 
-	[MessageHandler((ushort)NetworkManager.MessageIds.MapDataPayload)]
-	public static void HandleMapDataPayload(Message msg) {
-		Vector2I dataPos = new Vector2I(msg.GetInt(), msg.GetInt());
-		int roomId = msg.GetInt();
-		bool[] sides = msg.GetBools();
+			RoomData roomData = new() {
+				pos = new Vector2I(roomX[i], roomY[i]),
+				roomId = roomId[i],
+				isConnected = roomConnections.ToArray()
+			};
 
-        RoomData roomData = new()
-        {
-            pos = dataPos,
-            isConnected = sides,
-            roomId = roomId
-        };
-		I.currentMap[dataPos.X, dataPos.Y] = roomData;
+			I.currentMap[roomX[i], roomY[i]] = roomData;
 
-        Room room = I.possibleRooms[roomId].Instantiate<Room>(); 
-		room.SetupRoom(new Vector2I(dataPos.X, dataPos.X), sides);
-		room.Position = new Vector2(dataPos.X, dataPos.Y) * I.distance;
-		I.AddChild(room);
+			Room room = I.possibleRooms[roomId[i]].Instantiate<Room>();
+			room.SetupRoom(new Vector2I(roomX[i], roomY[i]), roomConnections.ToArray());
+			room.Position = new Vector2(roomX[i], roomY[i]) * I.distance;
 
-		I.payloadCount++;
+			I.AddChild(room);
 
-		GD.Print($"Got payload {I.payloadCount}.");
-
-		// Do we have all the rooms now?
-		if ((I.roomCount != 0) && (I.roomCount == I.payloadCount)) {
-			GD.Print("Got all payloads.");
 			I.finishedPlayers.Add(NetworkManager.I.Client.Id, true);
 
 			Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
@@ -175,8 +187,8 @@ public partial class DungeonGenerator : Node2D
 		}
 	}
 
-	int payloadCount;
 	public Dictionary<ushort, bool> finishedPlayers;
+	
 	[MessageHandler((ushort)NetworkManager.MessageIds.MapDataCompleted)]
 	public static void HandleMapDataCompleted(Message msg) {
 		if (!NetworkManager.I.Server.IsRunning)

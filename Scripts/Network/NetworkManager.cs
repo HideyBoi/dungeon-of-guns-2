@@ -21,8 +21,7 @@ partial class NetworkManager : Node {
 		StartSceneLoad,
 		DoneLoading,
 		CompleteLoading,
-		MapDataHeader,
-		MapDataPayload,
+		MapData,
 		MapDataCompleted
 	}
 
