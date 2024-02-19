@@ -89,6 +89,11 @@ public partial class DungeonGenerator : Node2D
 			return;
 		}
 
+		finishedPlayers = new()
+        {
+            { NetworkManager.I.Client.Id, true }
+        };
+
 		if (NetworkManager.I.Server.IsRunning) {
 			Message headerMessage = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataHeader);
 			headerMessage.AddInt(currentMap.GetLength(0));
@@ -158,10 +163,10 @@ public partial class DungeonGenerator : Node2D
 		room.Position = new Vector2(dataPos.X, dataPos.Y) * I.distance;
 		I.AddChild(room);
 
-		I.roomCount++;
+		I.payloadCount++;
 
 		// Do we have all the rooms now?
-		if ((I.payloadCount != 0) && (I.roomCount == I.payloadCount)) {
+		if ((I.roomCount != 0) && (I.roomCount == I.payloadCount)) {
 			I.finishedPlayers.Add(NetworkManager.I.Client.Id, true);
 
 			Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
