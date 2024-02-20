@@ -15,6 +15,8 @@ public partial class ProcGenGameManager : GameManager {
         I = this;
         NetworkManager.I.Client.ClientDisconnected += DisconnectPlayer;
         localId = NetworkManager.I.Client.Id;
+
+        NetworkManager.CurrentState = NetworkManager.GameState.IN_GAME;
     }
 
     public override void StartGame()
@@ -80,8 +82,13 @@ public partial class ProcGenGameManager : GameManager {
         ushort id = msg.GetUShort();
         Vector2 pos = new(msg.GetFloat(), msg.GetFloat());
 
-        Node2D player = I.AddPlayerNode(id);
-        player.GlobalPosition = pos;
+        PlayerObject player = new() {
+            pId = id,
+            playerNode = I.AddPlayerNode(id)
+        };
+        player.isLocal = player.pId == I.localId;
+
+        player.playerNode.GlobalPosition = pos;
     }
 
     Node2D AddPlayerNode(ushort pId) {
