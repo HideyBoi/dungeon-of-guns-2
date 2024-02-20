@@ -182,14 +182,11 @@ public partial class DungeonGenerator : Node2D
 			room.Position = new Vector2(roomX[i], roomY[i]) * I.distance;
 
 			I.AddChild(room);
-
-			if (NetworkManager.I.Server.IsRunning)
-				I.finishedPlayers.Add(NetworkManager.I.Client.Id, true);
-
-			Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
-			done.AddUShort(NetworkManager.I.Client.Id);
-			NetworkManager.I.Client.Send(done);
 		}
+
+		Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
+		done.AddUShort(NetworkManager.I.Client.Id);
+		NetworkManager.I.Client.Send(done);
 	}
 
 	public Dictionary<ushort, bool> finishedPlayers;
@@ -198,8 +195,9 @@ public partial class DungeonGenerator : Node2D
 	public static void HandleMapDataCompleted(Message msg) {
 		if (!NetworkManager.I.Server.IsRunning)
 			return;
-		
+
 		ushort pId = msg.GetUShort();
+		GD.Print("Player " + pId + " finished loading the map.");
 		I.finishedPlayers.Add(pId, true);
 
 		if (I.finishedPlayers.Count == NetworkManager.ConnectedPlayers.Count) {
