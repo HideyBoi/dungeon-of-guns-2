@@ -116,8 +116,9 @@ public partial class DungeonGenerator : Node2D
 						mapX.Add(i);
 						mapY.Add(j);
 						mapRoomId.Add(roomId);
-						foreach (bool side in  currentMap[i, j].isConnected) {
-							mapConnections.Add(side);
+						for (int x = 0; x < currentMap[i,j].isConnected.Length; x++)
+						{
+							mapConnections.Add(currentMap[i,j].isConnected[x]);
 						}
 					}
 				}
@@ -127,19 +128,19 @@ public partial class DungeonGenerator : Node2D
 
 			//Node2D player = (Node2D)GetTree().GetNodesInGroup("Player")[0];
 			//player.Position = (firstRoom.pos * distance) + new Vector2(64, 64);
+
+			Message roomData = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapData);
+			// header
+			roomData.AddInt(currentMap.GetLength(0));
+			roomData.AddInt(roomCount);
+			// payload
+			roomData.AddInts(mapX.ToArray());
+			roomData.AddInts(mapY.ToArray());
+			roomData.AddInts(mapRoomId.ToArray());
+			roomData.AddBools(mapConnections.ToArray());
+
+			NetworkManager.I.Client.Send(roomData);
 		});
-
-		Message roomData = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapData);
-		// header
-		roomData.AddInt(currentMap.GetLength(0));
-		roomData.AddInt(roomCount);
-		// payload
-		roomData.AddInts(mapX.ToArray());
-		roomData.AddInts(mapY.ToArray());
-		roomData.AddInts(mapRoomId.ToArray());
-		roomData.AddBools(mapConnections.ToArray());
-
-		NetworkManager.I.Client.Send(roomData);
 	}
 
 	[MessageHandler((ushort)NetworkManager.MessageIds.MapData)]
@@ -156,8 +157,11 @@ public partial class DungeonGenerator : Node2D
 		int[] roomId = msg.GetInts();
 		bool[] connections = msg.GetBools();
 		
+		GD.Print(roomCount);
+		GD.Print(connections.Length);
+
 		for (int i = 0; i < roomCount; i++)
-		{
+		{			
 			// Assemble bool array from composite bool array
 			List<bool> roomConnections = new();
 			for (int j = i * 4; j < (i * 4) + 4; j++)
@@ -188,7 +192,7 @@ public partial class DungeonGenerator : Node2D
 	}
 
 	public Dictionary<ushort, bool> finishedPlayers;
-	
+
 	[MessageHandler((ushort)NetworkManager.MessageIds.MapDataCompleted)]
 	public static void HandleMapDataCompleted(Message msg) {
 		if (!NetworkManager.I.Server.IsRunning)
