@@ -42,7 +42,7 @@ public partial class RemotePlayer : CharacterBody2D
 		ushort id = msg.GetUShort();
 
 		// If this player doesn't exist yet, don't.
-		if (GameManager.PlayingPlayers[id] == null)
+		if (!GameManager.PlayingPlayers.ContainsKey(id))
 			return;
 		
 		float x = msg.GetFloat();
