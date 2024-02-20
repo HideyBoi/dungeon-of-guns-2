@@ -189,6 +189,8 @@ public partial class DungeonGenerator : Node2D
 			room.SetupRoom(new Vector2I(roomX[i], roomY[i]), roomConnections.ToArray());
 			room.Position = new Vector2(roomX[i], roomY[i]) * I.distance;
 
+			I.GameMap[roomX[i], roomY[i]] = room;
+
 			I.AddChild(room);
 		}
 

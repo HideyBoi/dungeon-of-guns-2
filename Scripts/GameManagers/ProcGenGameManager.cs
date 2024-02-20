@@ -64,6 +64,11 @@ public partial class ProcGenGameManager : GameManager {
             msg.AddFloat(furthestSpawn.Y);
             NetworkManager.I.Client.Send(msg);
         }
+
+        foreach (ushort id in PlayingPlayers.Keys)
+        {
+            GD.Print(id);
+        }
     }
 
     float Distance(Vector2 v1, Vector2 v2) {
@@ -81,11 +86,13 @@ public partial class ProcGenGameManager : GameManager {
 
     Node2D AddPlayerNode(ushort pId) {
         if (pId == localId) {
-            Node2D player = localPlayer.Instantiate<Node2D>();
+            LocalPlayer player = localPlayer.Instantiate<LocalPlayer>();
+            player.SetupPlayer(pId);
             AddChild(player);
             return player;
         } else {
-            Node2D player = remotePlayer.Instantiate<Node2D>();
+            RemotePlayer player = remotePlayer.Instantiate<RemotePlayer>();
+            player.SetupPlayer(pId);
             AddChild(player);
             return player;
         }

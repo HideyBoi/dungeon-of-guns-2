@@ -43,7 +43,9 @@ public partial class RemotePlayer : CharacterBody2D
 
 		// If this player doesn't exist yet, don't.
 		if (!GameManager.PlayingPlayers.ContainsKey(id))
+		{
 			return;
+		}		
 		
 		float x = msg.GetFloat();
 		float y = msg.GetFloat();
