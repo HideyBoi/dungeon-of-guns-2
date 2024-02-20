@@ -183,7 +183,8 @@ public partial class DungeonGenerator : Node2D
 
 			I.AddChild(room);
 
-			I.finishedPlayers.Add(NetworkManager.I.Client.Id, true);
+			if (NetworkManager.I.Server.IsRunning)
+				I.finishedPlayers.Add(NetworkManager.I.Client.Id, true);
 
 			Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
 			done.AddUShort(NetworkManager.I.Client.Id);
