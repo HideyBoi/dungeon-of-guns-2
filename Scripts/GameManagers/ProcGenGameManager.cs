@@ -10,12 +10,15 @@ public partial class ProcGenGameManager : GameManager {
     [Export] PackedScene localPlayer;
     [Export] PackedScene remotePlayer;
 
-    public override void StartGame()
+    public override void _Ready()
     {
         I = this;
         NetworkManager.I.Client.ClientDisconnected += DisconnectPlayer;
         localId = NetworkManager.I.Client.Id;
+    }
 
+    public override void StartGame()
+    {
         // Start the dungeon generator and send clients map data
         DungeonGenerator.I.Start();
         DungeonGenerator.OnComplete += PostGen;
