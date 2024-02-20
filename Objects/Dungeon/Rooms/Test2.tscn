@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://baanajs4vvkkc"]
+[gd_scene load_steps=8 format=3 uid="uid://baanajs4vvkkc"]
 
 [ext_resource type="TileSet" uid="uid://b0pvykbnygpd3" path="res://Sprites/Dungeon/DungeonTileset.tres" id="1_nbuf2"]
 [ext_resource type="Script" path="res://Objects/Dungeon/Room.cs" id="2_csdcw"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bxjbu464ndfw6" path="res://Objects/Dungeon/Transitions/1.tscn" id="4_x0yf3"]
 [ext_resource type="PackedScene" uid="uid://cfq4q5muqhjs1" path="res://Objects/Dungeon/Transitions/2.tscn" id="5_el0cc"]
 [ext_resource type="PackedScene" uid="uid://qgifwid8bvvc" path="res://Objects/Dungeon/Transitions/3.tscn" id="6_ubbk1"]
+[ext_resource type="PackedScene" uid="uid://fxyqm25gkwav" path="res://Objects/Spawnpoint.tscn" id="7_xs7yh"]
 
 [node name="TileMap" type="TileMap" node_paths=PackedStringArray("sides")]
 tile_set = ExtResource("1_nbuf2")
@@ -30,6 +31,21 @@ position = Vector2(176, 192)
 
 [node name="3" parent="." instance=ExtResource("6_ubbk1")]
 position = Vector2(0, 72)
+
+[node name="Spawnpoint" parent="." instance=ExtResource("7_xs7yh")]
+position = Vector2(46, 52)
+
+[node name="Spawnpoint2" parent="." instance=ExtResource("7_xs7yh")]
+position = Vector2(49, 148)
+
+[node name="Spawnpoint3" parent="." instance=ExtResource("7_xs7yh")]
+position = Vector2(213, 154)
+
+[node name="Spawnpoint4" parent="." instance=ExtResource("7_xs7yh")]
+position = Vector2(212, 56)
+
+[node name="Spawnpoint5" parent="." instance=ExtResource("7_xs7yh")]
+position = Vector2(130, 106)
 
 [connection signal="OnTransition" from="0" to="." method="RoomExited"]
 [connection signal="OnTransition" from="1" to="." method="RoomExited"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://tsfpfpuarod2"]
 
-[ext_resource type="Script" path="res://Scripts/LocalPlayer.cs" id="1_a1cue"]
+[ext_resource type="Script" path="res://Objects/Player/LocalPlayer.cs" id="1_0pq10"]
 [ext_resource type="SpriteFrames" uid="uid://b5o3pa4nm5hf8" path="res://Sprites/placeholder/player.aseprite" id="2_ddmsq"]
 [ext_resource type="Script" path="res://Objects/Player/TransitionAnimation.cs" id="5_oco3x"]
 
@@ -338,7 +338,7 @@ bg_color = Color(0, 0, 0, 1)
 [node name="LocalPlayer" type="CharacterBody2D" node_paths=PackedStringArray("playerSprite") groups=["CanLeaveRoom", "Player"]]
 y_sort_enabled = true
 position = Vector2(19, 2)
-script = ExtResource("1_a1cue")
+script = ExtResource("1_0pq10")
 speed = 160.0
 playerSprite = NodePath("Player")
 

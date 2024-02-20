@@ -2,10 +2,7 @@ using Godot;
 using Riptide;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 
 public partial class DungeonGenerator : Node2D
 {
@@ -27,6 +24,9 @@ public partial class DungeonGenerator : Node2D
 	int maxRooms;
 	int minRooms;
 	int minConnections;
+
+	public delegate void OnDungeonCompleteEventHandler();
+	public static event OnDungeonCompleteEventHandler OnComplete;
 
 	public override void _Ready()
 	{
@@ -146,6 +146,8 @@ public partial class DungeonGenerator : Node2D
 			roomData.AddBools(mapConnections.ToArray());
 
 			NetworkManager.I.Client.Send(roomData);
+
+			OnComplete.Invoke();
 		});
 	}
 

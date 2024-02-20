@@ -22,7 +22,9 @@ partial class NetworkManager : Node {
 		DoneLoading,
 		CompleteLoading,
 		MapData,
-		MapDataCompleted
+		MapDataCompleted,
+		SpawnNewPlayer,
+		PlayerPosRot
 	}
 
 	public const byte MessageHandlerGroupId = 206;

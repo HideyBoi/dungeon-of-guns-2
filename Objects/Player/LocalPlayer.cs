@@ -4,12 +4,17 @@ using Riptide;
 
 public partial class LocalPlayer : CharacterBody2D
 {
+	ushort pId;
 	[Export] float speed;
 	[Export] float speedChange = 7;
 	[Export] AnimatedSprite2D playerSprite;
 	float lastX = 0;
 	enum PlayerMoveState  { MOVING };
 	PlayerMoveState currentState;
+
+	public void SetupPlayer(ushort myId) {
+		pId = myId;
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -53,5 +58,11 @@ public partial class LocalPlayer : CharacterBody2D
 		}
 
 		MoveAndSlide();
+
+		Message posRot = Message.Create(MessageSendMode.Unreliable, NetworkManager.MessageIds.PlayerPosRot);
+		posRot.AddUShort(pId);
+		posRot.AddFloat(GlobalPosition.X);
+		posRot.AddFloat(GlobalPosition.Y);
+		NetworkManager.I.Client.Send(posRot);
 	}
 }
