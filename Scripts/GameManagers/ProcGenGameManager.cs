@@ -89,6 +89,11 @@ public partial class ProcGenGameManager : GameManager {
         player.isLocal = player.pId == I.localId;
 
         player.playerNode.GlobalPosition = pos;
+
+        foreach (ushort _id in PlayingPlayers.Keys)
+        {
+            GD.Print(_id);
+        }
     }
 
     Node2D AddPlayerNode(ushort pId) {
