@@ -10,12 +10,7 @@ public partial class GameManager : Node2D {
         public bool isLocal;
     }
 
-    public static Dictionary<ushort, PlayerObject> PlayingPlayers;
-
-    public override void _Ready()
-    {
-        PlayingPlayers = new();
-    }
+    public static Dictionary<ushort, PlayerObject> PlayingPlayers = new();
 
     public virtual void StartGame() {
         GD.Print("Starting game");

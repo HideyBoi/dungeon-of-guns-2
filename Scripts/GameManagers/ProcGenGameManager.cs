@@ -10,7 +10,7 @@ public partial class ProcGenGameManager : GameManager {
     [Export] PackedScene localPlayer;
     [Export] PackedScene remotePlayer;
 
-    public override void _Ready()
+    public override void _EnterTree()
     {
         I = this;
         NetworkManager.I.Client.ClientDisconnected += DisconnectPlayer;
