@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Objects/GUI/LobbyUiManager.cs" id="1_preq1"]
 [ext_resource type="PackedScene" uid="uid://cqe22byepta7l" path="res://Objects/GUI/ListItems/PlayerlistItem.tscn" id="2_gfsbb"]
 [ext_resource type="Script" path="res://Objects/GUI/LobbySettingsManager.cs" id="4_aidtt"]
-[ext_resource type="PackedScene" uid="uid://cbems1yjd83uv" path="res://Objects/OldWorld.tscn" id="4_g3mek"]
+[ext_resource type="PackedScene" uid="uid://cbems1yjd83uv" path="res://Objects/Dungeon/Dungeon.tscn" id="4_g3mek"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eslae"]
 

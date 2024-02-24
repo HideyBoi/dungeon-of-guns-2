@@ -7,8 +7,6 @@ public partial class RemotePlayer : Node2D
 	ushort pId;
 	float lastX;
 	Vector2 lastPos;
-	[Export] AnimatedSprite2D playerSprite;
-
 	public void SetupPlayer(ushort myId) {
 		pId = myId;
 	}
@@ -17,6 +15,7 @@ public partial class RemotePlayer : Node2D
     {
 		Vector2 currentMoveDir = Position - lastPos;
 
+		/*
 		if (currentMoveDir.X != 0)
 			lastX = currentMoveDir.X;
 
@@ -33,6 +32,7 @@ public partial class RemotePlayer : Node2D
 				playerSprite.Play("Idle-L");
 			}
 		}
+		*/
 
 		lastPos = Position;
     }

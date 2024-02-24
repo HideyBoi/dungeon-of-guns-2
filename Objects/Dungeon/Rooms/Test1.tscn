@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bxjbu464ndfw6" path="res://Objects/Dungeon/Transitions/1.tscn" id="4_71aq1"]
 [ext_resource type="PackedScene" uid="uid://cfq4q5muqhjs1" path="res://Objects/Dungeon/Transitions/2.tscn" id="5_j2iqb"]
 [ext_resource type="PackedScene" uid="uid://qgifwid8bvvc" path="res://Objects/Dungeon/Transitions/3.tscn" id="6_2rp20"]
-[ext_resource type="PackedScene" uid="uid://fxyqm25gkwav" path="res://Objects/Spawnpoint.tscn" id="7_oilnp"]
+[ext_resource type="PackedScene" uid="uid://fxyqm25gkwav" path="res://Objects/Dungeon/Spawnpoint.tscn" id="7_oilnp"]
 
 [node name="TileMap" type="TileMap" node_paths=PackedStringArray("sides")]
 tile_set = ExtResource("1_pe2hl")
