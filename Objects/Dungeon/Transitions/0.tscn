@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://b3w82x7qbmssw" path="res://Sprites/Dungeon/fade.png" id="1_1xuuy"]
 [ext_resource type="Script" path="res://Objects/Dungeon/Transitions/Transition.cs" id="1_mmwhd"]
-[ext_resource type="Texture2D" uid="uid://kkpo1m4520y2" path="res://Sprites/Dungeon/overlay_top.png" id="2_hrvtu"]
+[ext_resource type="Texture2D" uid="uid://ban1trgmrfnbt" path="res://Sprites/Dungeon/OverlayTop.png" id="3_xtbnt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0w8f"]
 size = Vector2(64, 4)
@@ -54,7 +54,7 @@ shape = SubResource("RectangleShape2D_f2lft")
 [node name="False" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(0, 16)
-texture = ExtResource("2_hrvtu")
+texture = ExtResource("3_xtbnt")
 metadata/_aseprite_wizard_config_ = {
 "keep_anim_length": false,
 "layer": "",

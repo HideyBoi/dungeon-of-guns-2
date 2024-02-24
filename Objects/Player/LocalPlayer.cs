@@ -59,6 +59,8 @@ public partial class LocalPlayer : CharacterBody2D
 
 		MoveAndSlide();
 
+		Minimap.I.UpdateLocation(GlobalPosition);
+
 		Message posRot = Message.Create(MessageSendMode.Unreliable, NetworkManager.MessageIds.PlayerPosRot);
 		posRot.AddUShort(pId);
 		posRot.AddFloat(GlobalPosition.X);

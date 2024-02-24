@@ -10,7 +10,7 @@ public partial class DungeonGenerator : Node2D
 
 	private Dictionary<string, string> ruleData;
 	
-	[Export] int distance;
+	[Export] public int distance;
 	[Export] double connectionChance;
 	[Export] PackedScene[] possibleRooms;
 
@@ -61,6 +61,8 @@ public partial class DungeonGenerator : Node2D
 		currentMap = new RoomData[desiredSize * 2, desiredSize * 2];
 		GameMap = new Room[desiredSize * 2, desiredSize * 2];
 
+		GD.Print(currentMap[0,0]);
+
 		// GetLength(0) is the X axis, GetLength(1) is the Y axis
 		// Set the new room in the middle of the map
 		int x = currentMap.GetLength(0) / 2;
@@ -77,7 +79,120 @@ public partial class DungeonGenerator : Node2D
 			stillWorking = roomsToTick.Count > 0;
 		}
 
-		if (roomCount < minRooms) {
+		Done();
+	}
+
+	List<Vector2I> roomsToTick;
+	int roomCount;
+
+	void TickCreateRoomData() {
+		List<Vector2I> tickingRooms = new(); 
+		tickingRooms.AddRange(roomsToTick); // Copy the array so that i don't have to figure out those for loop things
+		roomsToTick = new(); // Erase the original array so that we don't do the same work twice.
+
+		string gay = "";
+		for (int i = 0; i < tickingRooms.Count; i++)
+		{
+			gay += tickingRooms[i] + " ";
+		}
+		//GD.Print(gay);
+
+		for (int i = 0; i < tickingRooms.Count; i++)
+		{
+			if (currentMap[tickingRooms[i].X, tickingRooms[i].Y] != null)
+				continue;
+			
+			roomCount++;
+            RoomData newData = new()
+            {
+                pos = tickingRooms[i],
+                // Checks connections and adds additional connections to other rooms
+                isConnected = CheckSides(tickingRooms[i])
+            };
+
+			currentMap[tickingRooms[i].X, tickingRooms[i].Y] = newData;
+        }
+	}
+
+	bool[] CheckSides(Vector2I pos) {
+		
+		if (currentMap[pos.X, pos.Y] != null) {
+			GD.Print("fail " + pos);
+		}
+		bool[] sides = new bool[4];
+
+		for (int i = 0; i < 4; i++)
+		{		
+			// Check if this side leads to void
+			if (GetDir(i, pos) == null) 
+				continue;
+
+			Vector2I workingPos = (Vector2I)GetDir(i, pos);
+
+			RoomData room = currentMap[workingPos.X, workingPos.Y];
+
+			// Check if a room is already connecting to this room
+			if (room != null) {
+				if (room.GetSide(RoomData.GetCorrespondingSide(i))) {
+					sides[i] = true;
+					continue;
+				}
+			}
+
+			// Move on if not adding a room here
+			double chance = GD.RandRange(0, 100);
+			if (chance > connectionChance) {
+				//sides[i] = false;
+			} else {
+				// Check if room already exists in this position.
+				if (room == null) {	
+					if (roomCount < maxRooms) { 
+						roomsToTick.Add(workingPos);
+						sides[i] = true;
+					}
+				} else {
+					//GD.Print(i + " -> " + RoomData.GetCorrespondingSide(i));
+					room.SetSide(RoomData.GetCorrespondingSide(i), true);
+					sides[i] = true;
+				}
+			}
+		}
+
+		return sides;
+	}
+
+	Vector2I? GetDir(int sideNum, Vector2I current) {
+		Vector2I newPos = current;
+
+		switch(sideNum) {
+			case 0:
+				newPos.Y--;
+				break;
+			case 1:
+				newPos.X++;
+				break;
+			case 2:
+				newPos.Y++;
+				break;
+			case 3:
+				newPos.X--;
+				break;
+		}
+
+		// Make sure position is on the board
+		if (newPos.Y > currentMap.GetLength(1) - 1 || newPos.Y < 0) {
+			return null;
+		}
+			
+		if (newPos.X > currentMap.GetLength(0) - 1 || newPos.X < 0) {
+			return null;
+		}
+			
+		return newPos;
+	}
+
+	void Done() {
+			if (roomCount < minRooms) {
 			GD.Print($"Expected {minRooms}, got {roomCount}. Restarting generation.");
 			StartGen();		
 			return;
@@ -197,6 +312,8 @@ public partial class DungeonGenerator : Node2D
 		Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
 		done.AddUShort(NetworkManager.I.Client.Id);
 		NetworkManager.I.Client.Send(done);
+
+		Minimap.I.Assemble();
 	}
 
 	public Dictionary<ushort, bool> finishedPlayers;
@@ -216,105 +333,5 @@ public partial class DungeonGenerator : Node2D
 
 			SceneManager.CompleteLoading();
 		}
-	}
-
-	List<Vector2I> roomsToTick;
-	int roomCount;
-
-	void TickCreateRoomData() {
-		List<Vector2I> tickingRooms = new(); 
-		tickingRooms.AddRange(roomsToTick); // Copy the array so that i don't have to figure out those for loop things
-		roomsToTick.Clear(); // Erase the original array so that we don't do the same work twice.
-
-		for (int i = 0; i < tickingRooms.Count; i++)
-		{
-			roomCount++;
-            RoomData newData = new()
-            {
-                pos = tickingRooms[i],
-				// Checks connections and adds additional connections to other rooms
-				isConnected = CheckSides(tickingRooms[i]),
-            };
-
-			currentMap[tickingRooms[i].X, tickingRooms[i].Y] = newData;
-        }
-	}
-
-	bool[] CheckSides(Vector2I pos) {
-		
-		bool[] sides = new bool[4];
-
-		for (int i = 0; i < 4; i++)
-		{
-			Vector2I workingPos;
-			try {
-				// Get the room slot in the direction of that is being checked
-				workingPos = GetDir(i, pos);
-
-				// Check if a room is already connecting to this room
-				RoomData room = currentMap[workingPos.X, workingPos.Y];
-				if (room != null) {
-					if (room.GetSide(RoomData.GetCorrespondingSide((RoomData.Sides)i))) {
-						sides[i] = true;
-						continue;
-					}
-				}
-			} catch (IndexOutOfRangeException) {
-				continue;
-			}
-
-			// Move on if not adding a room here
-			double chance = GD.RandRange(0, 100);
-			if (chance > connectionChance) {
-				sides[i] = false;
-			} else {
-				RoomData room = currentMap[workingPos.X, workingPos.Y];
-
-				// Check if room already exists in this position.
-				if (room == null) {	
-					
-					if (roomCount < maxRooms) {
-						roomsToTick.Add(workingPos);
-						sides[i] = true;  
-					}          			
-				} else {
-					GD.Print(i + " -> " + RoomData.GetCorrespondingSide((RoomData.Sides)i));
-					room.SetSide(RoomData.GetCorrespondingSide((RoomData.Sides)i), true);
-					sides[i] = true;
-				}
-			}
-		}
-
-		return sides;
-	}
-
-	Vector2I GetDir(int sideNum, Vector2I current) {
-		Vector2I newPos = current;
-
-		switch(sideNum) {
-			case 0:
-				newPos.Y--;
-				break;
-			case 1:
-				newPos.X++;
-				break;
-			case 2:
-				newPos.Y++;
-				break;
-			case 3:
-				newPos.X--;
-				break;
-		}
-
-		// Make sure position is on the board
-		if (newPos.Y > currentMap.GetLength(1) || newPos.Y < 0) {
-			throw new IndexOutOfRangeException();
-		}
-			
-		if (newPos.X > currentMap.GetLength(0) || newPos.X < 0) {
-			throw new IndexOutOfRangeException();
-		}
-			
-		return newPos;
 	}
 }

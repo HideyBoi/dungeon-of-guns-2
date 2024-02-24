@@ -5,9 +5,11 @@ public partial class Room : TileMap
 {
 	[Export] Node2D[] sides = new Node2D[4];
 	Vector2I roomPos;
+	public bool[] sideStates;
 
 	public void SetupRoom(Vector2I pos, bool[] sideStatues) {
 		roomPos = pos;
+		sideStates = sideStatues;
 		
 		for (int i = 0; i < sideStatues.Length; i++)
 		{

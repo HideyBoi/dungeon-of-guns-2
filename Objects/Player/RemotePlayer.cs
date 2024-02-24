@@ -15,7 +15,7 @@ public partial class RemotePlayer : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-		Vector2 currentMoveDir = lastPos - Position;
+		Vector2 currentMoveDir = Position - lastPos;
 
 		if (currentMoveDir.X != 0)
 			lastX = currentMoveDir.X;

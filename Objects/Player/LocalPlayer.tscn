@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://tsfpfpuarod2"]
+[gd_scene load_steps=13 format=3 uid="uid://tsfpfpuarod2"]
 
 [ext_resource type="Script" path="res://Objects/Player/LocalPlayer.cs" id="1_0pq10"]
 [ext_resource type="SpriteFrames" uid="uid://b5o3pa4nm5hf8" path="res://Sprites/placeholder/player.aseprite" id="2_ddmsq"]
+[ext_resource type="PackedScene" uid="uid://6c8teg36avt4" path="res://Objects/GUI/Minimap.tscn" id="3_hy0a7"]
 [ext_resource type="Script" path="res://Objects/Player/TransitionAnimation.cs" id="5_oco3x"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pw7ud"]
@@ -363,6 +364,8 @@ position = Vector2(0, -6.5)
 shape = SubResource("CapsuleShape2D_pw7ud")
 
 [node name="Cam" type="Camera2D" parent="."]
+
+[node name="Minimap" parent="." instance=ExtResource("3_hy0a7")]
 
 [node name="transition" type="AnimationPlayer" parent="."]
 root_node = NodePath("transitionOverlay")

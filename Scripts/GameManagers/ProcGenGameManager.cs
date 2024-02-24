@@ -41,9 +41,9 @@ public partial class ProcGenGameManager : GameManager {
 
             PlayingPlayers.Add(player.pId, player);
 
-            Vector2 furthestSpawn = spawnPoints[0].GlobalPosition;
-            float biggestDist = 0;
+            Vector2 spawn = spawnPoints[GD.RandRange(0, spawnPoints.Length - 1)].GlobalPosition;
 
+            /*
             for (int j = 0; j < spawnPoints.Length; j++)
             {
                 foreach (PlayerObject otherPlayers in PlayingPlayers.Values)
@@ -55,15 +55,16 @@ public partial class ProcGenGameManager : GameManager {
                     }
                 }
             }
+            */
 
             if (player.isLocal) {
-                player.playerNode.GlobalPosition = furthestSpawn;
+                player.playerNode.GlobalPosition = spawn;
             }
 
             Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.SpawnNewPlayer);
             msg.AddUShort(player.pId);
-            msg.AddFloat(furthestSpawn.X);
-            msg.AddFloat(furthestSpawn.Y);
+            msg.AddFloat(spawn.X);
+            msg.AddFloat(spawn.Y);
             NetworkManager.I.Client.Send(msg);
         }
 
@@ -113,5 +114,10 @@ public partial class ProcGenGameManager : GameManager {
             PlayingPlayers.Remove(e.Id);
         } catch {
         }
+    }
+
+    public override void _ExitTree()
+    {
+        DungeonGenerator.OnComplete -= PostGen;
     }
 }

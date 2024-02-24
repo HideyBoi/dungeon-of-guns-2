@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://6c8teg36avt4"]
+
+[ext_resource type="Script" path="res://Objects/GUI/Minimap.cs" id="1_0xn7u"]
+[ext_resource type="PackedScene" uid="uid://djwy1oxqhclvg" path="res://Objects/GUI/ListItems/MinmapElement.tscn" id="2_berbl"]
+
+[node name="Minimap" type="CanvasLayer" node_paths=PackedStringArray("grid")]
+script = ExtResource("1_0xn7u")
+miniMapElement = ExtResource("2_berbl")
+grid = NodePath("GridContainer")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = 12.0
+grow_horizontal = 0

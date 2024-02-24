@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdjsey2y1qwgq"
-path="res://.godot/imported/overlay_left.png-c73ec8475327c5b07d0577d9c9c5d824.ctex"
+uid="uid://bhv4hed0m004f"
+path="res://.godot/imported/OverlayLeft.png-6cca0edbd7f4c6409a947631fa75cff6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Dungeon/overlay_left.png"
-dest_files=["res://.godot/imported/overlay_left.png-c73ec8475327c5b07d0577d9c9c5d824.ctex"]
+source_file="res://Sprites/Dungeon/OverlayLeft.png"
+dest_files=["res://.godot/imported/OverlayLeft.png-6cca0edbd7f4c6409a947631fa75cff6.ctex"]
 
 [params]
 

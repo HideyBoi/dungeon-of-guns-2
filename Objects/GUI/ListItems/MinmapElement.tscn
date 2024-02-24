@@ -1,0 +1,105 @@
+[gd_scene load_steps=5 format=3 uid="uid://djwy1oxqhclvg"]
+
+[ext_resource type="Script" path="res://Objects/GUI/ListItems/MinimapElement.cs" id="1_0236o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vdncl"]
+bg_color = Color(0.121569, 0.647059, 0.886275, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3bddo"]
+bg_color = Color(0.709804, 0.592157, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3q030"]
+bg_color = Color(0.0196078, 0.368627, 0.517647, 1)
+
+[node name="MinimapElement" type="Control" node_paths=PackedStringArray("basePanel", "herePanel", "sidePanels")]
+custom_minimum_size = Vector2(6, 6)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0236o")
+basePanel = NodePath("Base")
+herePanel = NodePath("Player")
+sidePanels = [NodePath("0"), NodePath("1"), NodePath("2"), NodePath("3")]
+
+[node name="Base" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vdncl")
+
+[node name="Player" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3bddo")
+
+[node name="0" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -2.0
+offset_right = -2.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3q030")
+
+[node name="1" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 2.0
+offset_right = 2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3q030")
+
+[node name="2" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 5.0
+offset_right = -2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3q030")
+
+[node name="3" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = 2.0
+offset_right = -5.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3q030")
