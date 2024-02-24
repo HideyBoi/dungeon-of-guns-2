@@ -1,13 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://da30y5csi1c1o"]
+[gd_scene load_steps=3 format=3 uid="uid://da30y5csi1c1o"]
 
 [ext_resource type="Script" path="res://Objects/Player/RemotePlayer.cs" id="1_ku2ms"]
 [ext_resource type="SpriteFrames" uid="uid://b5o3pa4nm5hf8" path="res://Sprites/placeholder/player.aseprite" id="2_tg8pa"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pw7ud"]
-radius = 5.0
-height = 12.5
-
-[node name="RemotePlayer" type="CharacterBody2D" node_paths=PackedStringArray("playerSprite")]
+[node name="RemotePlayer" type="Node2D" node_paths=PackedStringArray("playerSprite")]
 y_sort_enabled = true
 position = Vector2(19, 2)
 script = ExtResource("1_ku2ms")
@@ -27,8 +23,3 @@ metadata/_aseprite_wizard_config_ = {
 "op_exp": false,
 "source": ""
 }
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-z_index = 3
-position = Vector2(0, -6.5)
-shape = SubResource("CapsuleShape2D_pw7ud")

@@ -14,18 +14,21 @@ public partial class Minimap : CanvasLayer
 
 	Room[,] map;
 
+	CharacterBody2D player;
+
     public override void _Ready()
     {
 		I = this;
 		distance = DungeonGenerator.I.distance;
+		player = GetParent<CharacterBody2D>();
 
         Assemble();
     }
 
 	MinimapElement lastRoom;
 
-	public void UpdateLocation(Vector2 playerPos) {
-		Vector2I pos = (Vector2I)(playerPos / distance);
+	public override void _PhysicsProcess(double delta) {
+		Vector2I pos = (Vector2I)(player.GlobalPosition / distance);
 		pos -= offset;
 
 		if (pos.X < 0 || pos.X > map.GetLength(0) || pos.Y < 0 || pos.Y > map.GetLength(1)) {

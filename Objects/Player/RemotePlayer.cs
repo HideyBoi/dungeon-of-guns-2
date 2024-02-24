@@ -2,7 +2,7 @@ using Godot;
 using System;
 using Riptide;
 
-public partial class RemotePlayer : CharacterBody2D
+public partial class RemotePlayer : Node2D
 {
 	ushort pId;
 	float lastX;
