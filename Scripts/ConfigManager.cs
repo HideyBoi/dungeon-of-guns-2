@@ -40,13 +40,15 @@ public class ConfigManager
 		NetworkManager.I.Client.Send(msg);
 	}
 
-	public static Dictionary<string, string> LoadGamerulePreset() {
+	public static Dictionary<string, string> LoadGamerulePreset(bool forceNew = false) {
 		if (!File.Exists(gamerulesPath)) {
 			CreateGameruleFile();
 		}
 
-		currentGamerules = new();
-	
+		if (forceNew || currentGamerules == null) {
+			currentGamerules = new();
+		}
+
 		currentGamerules = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(gamerulesPath));
 
 		return currentGamerules;

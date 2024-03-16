@@ -39,4 +39,8 @@ public partial class PlayerlistItem : Panel
 		
 		NetworkManager.I.Server.DisconnectClient(id);
 	}
+
+	public void SetReady(bool ready) {
+		GetNode<TextureRect>("isReady").Visible = ready;
+	}
 }

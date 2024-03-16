@@ -13,9 +13,10 @@ public partial class RemotePlayer : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
+		/*
 		Vector2 currentMoveDir = Position - lastPos;
 
-		/*
+		
 		if (currentMoveDir.X != 0)
 			lastX = currentMoveDir.X;
 
@@ -32,9 +33,9 @@ public partial class RemotePlayer : Node2D
 				playerSprite.Play("Idle-L");
 			}
 		}
-		*/
 
 		lastPos = Position;
+		*/
     }
 
     [MessageHandler((ushort)NetworkManager.MessageIds.PlayerPosRot)]
@@ -47,8 +48,7 @@ public partial class RemotePlayer : Node2D
 			return;
 		}		
 		
-		float x = msg.GetFloat();
-		float y = msg.GetFloat();
-        GameManager.PlayingPlayers[id].playerNode.GlobalPosition = new(x, y);
+		Vector2 pos = msg.GetVector2();
+        GameManager.PlayingPlayers[id].playerNode.GlobalPosition = pos;
     }
 }

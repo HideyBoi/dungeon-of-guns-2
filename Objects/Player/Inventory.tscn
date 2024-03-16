@@ -1,5 +1,483 @@
-[gd_scene format=3 uid="uid://dg8su5nj5f20l"]
+[gd_scene load_steps=9 format=3 uid="uid://dg8su5nj5f20l"]
 
-[node name="Inventory" type="Node2D"]
+[ext_resource type="Script" path="res://Objects/Player/Inventory.cs" id="1_b8kk5"]
+[ext_resource type="PackedScene" uid="uid://de64ffignjl8f" path="res://Objects/InventoryItemObject.tscn" id="2_pcjo5"]
+[ext_resource type="Theme" uid="uid://bg86n0iurkxcu" path="res://InventoryGui.tres" id="3_20m0n"]
+[ext_resource type="Texture2D" uid="uid://c4ij43p4o0jiu" path="res://Sprites/Items/placeholderFist.png" id="3_fvpex"]
+[ext_resource type="FontFile" uid="uid://yklo8ih7un4s" path="res://Sprites/UI/fonts/vhs.ttf" id="4_jla0q"]
+[ext_resource type="Texture2D" uid="uid://cjaofa2vi86q0" path="res://Sprites/Items/placeholderGun.png" id="5_4dhuy"]
+[ext_resource type="Script" path="res://Objects/Player/InventoryGuiDrop.cs" id="7_k0f1r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_y0iek"]
+font = ExtResource("4_jla0q")
+font_size = 21
+
+[node name="Inventory" type="Node2D" node_paths=PackedStringArray("inactiveSprites", "inactiveAmmoLabels", "activeSprite", "activeAmmoLabel", "activeTotalAmmoLabel", "normalUi", "bigUi")]
+script = ExtResource("1_b8kk5")
+inactiveSprites = [null, NodePath("UI/General/VBoxContainer/Inactive5/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive4/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive3/TextureRect")]
+inactiveAmmoLabels = [null, NodePath("UI/General/VBoxContainer/Inactive5/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive4/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive3/CurrentAmmo")]
+activeSprite = NodePath("UI/General/VBoxContainer/Active/TextureRect")
+activeAmmoLabel = NodePath("UI/General/VBoxContainer/Active/CurrentAmmo")
+activeTotalAmmoLabel = NodePath("UI/General/VBoxContainer/Active/TotalAmmo")
+normalUi = NodePath("UI/General")
+bigUi = NodePath("UI/BigScreen")
+itemObject = ExtResource("2_pcjo5")
+itemLayerMask = 3
+fistIcon = ExtResource("3_fvpex")
+debug = true
 
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="General" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_20m0n")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/General"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -95.0
+offset_top = -152.0
+grow_horizontal = 0
+grow_vertical = 0
+alignment = 2
+
+[node name="Inactive3" type="Panel" parent="UI/General/VBoxContainer"]
+custom_minimum_size = Vector2(45, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -7.0
+offset_right = -3.0
+offset_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 21.0
+offset_bottom = 9.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Inactive4" type="Panel" parent="UI/General/VBoxContainer"]
+custom_minimum_size = Vector2(45, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive4"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -7.0
+offset_right = -3.0
+offset_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive4"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 21.0
+offset_bottom = 9.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Inactive5" type="Panel" parent="UI/General/VBoxContainer"]
+custom_minimum_size = Vector2(45, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive5"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -7.0
+offset_right = -3.0
+offset_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive5"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 21.0
+offset_bottom = 9.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Active" type="Panel" parent="UI/General/VBoxContainer"]
+custom_minimum_size = Vector2(95, 42)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/General/VBoxContainer/Active"]
+visible = false
+layout_mode = 0
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 96.0
+offset_bottom = 24.0
+text = "fucking pew pew"
+clip_text = true
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Active"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -49.0
+offset_top = -16.0
+offset_right = -8.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+label_settings = SubResource("LabelSettings_y0iek")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="-" type="Label" parent="UI/General/VBoxContainer/Active"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -27.0
+offset_right = -16.0
+offset_bottom = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "____"
+
+[node name="TotalAmmo" type="Label" parent="UI/General/VBoxContainer/Active"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -18.0
+offset_right = -10.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "99999"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Active"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -18.0
+offset_right = 44.0
+offset_bottom = 18.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BigScreen" type="Control" parent="UI" node_paths=PackedStringArray("inventory", "names", "images", "ammoCounts")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_20m0n")
+script = ExtResource("7_k0f1r")
+inventory = NodePath("../..")
+names = [NodePath("HBoxContainer/1/Name"), NodePath("HBoxContainer/2/Name"), NodePath("HBoxContainer/3/Name"), NodePath("HBoxContainer/4/Name")]
+images = [NodePath("HBoxContainer/1/TextureRect"), NodePath("HBoxContainer/2/TextureRect"), NodePath("HBoxContainer/3/TextureRect"), NodePath("HBoxContainer/4/TextureRect")]
+ammoCounts = [NodePath("HBoxContainer/1/CurrentAmmo"), NodePath("HBoxContainer/2/CurrentAmmo"), NodePath("HBoxContainer/3/CurrentAmmo"), NodePath("HBoxContainer/4/CurrentAmmo")]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/BigScreen"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="1" type="Panel" parent="UI/BigScreen/HBoxContainer"]
+custom_minimum_size = Vector2(95, 42)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/BigScreen/HBoxContainer/1"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 2.0
+offset_right = -2.0
+offset_bottom = 17.0
+grow_horizontal = 2
+text = "fucking pew pew ass mother fucker"
+clip_text = true
+
+[node name="CurrentAmmo" type="Label" parent="UI/BigScreen/HBoxContainer/1"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -25.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "999"
+label_settings = SubResource("LabelSettings_y0iek")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/BigScreen/HBoxContainer/1"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = -29.0
+offset_right = 34.0
+offset_bottom = -2.0
+grow_vertical = 0
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="2" type="Panel" parent="UI/BigScreen/HBoxContainer"]
+custom_minimum_size = Vector2(95, 42)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/BigScreen/HBoxContainer/2"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 2.0
+offset_right = -2.0
+offset_bottom = 17.0
+grow_horizontal = 2
+text = "fucking pew pew ass mother fucker"
+clip_text = true
+
+[node name="CurrentAmmo" type="Label" parent="UI/BigScreen/HBoxContainer/2"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -25.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "999"
+label_settings = SubResource("LabelSettings_y0iek")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/BigScreen/HBoxContainer/2"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = -29.0
+offset_right = 34.0
+offset_bottom = -2.0
+grow_vertical = 0
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="3" type="Panel" parent="UI/BigScreen/HBoxContainer"]
+custom_minimum_size = Vector2(95, 42)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/BigScreen/HBoxContainer/3"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 2.0
+offset_right = -2.0
+offset_bottom = 17.0
+grow_horizontal = 2
+text = "fucking pew pew ass mother fucker"
+clip_text = true
+
+[node name="CurrentAmmo" type="Label" parent="UI/BigScreen/HBoxContainer/3"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -25.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "999"
+label_settings = SubResource("LabelSettings_y0iek")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/BigScreen/HBoxContainer/3"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = -29.0
+offset_right = 34.0
+offset_bottom = -2.0
+grow_vertical = 0
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="4" type="Panel" parent="UI/BigScreen/HBoxContainer"]
+custom_minimum_size = Vector2(95, 42)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/BigScreen/HBoxContainer/4"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 2.0
+offset_right = -2.0
+offset_bottom = 17.0
+grow_horizontal = 2
+text = "fucking pew pew ass mother fucker"
+clip_text = true
+
+[node name="CurrentAmmo" type="Label" parent="UI/BigScreen/HBoxContainer/4"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -25.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "999"
+label_settings = SubResource("LabelSettings_y0iek")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/BigScreen/HBoxContainer/4"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = -29.0
+offset_right = 34.0
+offset_bottom = -2.0
+grow_vertical = 0
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Note" type="Label" parent="UI/BigScreen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -56.0
+offset_right = 150.0
+offset_bottom = -43.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Hover over an item and release [TAB] to drop it..."
+horizontal_alignment = 1
+
+[connection signal="mouse_entered" from="UI/BigScreen/HBoxContainer/1" to="UI/BigScreen" method="SetHoverLocation" binds= [0]]
+[connection signal="mouse_exited" from="UI/BigScreen/HBoxContainer/1" to="UI/BigScreen" method="StopHover"]
+[connection signal="mouse_entered" from="UI/BigScreen/HBoxContainer/2" to="UI/BigScreen" method="SetHoverLocation" binds= [1]]
+[connection signal="mouse_exited" from="UI/BigScreen/HBoxContainer/2" to="UI/BigScreen" method="StopHover"]
+[connection signal="mouse_entered" from="UI/BigScreen/HBoxContainer/3" to="UI/BigScreen" method="SetHoverLocation" binds= [2]]
+[connection signal="mouse_exited" from="UI/BigScreen/HBoxContainer/3" to="UI/BigScreen" method="StopHover"]
+[connection signal="mouse_entered" from="UI/BigScreen/HBoxContainer/4" to="UI/BigScreen" method="SetHoverLocation" binds= [3]]
+[connection signal="mouse_exited" from="UI/BigScreen/HBoxContainer/4" to="UI/BigScreen" method="StopHover"]

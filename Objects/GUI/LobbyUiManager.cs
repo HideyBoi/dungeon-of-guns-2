@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using Riptide;
 using System;
+using TextCopy;
 
 public partial class LobbyUiManager : Control
 {
@@ -12,6 +13,7 @@ public partial class LobbyUiManager : Control
 	[Export] PackedScene playerListItem;
 	[Export] PackedScene gameWorld;
 	[Export] Button readyButton;
+	[Export] ConfirmationDialog leaveGameDialog;
 
     public override void _Ready()
     {
@@ -65,6 +67,22 @@ public partial class LobbyUiManager : Control
 		}
 	}
 
+	public void ShowLeaveGameConfirmation() {
+		leaveGameDialog.Show();
+		if (NetworkManager.I.Client.IsConnected) {
+			leaveGameDialog.DialogText = "Are you sure you want to return to the main menu and disconnect all connected players?";
+		} else {
+			leaveGameDialog.DialogText = "Are you sure you want to disconnect from the lobby and return to the main menu?";
+		}
+	}
+	public void LeaveGame() {
+		SteamLobbyManager.I.LeaveLobby();
+	}
+
+	public void CopyLobbyId() {
+		ClipboardService.SetText(SteamLobbyManager.I.LobbyId.ToString());
+	}
+
 	bool ready = false;
 	Dictionary<ushort, bool> readyPlayers = new();
 
@@ -86,6 +104,8 @@ public partial class LobbyUiManager : Control
 		if (NetworkManager.I.Server.IsRunning) {
 			CheckReadyState();
 		}
+
+		playerListContainer.GetNode<PlayerlistItem>(id.ToString()).SetReady(ready);
 	}
 
 	[MessageHandler((ushort)NetworkManager.MessageIds.ReadyState)]
@@ -100,6 +120,8 @@ public partial class LobbyUiManager : Control
 		} else {
 			I.readyPlayers.Remove(pId);
 		}
+
+		I.playerListContainer.GetNode<PlayerlistItem>(pId.ToString()).SetReady(isReady);
 
 		if (NetworkManager.I.Server.IsRunning) {
 			I.CheckReadyState();

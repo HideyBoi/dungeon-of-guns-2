@@ -28,6 +28,12 @@ public partial class Minimap : CanvasLayer
 	MinimapElement lastRoom;
 
 	public override void _PhysicsProcess(double delta) {
+		if (Input.IsActionJustPressed("map"))
+			Visible = !Visible;
+
+		if (!Visible)
+			return;
+
 		Vector2I pos = (Vector2I)(player.GlobalPosition / distance);
 		pos -= offset;
 

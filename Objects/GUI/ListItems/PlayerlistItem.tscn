@@ -1,15 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://cqe22byepta7l"]
+[gd_scene load_steps=5 format=3 uid="uid://cqe22byepta7l"]
 
 [ext_resource type="Script" path="res://Objects/GUI/ListItems/PlayerlistItem.cs" id="1_r6k2q"]
+[ext_resource type="Theme" uid="uid://dd8pxex3rwxau" path="res://DefaultTheme.tres" id="1_vckle"]
+[ext_resource type="Texture2D" uid="uid://cmsujaxl48esy" path="res://Sprites/UI/check.png" id="3_tjcvf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tp4wf"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[sub_resource type="LabelSettings" id="LabelSettings_yw30l"]
-font_size = 8
-
 [node name="PlayerlistListItem" type="Panel" node_paths=PackedStringArray("nameLabel", "kickButton", "popup")]
-custom_minimum_size = Vector2(259.98, 16)
+custom_minimum_size = Vector2(273, 24)
+size_flags_horizontal = 3
+theme = ExtResource("1_vckle")
 script = ExtResource("1_r6k2q")
 nameLabel = NodePath("Label")
 kickButton = NodePath("Button")
@@ -25,17 +26,25 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_tp4wf")
 
+[node name="isReady" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 20.0
+offset_bottom = 20.0
+texture = ExtResource("3_tjcvf")
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 4.0
-offset_right = -3.98001
+offset_left = 23.0
+offset_right = -3.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "HideyBoi"
-label_settings = SubResource("LabelSettings_yw30l")
+text = "NAME_NAME_NAME_NAME_NAME_NAME_NAME_NAME_NAME"
 vertical_alignment = 1
 clip_text = true
 

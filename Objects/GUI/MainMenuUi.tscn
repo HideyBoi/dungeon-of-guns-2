@@ -1,13 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqyj31xhcdcst"]
+[gd_scene load_steps=8 format=3 uid="uid://dqyj31xhcdcst"]
 
+[ext_resource type="Theme" uid="uid://dd8pxex3rwxau" path="res://DefaultTheme.tres" id="1_0wxf2"]
 [ext_resource type="Script" path="res://Objects/GUI/MainMenuUi.cs" id="1_6ubcb"]
 [ext_resource type="PackedScene" uid="uid://cwhd3lti0hfcx" path="res://Objects/GUI/Lobby.tscn" id="2_hs34j"]
+[ext_resource type="FontFile" uid="uid://yklo8ih7un4s" path="res://Sprites/UI/fonts/vhs.ttf" id="4_jt85f"]
+[ext_resource type="FontFile" uid="uid://csekyx4lnrjo0" path="res://Sprites/UI/fonts/Minimal3x5.ttf" id="5_0bdx3"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_q3qm7"]
-font_size = 24
+font = ExtResource("4_jt85f")
+font_size = 21
 
 [sub_resource type="LabelSettings" id="LabelSettings_8vxip"]
-font_size = 9
+font = ExtResource("5_0bdx3")
+font_size = 8
 
 [node name="MainMenuUi" type="Control" node_paths=PackedStringArray("maxPlayersSelector", "lobbyPrivacySelector", "lobbyIdInput", "connectingScreen")]
 layout_mode = 3
@@ -16,11 +21,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_0wxf2")
 script = ExtResource("1_6ubcb")
 lobby = ExtResource("2_hs34j")
-maxPlayersSelector = NodePath("HostMenu/Control/BG/FG/VBoxContainer/MaxPlayersSelector")
-lobbyPrivacySelector = NodePath("HostMenu/Control/BG/FG/VBoxContainer/PrivacySelector")
-lobbyIdInput = NodePath("JoinMenu/Control/BG/FG/VBoxContainer/LobbyIdInput")
+maxPlayersSelector = NodePath("HostMenu/Control/FG/VBoxContainer/MaxPlayersSelector")
+lobbyPrivacySelector = NodePath("HostMenu/Control/FG/VBoxContainer/PrivacySelector")
+lobbyIdInput = NodePath("JoinMenu/Control/FG/VBoxContainer/LobbyIdInput")
 connectingScreen = NodePath("Connecting")
 
 [node name="Join" type="Button" parent="."]
@@ -29,7 +35,6 @@ offset_left = 8.0
 offset_top = 83.0
 offset_right = 35.0
 offset_bottom = 105.0
-theme_override_font_sizes/font_size = 10
 text = "Join"
 
 [node name="Host" type="Button" parent="."]
@@ -38,7 +43,6 @@ offset_left = 8.0
 offset_top = 109.0
 offset_right = 35.0
 offset_bottom = 131.0
-theme_override_font_sizes/font_size = 10
 text = "Host"
 
 [node name="HostMenu" type="CanvasLayer" parent="."]
@@ -51,44 +55,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_0wxf2")
 
-[node name="BG" type="Panel" parent="HostMenu/Control"]
+[node name="FG" type="Panel" parent="HostMenu/Control"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 95.0
-offset_top = 45.0
-offset_right = -95.0
-offset_bottom = -45.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FG" type="Panel" parent="HostMenu/Control/BG"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HostMenu/Control/FG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HostMenu/Control/BG/FG"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
 offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+[node name="Title" type="Label" parent="HostMenu/Control/FG/VBoxContainer"]
 layout_mode = 2
 text = "Host Settings"
 label_settings = SubResource("LabelSettings_q3qm7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LobbyNote" type="Label" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+[node name="LobbyNote" type="Label" parent="HostMenu/Control/FG/VBoxContainer"]
 custom_minimum_size = Vector2(0, 35.325)
 layout_mode = 2
 text = "These settings can't be changed after the lobby has been created. You're going to need to make a new lobby if you want to change any of these settings."
@@ -96,12 +98,12 @@ label_settings = SubResource("LabelSettings_8vxip")
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Spacer" type="Control" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+[node name="Spacer" type="Control" parent="HostMenu/Control/FG/VBoxContainer"]
 custom_minimum_size = Vector2(0, 8.925)
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="MaxPlayersSelector" type="SpinBox" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+[node name="MaxPlayersSelector" type="SpinBox" parent="HostMenu/Control/FG/VBoxContainer"]
 layout_mode = 2
 max_value = 99.0
 value = 16.0
@@ -109,13 +111,13 @@ rounded = true
 alignment = 1
 prefix = "Max Players:"
 
-[node name="LobbyPrivacy" type="Label" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+[node name="LobbyPrivacy" type="Label" parent="HostMenu/Control/FG/VBoxContainer"]
 custom_minimum_size = Vector2(0, 27.87)
 layout_mode = 2
 text = "Lobby Privacy"
 vertical_alignment = 2
 
-[node name="PrivacySelector" type="OptionButton" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+[node name="PrivacySelector" type="OptionButton" parent="HostMenu/Control/FG/VBoxContainer"]
 layout_mode = 2
 item_count = 3
 selected = 0
@@ -126,18 +128,20 @@ popup/item_1/id = 2
 popup/item_2/text = "Invite Only"
 popup/item_2/id = 3
 
-[node name="HostButton" type="Button" parent="HostMenu/Control/BG/FG/VBoxContainer"]
+[node name="HostButton" type="Button" parent="HostMenu/Control/FG/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 text = "Start Hosting!"
 
-[node name="Close" type="Button" parent="HostMenu/Control/BG/FG"]
+[node name="Close" type="Button" parent="HostMenu/Control/FG"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -27.0
-offset_bottom = 31.0
+offset_left = -23.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = 23.0
 grow_horizontal = 0
 text = "X"
 
@@ -151,44 +155,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_0wxf2")
 
-[node name="BG" type="Panel" parent="JoinMenu/Control"]
+[node name="FG" type="Panel" parent="JoinMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -65.0
+offset_right = 150.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinMenu/Control/FG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 95.0
-offset_top = 45.0
-offset_right = -95.0
-offset_bottom = -45.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FG" type="Panel" parent="JoinMenu/Control/BG"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="JoinMenu/Control/BG/FG"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -12.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Title" type="Label" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+[node name="Title" type="Label" parent="JoinMenu/Control/FG/VBoxContainer"]
 layout_mode = 2
 text = "Join Lobby"
 label_settings = SubResource("LabelSettings_q3qm7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LobbyNote" type="Label" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+[node name="LobbyNote" type="Label" parent="JoinMenu/Control/FG/VBoxContainer"]
 custom_minimum_size = Vector2(0, 35.325)
 layout_mode = 2
 text = "Get a lobby ID from your friend or group in order to join. Copy and paste it into the box below and hit join to play."
@@ -196,29 +198,31 @@ label_settings = SubResource("LabelSettings_8vxip")
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Spacer" type="Control" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+[node name="Spacer" type="Control" parent="JoinMenu/Control/FG/VBoxContainer"]
 custom_minimum_size = Vector2(0, 8.925)
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="LobbyIdInput" type="LineEdit" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+[node name="LobbyIdInput" type="LineEdit" parent="JoinMenu/Control/FG/VBoxContainer"]
 layout_mode = 2
 placeholder_text = "lobby id"
 virtual_keyboard_type = 2
 clear_button_enabled = true
 
-[node name="JoinButton" type="Button" parent="JoinMenu/Control/BG/FG/VBoxContainer"]
+[node name="JoinButton" type="Button" parent="JoinMenu/Control/FG/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 8
 text = "Join Lobby!"
 
-[node name="Close" type="Button" parent="JoinMenu/Control/BG/FG"]
+[node name="Close" type="Button" parent="JoinMenu/Control/FG"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -27.0
-offset_bottom = 31.0
+offset_left = -23.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = 23.0
 grow_horizontal = 0
 text = "X"
 
@@ -232,38 +236,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FG" type="Panel" parent="Connecting/BG"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 95.0
-offset_top = 45.0
-offset_right = -95.0
-offset_bottom = -45.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="Connecting/BG/FG"]
+[node name="Label" type="Label" parent="Connecting/BG"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
+offset_left = -132.0
 offset_top = -11.5
-offset_right = 20.0
+offset_right = 132.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_jt85f")
+theme_override_font_sizes/font_size = 21
 text = "Connecting to Lobby..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="pressed" from="Join" to="JoinMenu" method="show"]
 [connection signal="pressed" from="Host" to="HostMenu" method="show"]
-[connection signal="pressed" from="HostMenu/Control/BG/FG/VBoxContainer/HostButton" to="." method="StartHosting"]
-[connection signal="pressed" from="HostMenu/Control/BG/FG/Close" to="HostMenu" method="hide"]
-[connection signal="pressed" from="JoinMenu/Control/BG/FG/VBoxContainer/JoinButton" to="." method="JoinLobby"]
-[connection signal="pressed" from="JoinMenu/Control/BG/FG/Close" to="JoinMenu" method="hide"]
+[connection signal="pressed" from="HostMenu/Control/FG/VBoxContainer/HostButton" to="." method="StartHosting"]
+[connection signal="pressed" from="HostMenu/Control/FG/Close" to="HostMenu" method="hide"]
+[connection signal="pressed" from="JoinMenu/Control/FG/VBoxContainer/JoinButton" to="." method="JoinLobby"]
+[connection signal="pressed" from="JoinMenu/Control/FG/Close" to="JoinMenu" method="hide"]

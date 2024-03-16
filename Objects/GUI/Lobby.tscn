@@ -5,20 +5,19 @@
 [ext_resource type="PackedScene" uid="uid://cqe22byepta7l" path="res://Objects/GUI/ListItems/PlayerlistItem.tscn" id="2_gfsbb"]
 [ext_resource type="Script" path="res://Objects/GUI/LobbySettingsManager.cs" id="4_aidtt"]
 [ext_resource type="PackedScene" uid="uid://cbems1yjd83uv" path="res://Objects/Dungeon/Dungeon.tscn" id="4_g3mek"]
+[ext_resource type="Texture2D" uid="uid://lsndqj45lp6d" path="res://Sprites/UI/button.png" id="6_aevcw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eslae"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y45bf"]
-bg_color = Color(0.419608, 0.0588235, 0.14902, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l3bfa"]
+texture = ExtResource("6_aevcw")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+modulate_color = Color(1, 0.686275, 0.647059, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_3scst"]
-font_size = 8
-
-[node name="Lobby" type="Control" node_paths=PackedStringArray("playerListContainer", "readyButton")]
+[node name="Lobby" type="Control" node_paths=PackedStringArray("playerListContainer", "readyButton", "leaveGameDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,17 +26,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_n7m4c")
 script = ExtResource("1_preq1")
-playerListContainer = NodePath("HSplitContainer/Playerlist/ScrollContainer/VBoxContainer")
+playerListContainer = NodePath("HSplitContainer/Playerlist/VBoxContainer/ScrollContainer/VBoxContainer")
 playerListItem = ExtResource("2_gfsbb")
 gameWorld = ExtResource("4_g3mek")
-readyButton = NodePath("ReadyUp")
+readyButton = NodePath("HSplitContainer/Playerlist/VBoxContainer/HBoxContainer/ReadyUp")
+leaveGameDialog = NodePath("HSplitContainer/Settings/LeaveLobbyConfirm")
 
 [node name="HSplitContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
@@ -45,72 +44,93 @@ alignment = 1
 [node name="Settings" type="Panel" parent="HSplitContainer" node_paths=PackedStringArray("gamemode", "mapSize", "livesCount", "infiniteLivesToggle")]
 custom_minimum_size = Vector2(273, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 script = ExtResource("4_aidtt")
-gamemode = NodePath("ScrollContainer/VBoxContainer/Gamemode/OptionButton")
-mapSize = NodePath("ScrollContainer/VBoxContainer/MapSize/Count")
-livesCount = NodePath("ScrollContainer/VBoxContainer/LivesCount/Count")
-infiniteLivesToggle = NodePath("ScrollContainer/VBoxContainer/LivesCount/Infinite")
+gamemode = NodePath("VBoxContainer/ScrollContainer/VBoxContainer/Gamemode/OptionButton")
+mapSize = NodePath("VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Count")
+livesCount = NodePath("VBoxContainer/ScrollContainer/VBoxContainer/LivesCount/Count")
+infiniteLivesToggle = NodePath("VBoxContainer/ScrollContainer/VBoxContainer/LivesCount/Infinite")
 
 [node name="ResetConfirm" type="ConfirmationDialog" parent="HSplitContainer/Settings"]
-title = ""
-initial_position = 2
-size = Vector2i(270, 80)
+transparent_bg = true
+mode = 3
+initial_position = 1
+size = Vector2i(200, 90)
 unresizable = true
 borderless = true
 always_on_top = true
 ok_button_text = "Reset"
 dialog_text = "Are you sure you want to reset all settings to their default values?"
+dialog_autowrap = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Settings"]
-custom_minimum_size = Vector2(19.035, 0)
+[node name="LeaveLobbyConfirm" type="ConfirmationDialog" parent="HSplitContainer/Settings"]
+transparent_bg = true
+mode = 3
+initial_position = 1
+size = Vector2i(200, 90)
+unresizable = true
+borderless = true
+always_on_top = true
+ok_button_text = "Leave"
+dialog_text = "...? What the fuck did you do."
+dialog_autowrap = true
+cancel_button_text = "Stay"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Settings"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
-horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Settings/ScrollContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Settings/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="Manage" type="PanelContainer" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Manage" type="PanelContainer" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(260, 24)
 layout_mode = 2
+size_flags_stretch_ratio = 0.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_eslae")
 
-[node name="ResetToDefaults" type="Button" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Manage"]
+[node name="ResetToDefaults" type="Button" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/Manage"]
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_y45bf")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l3bfa")
 text = "Reset"
 
-[node name="Gamemode" type="Panel" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(260, 24)
+[node name="Gamemode" type="Panel" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Gamemode"]
+[node name="Label" type="Label" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/Gamemode"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 4.0
-offset_top = -6.0
-offset_right = 44.0
-offset_bottom = 6.0
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 60.0
+offset_bottom = 6.5
 grow_vertical = 2
 text = "Gamemode:"
-label_settings = SubResource("LabelSettings_3scst")
 
-[node name="OptionButton" type="OptionButton" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Gamemode"]
+[node name="OptionButton" type="OptionButton" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/Gamemode"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -104.0
+offset_left = -105.0
 offset_top = -10.0
-offset_right = -2.0
+offset_right = -3.0
 offset_bottom = 10.0
 grow_horizontal = 0
 grow_vertical = 2
@@ -119,29 +139,35 @@ selected = 0
 popup/item_0/text = "FFA"
 popup/item_0/id = 0
 
-[node name="MapSize" type="Panel" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(260, 24)
+[node name="MapSize" type="Panel" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
+[node name="Label" type="Label" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 4.0
-offset_top = -6.0
-offset_right = 44.0
-offset_bottom = 6.0
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 60.0
+offset_bottom = 6.5
 grow_vertical = 2
 text = "Map Size:"
-label_settings = SubResource("LabelSettings_3scst")
 
-[node name="Count" type="SpinBox" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
-layout_mode = 0
-offset_left = 69.0
-offset_top = 2.0
-offset_right = 152.0
-offset_bottom = 22.0
+[node name="Count" type="SpinBox" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -158.0
+offset_top = -10.0
+offset_right = -75.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
 min_value = 3.0
 max_value = 20.0
 value = 3.0
@@ -149,152 +175,157 @@ rounded = true
 alignment = 1
 prefix = "Size:"
 
-[node name="Lar" type="Button" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
+[node name="Lar" type="Button" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -105.0
-offset_top = -9.0
-offset_right = -69.0
+offset_left = -73.0
+offset_top = -10.0
+offset_right = -53.0
 offset_bottom = 10.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/font_size = 7
-text = "Large"
+text = "L"
 
-[node name="Med" type="Button" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
+[node name="Med" type="Button" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -67.0
-offset_top = -9.0
-offset_right = -31.0
+offset_left = -48.0
+offset_top = -10.0
+offset_right = -28.0
 offset_bottom = 10.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/font_size = 7
-text = "Medium"
+text = "M"
 
-[node name="Small" type="Button" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize"]
+[node name="Small" type="Button" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -29.0
-offset_top = -9.5
-offset_right = -2.0
-offset_bottom = 9.5
+offset_left = -23.0
+offset_top = -10.0
+offset_right = -3.0
+offset_bottom = 10.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_font_sizes/font_size = 7
-text = "Small"
+text = "S"
 
-[node name="LivesCount" type="Panel" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(260, 24)
+[node name="LivesCount" type="Panel" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount"]
+[node name="Label" type="Label" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/LivesCount"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 4.0
-offset_top = -6.0
-offset_right = 44.0
-offset_bottom = 6.0
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
 grow_vertical = 2
 text = "Lives
 "
-label_settings = SubResource("LabelSettings_3scst")
 
-[node name="Count" type="SpinBox" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount"]
-layout_mode = 0
-offset_left = 116.0
-offset_top = 2.0
-offset_right = 199.0
-offset_bottom = 22.0
-theme = ExtResource("1_n7m4c")
+[node name="Count" type="SpinBox" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/LivesCount"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -165.0
+offset_top = -10.0
+offset_right = -82.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
 max_value = 99.0
 rounded = true
 alignment = 1
 prefix = "Count:"
 
-[node name="Infinite" type="CheckBox" parent="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount"]
+[node name="Infinite" type="CheckBox" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/LivesCount"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -59.0
+offset_left = -80.0
 offset_top = -12.0
-offset_right = -3.0
+offset_right = -4.0
 offset_bottom = 12.0
 grow_horizontal = 0
 grow_vertical = 2
+theme_override_font_sizes/font_size = 16
 text = "Infinite"
+
+[node name="CopyLobby" type="Button" parent="HSplitContainer/Settings/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Copy Lobby ID"
 
 [node name="Playerlist" type="Panel" parent="HSplitContainer"]
 custom_minimum_size = Vector2(273, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Playerlist"]
-custom_minimum_size = Vector2(19.035, 0)
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Playerlist"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
-horizontal_scroll_mode = 0
+alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Playerlist/ScrollContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Playerlist/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
 
-[node name="ReadyUp" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = -22.0
-offset_right = 44.0
-offset_bottom = -3.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 7
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Playerlist/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/Playerlist/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ReadyUp" type="Button" parent="HSplitContainer/Playerlist/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
 text = "Ready Up"
 
-[node name="LeaveGame" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -44.0
-offset_top = -22.0
-offset_right = -3.0
-offset_bottom = -3.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 7
+[node name="LeaveGame" type="Button" parent="HSplitContainer/Playerlist/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
 text = "Leave Game"
 
 [connection signal="confirmed" from="HSplitContainer/Settings/ResetConfirm" to="HSplitContainer/Settings" method="ResetSettings"]
-[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Manage/ResetToDefaults" to="HSplitContainer/Settings/ResetConfirm" method="show"]
-[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/Gamemode/OptionButton" to="HSplitContainer/Settings" method="UpdateValues"]
-[connection signal="value_changed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize/Count" to="HSplitContainer/Settings" method="UpdateValues"]
-[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize/Lar" to="HSplitContainer/Settings" method="MapSizePreset" binds= [10]]
-[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize/Med" to="HSplitContainer/Settings" method="MapSizePreset" binds= [6]]
-[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/MapSize/Small" to="HSplitContainer/Settings" method="MapSizePreset" binds= [4]]
-[connection signal="value_changed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount/Count" to="HSplitContainer/Settings" method="UpdateValues"]
-[connection signal="pressed" from="HSplitContainer/Settings/ScrollContainer/VBoxContainer/LivesCount/Infinite" to="HSplitContainer/Settings" method="UpdateValues"]
-[connection signal="pressed" from="ReadyUp" to="." method="ReadyButton"]
+[connection signal="confirmed" from="HSplitContainer/Settings/LeaveLobbyConfirm" to="." method="LeaveGame"]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/Manage/ResetToDefaults" to="HSplitContainer/Settings/ResetConfirm" method="show"]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/Gamemode/OptionButton" to="HSplitContainer/Settings" method="UpdateValues"]
+[connection signal="value_changed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Count" to="HSplitContainer/Settings" method="UpdateValues"]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Lar" to="HSplitContainer/Settings" method="MapSizePreset" binds= [10]]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Med" to="HSplitContainer/Settings" method="MapSizePreset" binds= [6]]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Small" to="HSplitContainer/Settings" method="MapSizePreset" binds= [4]]
+[connection signal="value_changed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/LivesCount/Count" to="HSplitContainer/Settings" method="UpdateValues"]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/LivesCount/Infinite" to="HSplitContainer/Settings" method="UpdateValues"]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/CopyLobby" to="." method="CopyLobbyId"]
+[connection signal="pressed" from="HSplitContainer/Playerlist/VBoxContainer/HBoxContainer/ReadyUp" to="." method="ReadyButton"]
+[connection signal="pressed" from="HSplitContainer/Playerlist/VBoxContainer/HBoxContainer/LeaveGame" to="." method="ShowLeaveGameConfirmation"]

@@ -336,11 +336,10 @@ _data = {
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dk8cw"]
 bg_color = Color(0, 0, 0, 1)
 
-[node name="LocalPlayer" type="CharacterBody2D" node_paths=PackedStringArray("playerSprite") groups=["CanLeaveRoom", "Player"]]
+[node name="LocalPlayer" type="CharacterBody2D" groups=["CanLeaveRoom", "Player"]]
 y_sort_enabled = true
 script = ExtResource("1_0pq10")
 speed = 160.0
-playerSprite = NodePath("Player")
 
 [node name="Player" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_ddmsq")

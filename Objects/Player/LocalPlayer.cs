@@ -7,7 +7,6 @@ public partial class LocalPlayer : CharacterBody2D
 	ushort pId;
 	[Export] float speed;
 	[Export] float speedChange = 7;
-	[Export] AnimatedSprite2D playerSprite;
 	float lastX = 0;
 	enum PlayerMoveState  { MOVING };
 	PlayerMoveState currentState;
@@ -40,6 +39,7 @@ public partial class LocalPlayer : CharacterBody2D
 
 		Velocity = vel;
 
+		/*
 		if (currentMoveDir.X != 0)
 			lastX = currentMoveDir.X;
 
@@ -56,13 +56,13 @@ public partial class LocalPlayer : CharacterBody2D
 				playerSprite.Play("Idle-L");
 			}
 		}
+		*/
 
 		MoveAndSlide();
 
 		Message posRot = Message.Create(MessageSendMode.Unreliable, NetworkManager.MessageIds.PlayerPosRot);
 		posRot.AddUShort(pId);
-		posRot.AddFloat(GlobalPosition.X);
-		posRot.AddFloat(GlobalPosition.Y);
+		posRot.AddVector2(GlobalPosition);
 		NetworkManager.I.Client.Send(posRot);
 	}
 }

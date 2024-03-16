@@ -4,8 +4,7 @@ using Godot;
 using Riptide;
 
 public partial class ProcGenGameManager : GameManager {
-    public static ProcGenGameManager I;
-    
+    public static ProcGenGameManager procGen;
     ushort localId;
     [Export] PackedScene localPlayer;
     [Export] PackedScene remotePlayer;
@@ -13,6 +12,7 @@ public partial class ProcGenGameManager : GameManager {
     public override void _EnterTree()
     {
         I = this;
+        procGen = this;
         NetworkManager.I.Client.ClientDisconnected += DisconnectPlayer;
         localId = NetworkManager.I.Client.Id;
 
@@ -21,6 +21,9 @@ public partial class ProcGenGameManager : GameManager {
 
     public override void StartGame()
     {
+        // Setup core data
+        base.StartGame();
+        
         // Start the dungeon generator and send clients map data
         DungeonGenerator.I.Start();
         DungeonGenerator.OnComplete += PostGen;
@@ -85,9 +88,9 @@ public partial class ProcGenGameManager : GameManager {
 
         PlayerObject player = new() {
             pId = id,
-            playerNode = I.AddPlayerNode(id)
+            playerNode = procGen.AddPlayerNode(id)
         };
-        player.isLocal = player.pId == I.localId;
+        player.isLocal = player.pId == procGen.localId;
 
         player.playerNode.GlobalPosition = pos;
 

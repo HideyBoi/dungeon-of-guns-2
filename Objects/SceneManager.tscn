@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6vjfshojwy0s"]
+[gd_scene load_steps=8 format=3 uid="uid://c6vjfshojwy0s"]
 
 [ext_resource type="Script" path="res://Objects/SceneManager.cs" id="1_7cc4k"]
+[ext_resource type="FontFile" uid="uid://yklo8ih7un4s" path="res://Sprites/UI/fonts/vhs.ttf" id="2_kas4o"]
 
 [sub_resource type="Animation" id="Animation_xpdvl"]
 resource_name = "FadeIn"
@@ -66,6 +67,7 @@ _data = {
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_17r65"]
+font = ExtResource("2_kas4o")
 font_size = 12
 
 [node name="SceneManager" type="Node" node_paths=PackedStringArray("loadingScreenAnimator", "loadingScreenVis")]
@@ -95,10 +97,10 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 14.0
-offset_top = -34.0
-offset_right = 89.0
-offset_bottom = -11.0
+offset_left = 7.0
+offset_top = -29.0
+offset_right = 127.0
+offset_bottom = -6.0
 grow_vertical = 0
 text = "Loading..."
 label_settings = SubResource("LabelSettings_17r65")

@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://de64ffignjl8f"]
+
+[ext_resource type="Script" path="res://Objects/InventoryItemObject.cs" id="1_blsai"]
+[ext_resource type="Theme" uid="uid://dd8pxex3rwxau" path="res://DefaultTheme.tres" id="3_r52ut"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jubq2"]
+radius = 5.0
+height = 12.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_qgmp4"]
+font_size = 6
+
+[node name="InventoryItemObject" type="CharacterBody2D" node_paths=PackedStringArray("itemSprite", "itemText")]
+y_sort_enabled = true
+collision_layer = 2
+script = ExtResource("1_blsai")
+itemSprite = NodePath("Sprite2D")
+itemText = NodePath("Labels/Name")
+speed = 4.0
+deceleration = 8.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Pickup"]]
+position = Vector2(0, -5)
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_jubq2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+offset = Vector2(0, -6)
+metadata/_aseprite_wizard_config_ = {
+"keep_anim_length": false,
+"layer": "",
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"op_exp": false,
+"player": "",
+"source": ""
+}
+
+[node name="Labels" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0)
+top_level = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -49.0
+offset_top = -26.0
+offset_right = 49.0
+theme = ExtResource("3_r52ut")
+metadata/_edit_lock_ = true
+
+[node name="Name" type="Label" parent="Labels"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 18.0
+grow_horizontal = 2
+text = "GunName"
+label_settings = SubResource("LabelSettings_qgmp4")
+horizontal_alignment = 1

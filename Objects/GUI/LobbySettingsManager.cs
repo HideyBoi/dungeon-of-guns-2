@@ -57,7 +57,7 @@ public partial class LobbySettingsManager : Panel
 	public void ResetSettings() {
 		GD.Print("Resetting game settings");
 		ConfigManager.CreateGameruleFile();
-		gamerules = ConfigManager.LoadGamerulePreset();
+		gamerules = ConfigManager.LoadGamerulePreset(forceNew: true);
 
 		Load();
 	}

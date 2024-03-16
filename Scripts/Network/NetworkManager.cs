@@ -24,7 +24,10 @@ partial class NetworkManager : Node {
 		MapData,
 		MapDataCompleted,
 		SpawnNewPlayer,
-		PlayerPosRot
+		PlayerPosRot,
+		ItemSpawn,
+		ItemRemove,
+		ItemMove
 	}
 
 	public const byte MessageHandlerGroupId = 206;
@@ -49,7 +52,7 @@ partial class NetworkManager : Node {
 			return;
 		}
 
-		RiptideLogger.Initialize(GD.Print, true);
+		RiptideLogger.Initialize(GD.Print, false);
 
 
 		SteamServer steamServer = new SteamServer();
