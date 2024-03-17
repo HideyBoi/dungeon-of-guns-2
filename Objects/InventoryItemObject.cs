@@ -13,6 +13,7 @@ public partial class InventoryItemObject : CharacterBody2D
 	public InventoryItem Item;
 	[Export] Sprite2D itemSprite;
 	[Export] Label itemText;
+	[Export] Control popupRoot;
 	[Export] float speed;
 	[Export] float deceleration;
 
@@ -73,6 +74,24 @@ public partial class InventoryItemObject : CharacterBody2D
 		}
     }
 
+	SceneTreeTimer timeToEndInteract;
+
+	public void Interact() {
+		if (timeToEndInteract == null) {
+			timeToEndInteract = GetTree().CreateTimer(0.6f);
+			timeToEndInteract.Timeout += EndInteraction;
+		}
+		popupRoot.Modulate = Colors.White;
+		timeToEndInteract.TimeLeft = 0.4f;
+	}
+
+	void EndInteraction() {
+		timeToEndInteract = null;
+
+		Tween tween = CreateTween();
+		tween.TweenProperty(popupRoot, "modulate", Colors.Transparent, 0.2f);
+	}
+
 	void SendSpawn() {
 		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.ItemSpawn);
 
@@ -90,6 +109,18 @@ public partial class InventoryItemObject : CharacterBody2D
 		}
 
 		NetworkManager.I.Client.Send(msg);
+	}
+
+	public void Pickup() {
+		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.ItemRemove);
+
+		msg.AddUShort(thisId);
+		msg.AddUShort(Item.itemId);
+
+		NetworkManager.I.Client.Send(msg);
+		
+		// TODO: Play a sound or some shit lol
+		QueueFree();
 	}
 
     public override void _ExitTree()

@@ -22,9 +22,14 @@ activeTotalAmmoLabel = NodePath("UI/General/VBoxContainer/Active/TotalAmmo")
 normalUi = NodePath("UI/General")
 bigUi = NodePath("UI/BigScreen")
 itemObject = ExtResource("2_pcjo5")
+reach = 45.0
 itemLayerMask = 3
 fistIcon = ExtResource("3_fvpex")
 debug = true
+debugWeapon1 = 0
+debugWeapon2 = 1
+debugWeapon3 = 0
+debugWeapon4 = 1
 
 [node name="UI" type="CanvasLayer" parent="."]
 

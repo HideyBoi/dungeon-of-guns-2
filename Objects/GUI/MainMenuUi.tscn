@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dqyj31xhcdcst"]
+[gd_scene load_steps=9 format=3 uid="uid://dqyj31xhcdcst"]
 
 [ext_resource type="Theme" uid="uid://dd8pxex3rwxau" path="res://DefaultTheme.tres" id="1_0wxf2"]
 [ext_resource type="Script" path="res://Objects/GUI/MainMenuUi.cs" id="1_6ubcb"]
@@ -13,6 +13,9 @@ font_size = 21
 [sub_resource type="LabelSettings" id="LabelSettings_8vxip"]
 font = ExtResource("5_0bdx3")
 font_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j4pf7"]
+bg_color = Color(0.0784314, 0.0784314, 0.0784314, 0.784314)
 
 [node name="MainMenuUi" type="Control" node_paths=PackedStringArray("maxPlayersSelector", "lobbyPrivacySelector", "lobbyIdInput", "connectingScreen")]
 layout_mode = 3
@@ -235,6 +238,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_j4pf7")
 
 [node name="Label" type="Label" parent="Connecting/BG"]
 layout_mode = 1

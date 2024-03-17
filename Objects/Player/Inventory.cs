@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Reflection;
 
 public partial class Inventory : Node2D
@@ -22,7 +23,10 @@ public partial class Inventory : Node2D
 
 	[ExportCategory("Debug")]
 	[Export] bool debug = false;
-	[Export] int debugWeapon1;
+	[Export] int debugWeapon1 = -1;
+	[Export] int debugWeapon2 = -1;
+	[Export] int debugWeapon3 = -1;
+	[Export] int debugWeapon4 = -1;
 	
 	int weaponsIndex = 0;
 	public Weapon[] weapons = new Weapon[4];
@@ -31,7 +35,14 @@ public partial class Inventory : Node2D
     public override void _Ready()
     {
 		if (debug) {
-			weapons[0] = (Weapon)GameManager.I.possibleItems[debugWeapon1].Duplicate();
+			if (debugWeapon1 != -1)
+				weapons[0] = (Weapon)GameManager.I.possibleItems[debugWeapon1].Duplicate();
+			if (debugWeapon2 != -1)
+				weapons[1] = (Weapon)GameManager.I.possibleItems[debugWeapon2].Duplicate();
+			if (debugWeapon3 != -1)
+				weapons[2] = (Weapon)GameManager.I.possibleItems[debugWeapon3].Duplicate();
+			if (debugWeapon4 != -1)
+				weapons[3] = (Weapon)GameManager.I.possibleItems[debugWeapon4].Duplicate();
 		}
 
 		// TODO: Initialize ammo counts via Gamerules
@@ -89,9 +100,28 @@ public partial class Inventory : Node2D
 			Node2D collider = (Node2D)result["collider"];
 			if (collider is InventoryItemObject) {
 				InventoryItemObject itemObject = (InventoryItemObject)collider;
-				GD.Print(itemObject.Item.itemName);
+				itemObject.Interact();
+
+				if (Input.IsActionJustPressed("interact")) {
+					PickupWeapon(itemObject);
+				}
 			}
 		}
+	}
+
+	void PickupWeapon(InventoryItemObject itemObject) {
+		Weapon weapon = (Weapon)itemObject.Item;
+
+		if (weapons[weaponsIndex] == null) {
+			weapons[weaponsIndex] = weapon;
+		} else {
+			DropWeapon(weaponsIndex);
+			weapons[weaponsIndex] = weapon;
+		}
+
+		itemObject.Pickup();
+
+		UpdateWeaponUI();
 	}
 
     public void DropWeapon(int indexToDrop) {

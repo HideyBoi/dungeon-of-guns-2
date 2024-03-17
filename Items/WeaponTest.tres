@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("1_0egus")
 damage = 0
-currentAmmo = 0
+currentAmmo = 32
 maxAmmo = 0
 rarity = 0
 ammoType = 0
-itemName = "Big fucking gun"
+itemName = "Big freaking gun"
 itemSprite = ExtResource("1_k72rt")
