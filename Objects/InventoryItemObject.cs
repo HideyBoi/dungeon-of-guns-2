@@ -101,6 +101,7 @@ public partial class InventoryItemObject : CharacterBody2D
 		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.ItemSpawn);
 
 		msg.AddUShort(localId);
+		msg.AddUShort(thisId);
 		msg.AddVector2(GlobalPosition);
 		msg.AddVector2(Velocity);
 
@@ -125,11 +126,14 @@ public partial class InventoryItemObject : CharacterBody2D
 			itemObject = ResourceLoader.Load<PackedScene>("res://Objects/InventoryItemObject.tscn");
 
 		ushort ownerId = msg.GetUShort();
+		ushort currentId = msg.GetUShort();
 		Vector2 pos = msg.GetVector2();
 		Vector2 vel = msg.GetVector2();
 
 		InventoryItemObject inventoryItemObject = itemObject.Instantiate<InventoryItemObject>();
 		inventoryItemObject.GlobalPosition = pos;
+		inventoryItemObject.thisId = currentId;
+		objects.Add(currentId, inventoryItemObject);
 
 		InventoryItem item = null;
 
