@@ -46,10 +46,9 @@ public class ConfigManager
 		}
 
 		if (forceNew || currentGamerules == null) {
-			currentGamerules = new();
+			currentGamerules = new();	
+			currentGamerules = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(gamerulesPath));
 		}
-
-		currentGamerules = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(gamerulesPath));
 
 		return currentGamerules;
 	}
