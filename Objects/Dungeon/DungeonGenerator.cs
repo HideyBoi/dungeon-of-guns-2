@@ -312,8 +312,8 @@ public partial class DungeonGenerator : Node2D
 		Message done = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.MapDataCompleted);
 		done.AddUShort(NetworkManager.I.Client.Id);
 		NetworkManager.I.Client.Send(done);
-
-		Minimap.I.Assemble();
+		if (Minimap.I != null)
+			Minimap.I.Assemble();
 	}
 
 	public Dictionary<ushort, bool> finishedPlayers;
