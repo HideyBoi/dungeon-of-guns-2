@@ -23,7 +23,7 @@ public partial class InventoryItemObject : CharacterBody2D
 	ItemType itemType;
 
 
-	public void Setup(InventoryItem item, ushort owner, Vector2 spawnVelocity, float impulse = 1) {
+	public void Setup(InventoryItem item, ushort owner, Vector2 spawnVelocity, float impulse = 1, bool fromNetwork = false) {
 		localId = NetworkManager.I.Client.Id;
 		ownerId = owner;
 		Velocity = spawnVelocity * speed * impulse;
@@ -37,6 +37,8 @@ public partial class InventoryItemObject : CharacterBody2D
 			
 			foundId = !objects.TryGetValue(thisId, out _);
 		}
+
+		objects.Add(thisId, this);
 
 		Item = item;
 		itemSprite.Texture = Item.itemSprite;
@@ -53,6 +55,9 @@ public partial class InventoryItemObject : CharacterBody2D
 				GD.Print($"Item {item.itemName} did not match any items.");
 				break;
 		};
+
+		if (!fromNetwork)
+			SendSpawn();
 	}
 
 	Vector2 lastPos;
@@ -95,6 +100,7 @@ public partial class InventoryItemObject : CharacterBody2D
 	void SendSpawn() {
 		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.ItemSpawn);
 
+		msg.AddUShort(localId);
 		msg.AddVector2(GlobalPosition);
 		msg.AddVector2(Velocity);
 
@@ -109,6 +115,37 @@ public partial class InventoryItemObject : CharacterBody2D
 		}
 
 		NetworkManager.I.Client.Send(msg);
+
+		// TODO: Sound
+	}
+	
+	[MessageHandler((ushort)NetworkManager.MessageIds.ItemSpawn)]
+	public static void ReceiveSpawn(Message msg) {
+		if (itemObject == null)
+			itemObject = ResourceLoader.Load<PackedScene>("res://Objects/InventoryItemObject.tscn");
+
+		ushort ownerId = msg.GetUShort();
+		Vector2 pos = msg.GetVector2();
+		Vector2 vel = msg.GetVector2();
+
+		InventoryItemObject inventoryItemObject = itemObject.Instantiate<InventoryItemObject>();
+		inventoryItemObject.GlobalPosition = pos;
+
+		InventoryItem item = null;
+
+		int itemType = msg.GetInt();
+		switch ((ItemType)itemType)
+		{
+			case ItemType.NONE:
+				break;
+			case ItemType.WEAPON:
+				item = msg.GetWeapon();
+				break;
+		}
+
+		inventoryItemObject.Setup(item, ownerId, vel, fromNetwork: true);
+		
+		// TODO: Sound
 	}
 
 	public void Pickup() {
@@ -118,9 +155,20 @@ public partial class InventoryItemObject : CharacterBody2D
 		msg.AddUShort(Item.itemId);
 
 		NetworkManager.I.Client.Send(msg);
-		
+
 		// TODO: Play a sound or some shit lol
 		QueueFree();
+	}
+
+	[MessageHandler((ushort)NetworkManager.MessageIds.ItemRemove)]
+	public static void ItemPickedUp(Message msg) {
+		ushort objectId = msg.GetUShort();
+		ushort itemId = msg.GetUShort();
+
+		objects[objectId].QueueFree();
+		objects.Remove(objectId);
+
+		// Todo, play pickup sound
 	}
 
     public override void _ExitTree()
