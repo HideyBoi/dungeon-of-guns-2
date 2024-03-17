@@ -133,6 +133,10 @@ public partial class InventoryItemObject : CharacterBody2D
 		InventoryItemObject inventoryItemObject = itemObject.Instantiate<InventoryItemObject>();
 		inventoryItemObject.GlobalPosition = pos;
 		inventoryItemObject.thisId = currentId;
+		
+		if (objects == null)
+			objects = new();
+
 		objects.Add(currentId, inventoryItemObject);
 
 		InventoryItem item = null;
