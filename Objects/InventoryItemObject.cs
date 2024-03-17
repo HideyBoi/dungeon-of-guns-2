@@ -145,6 +145,8 @@ public partial class InventoryItemObject : CharacterBody2D
 
 		inventoryItemObject.Setup(item, ownerId, vel, fromNetwork: true);
 		
+		GameManager.I.AddChild(inventoryItemObject);
+
 		// TODO: Sound
 	}
 
