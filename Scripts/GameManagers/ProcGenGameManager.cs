@@ -17,6 +17,8 @@ public partial class ProcGenGameManager : GameManager {
         localId = NetworkManager.I.Client.Id;
 
         NetworkManager.CurrentState = NetworkManager.GameState.IN_GAME;
+
+        SetupItems();
     }
 
     public override void StartGame()

@@ -17,6 +17,10 @@ public partial class GameManager : Node2D {
     public static Dictionary<ushort, PlayerObject> PlayingPlayers = new();
 
     public virtual void StartGame() {
+        SetupItems();
+    }
+
+    public void SetupItems() {
         // For network syncing 
         for (int i = 0; i < possibleItems.Length; i++)
         {
