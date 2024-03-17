@@ -28,17 +28,19 @@ public partial class InventoryItemObject : CharacterBody2D
 		ownerId = owner;
 		Velocity = spawnVelocity * speed * impulse;
 
-		if (objects == null)
-			objects = new();
+		if (!fromNetwork) {
+			if (objects == null)
+				objects = new();
 
-		bool foundId = false;
-		while(!foundId) {
-			thisId = (ushort)Tools.RandIntRange(0, 69696969);
-			
-			foundId = !objects.TryGetValue(thisId, out _);
+			bool foundId = false;
+			while(!foundId) {
+				thisId = (ushort)Tools.RandIntRange(0, 69696969);
+				
+				foundId = !objects.TryGetValue(thisId, out _);
+			}
+
+			objects.Add(thisId, this);
 		}
-
-		objects.Add(thisId, this);
 
 		Item = item;
 		itemSprite.Texture = Item.itemSprite;
@@ -133,7 +135,7 @@ public partial class InventoryItemObject : CharacterBody2D
 		InventoryItemObject inventoryItemObject = itemObject.Instantiate<InventoryItemObject>();
 		inventoryItemObject.GlobalPosition = pos;
 		inventoryItemObject.thisId = currentId;
-		
+
 		if (objects == null)
 			objects = new();
 
