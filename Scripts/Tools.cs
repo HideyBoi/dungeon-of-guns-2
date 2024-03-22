@@ -36,9 +36,11 @@ public static class Tools {
 	}
 
 	public static Message AddAmmo(this Message msg, Ammo ammo) {
+		ushort ammoId = ammo.itemId;
 		int ammoType = (int)ammo.ammoType;
 		int count = ammo.count;
 
+		msg.AddUShort(ammoId);
 		msg.AddInt(ammoType);
 		msg.AddInt(count);
 
