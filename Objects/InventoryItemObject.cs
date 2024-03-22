@@ -161,6 +161,9 @@ public partial class InventoryItemObject : CharacterBody2D
 			case ItemType.WEAPON:
 				item = msg.GetWeapon();
 				break;
+			case ItemType.AMMO:
+				item = msg.GetAmmo();
+				break;
 		}
 
 		inventoryItemObject.Setup(item, ownerId, vel, fromNetwork: true);
