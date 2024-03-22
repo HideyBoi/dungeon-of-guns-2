@@ -35,6 +35,28 @@ public static class Tools {
 		return newWeapon;
 	}
 
+	public static Message AddAmmo(this Message msg, Ammo ammo) {
+		int ammoType = (int)ammo.ammoType;
+		int count = ammo.count;
+
+		msg.AddInt(ammoType);
+		msg.AddInt(count);
+
+		return msg;
+	}
+
+	public static Ammo GetAmmo(this Message msg) {
+		ushort ammoId = msg.GetUShort();
+		Weapon.AmmoType ammoType = (Weapon.AmmoType)msg.GetInt();
+		int ammoCount = msg.GetInt();
+
+		Ammo ammo = (Ammo)GameManager.I.possibleItems[ammoId].Duplicate();
+		ammo.ammoType = ammoType;
+		ammo.count = ammoCount;
+
+		return ammo;
+	}
+
 	public static Message AddVector2(this Message msg, Vector2 v2) {
 		return msg.AddFloat(v2.X).AddFloat(v2.Y);
 	}

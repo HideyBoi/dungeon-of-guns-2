@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbems1yjd83uv"]
+[gd_scene load_steps=13 format=3 uid="uid://cbems1yjd83uv"]
 
 [ext_resource type="PackedScene" uid="uid://tsfpfpuarod2" path="res://Objects/Player/LocalPlayer.tscn" id="2_u4hvx"]
 [ext_resource type="PackedScene" uid="uid://b7v3whibaf6h7" path="res://Objects/Dungeon/Rooms/Test1.tscn" id="3_4qvg7"]
@@ -6,8 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://baanajs4vvkkc" path="res://Objects/Dungeon/Rooms/Test2.tscn" id="4_sdsvx"]
 [ext_resource type="Script" path="res://Scripts/GameManagers/ProcGenGameManager.cs" id="4_us62j"]
 [ext_resource type="PackedScene" uid="uid://da30y5csi1c1o" path="res://Objects/Player/RemotePlayer.tscn" id="6_hh8bt"]
-[ext_resource type="Resource" uid="uid://bppgo2pg3o6m1" path="res://Items/WeaponTest.tres" id="7_vl7ik"]
-[ext_resource type="Resource" uid="uid://ddquf86xqetcm" path="res://Items/literally an SMG or smth.tres" id="8_xgdoy"]
+[ext_resource type="Resource" uid="uid://bppgo2pg3o6m1" path="res://Items/Weapons/WeaponTest.tres" id="7_vl7ik"]
+[ext_resource type="Resource" uid="uid://dgg3hhcapyvra" path="res://Items/Ammo/LightAmmo.tres" id="7_xgqyu"]
+[ext_resource type="Resource" uid="uid://c7yp2octyn1ax" path="res://Items/Ammo/MediumAmmo.tres" id="8_6nlhb"]
+[ext_resource type="Resource" uid="uid://ddquf86xqetcm" path="res://Items/Weapons/literally an SMG or smth.tres" id="8_xgdoy"]
+[ext_resource type="Resource" uid="uid://n32xv2uslnjw" path="res://Items/Ammo/HeavyAmmo.tres" id="9_nj3yi"]
+[ext_resource type="Resource" uid="uid://crl04fal4hftl" path="res://Items/Ammo/ShellAmmo.tres" id="10_t0qm7"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -24,4 +28,4 @@ y_sort_enabled = true
 script = ExtResource("4_us62j")
 localPlayer = ExtResource("2_u4hvx")
 remotePlayer = ExtResource("6_hh8bt")
-possibleItems = Array[Resource]([ExtResource("7_vl7ik"), ExtResource("8_xgdoy")])
+possibleItems = Array[Resource]([ExtResource("7_xgqyu"), ExtResource("8_6nlhb"), ExtResource("9_nj3yi"), ExtResource("10_t0qm7"), ExtResource("8_xgdoy"), ExtResource("7_vl7ik")])

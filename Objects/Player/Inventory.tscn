@@ -26,10 +26,10 @@ reach = 45.0
 itemLayerMask = 3
 fistIcon = ExtResource("3_fvpex")
 debug = true
-debugWeapon1 = 0
-debugWeapon2 = 1
-debugWeapon3 = 0
-debugWeapon4 = 1
+debugWeapon1 = 4
+debugWeapon2 = 5
+debugWeapon3 = 4
+debugWeapon4 = 5
 
 [node name="UI" type="CanvasLayer" parent="."]
 

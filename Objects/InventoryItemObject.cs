@@ -8,7 +8,7 @@ public partial class InventoryItemObject : CharacterBody2D
 	public static Dictionary<ushort, InventoryItemObject> objects;
 	static PackedScene itemObject;
 
-	enum ItemType { NONE, WEAPON, MEDICAL, ASSIST }
+	enum ItemType { NONE, WEAPON, AMMO, MEDICAL, ASSIST }
 
 	public InventoryItem Item;
 	[Export] Sprite2D itemSprite;
@@ -51,6 +51,11 @@ public partial class InventoryItemObject : CharacterBody2D
 				itemType = ItemType.WEAPON;
 				GD.Print($"Item {item.itemName} is a weapon.");
 				itemText.Text = $"{weapon.itemName}\n{weapon.currentAmmo} - {Weapon.GetRarityText(weapon.rarity)}";
+				break;
+			case Ammo ammo:
+				itemType = ItemType.AMMO;
+				GD.Print($"Item {item.itemName} is ammo.");
+				itemText.Text = $"{ammo.itemName}\n{ammo.count}";
 				break;
 			default:
 				itemType = ItemType.NONE;
@@ -111,9 +116,13 @@ public partial class InventoryItemObject : CharacterBody2D
 		switch (itemType)
 		{
 			case ItemType.NONE:
+				msg.AddInt(Item.itemId);
 				break;
 			case ItemType.WEAPON:
 				msg.AddWeapon((Weapon)Item);
+				break;
+			case ItemType.AMMO:
+				msg.AddAmmo((Ammo)Item);
 				break;
 		}
 
@@ -147,6 +156,7 @@ public partial class InventoryItemObject : CharacterBody2D
 		switch ((ItemType)itemType)
 		{
 			case ItemType.NONE:
+				item = (InventoryItem)GameManager.I.possibleItems[msg.GetInt()].Duplicate();
 				break;
 			case ItemType.WEAPON:
 				item = msg.GetWeapon();

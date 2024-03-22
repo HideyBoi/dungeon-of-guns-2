@@ -84,6 +84,20 @@ public partial class Inventory : Node2D
 		if (Input.IsActionJustReleased("drop_current_weapon")) {
 			DropWeapon(weaponsIndex);
 		}
+
+		if (Input.IsActionJustPressed("debug1")) {
+			InventoryItemObject obj = itemObject.Instantiate<InventoryItemObject>();
+			obj.GlobalPosition = GlobalPosition;
+
+			Ammo medium = (Ammo)GameManager.I.possibleItems[1].Duplicate();
+			medium.count = ammoCounts[1];
+			ammoCounts[1] = 0;
+
+			obj.Setup(medium, NetworkManager.I.Client.Id, Vector2.Down, 1);
+			GameManager.I.AddChild(obj);
+
+			UpdateWeaponUI();
+		}
     }
 
     public override void _PhysicsProcess(double delta)
@@ -103,20 +117,41 @@ public partial class Inventory : Node2D
 				itemObject.Interact();
 
 				if (Input.IsActionJustPressed("interact")) {
-					PickupWeapon(itemObject);
+					PickupItem(itemObject);
 				}
 			}
 		}
 	}
 
-	void PickupWeapon(InventoryItemObject itemObject) {
-		Weapon weapon = (Weapon)itemObject.Item;
+	void PickupItem(InventoryItemObject itemObject) {
+		InventoryItem item = itemObject.Item;
 
-		if (weapons[weaponsIndex] == null) {
-			weapons[weaponsIndex] = weapon;
-		} else {
-			DropWeapon(weaponsIndex);
-			weapons[weaponsIndex] = weapon;
+		switch (item) {
+			case Weapon weapon:
+				if (weapons[weaponsIndex] == null) {
+					weapons[weaponsIndex] = weapon;
+				} else {
+					DropWeapon(weaponsIndex);
+					weapons[weaponsIndex] = weapon;
+				}
+				break;
+			case Ammo ammo:
+				switch (ammo.ammoType)
+				{
+					case Weapon.AmmoType.Light:
+						ammoCounts[0] += ammo.count;
+						break;
+					case Weapon.AmmoType.Medium:
+						ammoCounts[1] += ammo.count;
+						break;
+					case Weapon.AmmoType.Heavy:
+						ammoCounts[2] += ammo.count;
+						break;
+					case Weapon.AmmoType.Shell:
+						ammoCounts[3] += ammo.count;
+						break;
+				}
+				break;
 		}
 
 		itemObject.Pickup();
@@ -143,7 +178,7 @@ public partial class Inventory : Node2D
 		UpdateWeaponUI();
 	}
 
-	void UpdateWeaponUI () {
+	public void UpdateWeaponUI () {
 		int currentPos = weaponsIndex;
 		
 		for (int i = 0; i < 4; i++)
