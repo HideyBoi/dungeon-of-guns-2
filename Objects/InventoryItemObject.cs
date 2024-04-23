@@ -8,7 +8,7 @@ public partial class InventoryItemObject : CharacterBody2D
 	public static Dictionary<ushort, InventoryItemObject> objects;
 	static PackedScene itemObject;
 
-	enum ItemType { NONE, WEAPON, AMMO, MEDICAL, ASSIST }
+	enum ItemType { NONE, WEAPON, AMMO, MEDICAL, GRENADE }
 
 	public InventoryItem Item;
 	[Export] Sprite2D itemSprite;
@@ -49,17 +49,25 @@ public partial class InventoryItemObject : CharacterBody2D
 		{
 			case Weapon weapon:
 				itemType = ItemType.WEAPON;
-				GD.Print($"Item {item.itemName} is a weapon.");
 				itemText.Text = $"{weapon.itemName}\n{weapon.currentAmmo} - {Weapon.GetRarityText(weapon.rarity)}";
 				break;
 			case Ammo ammo:
 				itemType = ItemType.AMMO;
-				GD.Print($"Item {item.itemName} is ammo.");
 				itemText.Text = $"{ammo.itemName}\n{ammo.count}";
+				break;
+			case Healable heal:
+				itemType = ItemType.MEDICAL;
+				itemText.Text = $"{heal.itemName}\n{heal.count} | +{heal.healAmount}hp";
+				// TODO: Calculate new heal value based on gamerule
+				break;
+			case Grenade grenade:
+				itemType = ItemType.GRENADE;
+				itemText.Text = $"{grenade.itemName}\n{grenade.count}";
 				break;
 			default:
 				itemType = ItemType.NONE;
-				GD.Print($"Item {item.itemName} did not match any items.");
+				itemText.Text = $"{item.itemName}\n/!\\ Unknown ItemType.";
+				GD.PushWarning($"Item {item.itemName} did not match any supported classes.");
 				break;
 		};
 
@@ -124,6 +132,12 @@ public partial class InventoryItemObject : CharacterBody2D
 			case ItemType.AMMO:
 				msg.AddAmmo((Ammo)Item);
 				break;
+			case ItemType.MEDICAL:
+				msg.AddHealable((Healable)Item);
+				break;
+			case ItemType.GRENADE:
+				msg.AddGrenade((Grenade)Item);
+				break;
 		}
 
 		NetworkManager.I.Client.Send(msg);
@@ -163,6 +177,12 @@ public partial class InventoryItemObject : CharacterBody2D
 				break;
 			case ItemType.AMMO:
 				item = msg.GetAmmo();
+				break;
+			case ItemType.MEDICAL:
+				item = msg.GetHealable();
+				break;
+			case ItemType.GRENADE:
+				item = msg.GetGrenade();
 				break;
 		}
 

@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://8ndgjgs8fqbe"]
+
+[ext_resource type="Script" path="res://IntroScene.cs" id="1_yeksa"]
+[ext_resource type="PackedScene" uid="uid://c6vjfshojwy0s" path="res://Objects/SceneManager.tscn" id="2_mften"]
+
+[node name="IntroScene" type="Node2D"]
+script = ExtResource("1_yeksa")
+sceneManager = ExtResource("2_mften")

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="DungeonOfGuns"
 config/version="0.0.0"
-run/main_scene="res://Objects/SceneManager.tscn"
+run/main_scene="res://Intro.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://Sprites/ButtonPrompts/Switch/Switch_X.png"
@@ -29,6 +29,7 @@ NetworkManager="*res://Scripts/Network/NetworkManager.cs"
 SteamManager="*res://Scripts/Network/SteamManager.cs"
 SteamLobbyManager="*res://Scripts/Network/SteamLobbyManager.cs"
 MainThreadInvoker="*res://Scripts/MainThreadInvoker.cs"
+DiscordHandler="*res://Scripts/DiscordHandler.cs"
 
 [display]
 

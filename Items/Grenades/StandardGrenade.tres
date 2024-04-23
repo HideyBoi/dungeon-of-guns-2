@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bdrsve1vg10cu"]
+
+[ext_resource type="Texture2D" uid="uid://dnrruuo8cs8xp" path="res://Sprites/Items/Throwables/Grenade.png" id="1_jkg1r"]
+[ext_resource type="Script" path="res://Scripts/Inventory/Grenade.cs" id="1_ogv6m"]
+
+[resource]
+script = ExtResource("1_ogv6m")
+count = 0
+itemId = 0
+itemName = "Grenade"
+itemSprite = ExtResource("1_jkg1r")

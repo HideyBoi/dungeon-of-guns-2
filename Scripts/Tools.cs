@@ -29,7 +29,7 @@ public static class Tools {
 		ushort weaponId = msg.GetUShort();
 		int currentAmmo = msg.GetInt();
 
-		Weapon newWeapon = (Weapon)GameManager.I.possibleItems[weaponId].Duplicate();
+		Weapon newWeapon = (Weapon)GameManager.GetNewInventoryItem(weaponId);
 		newWeapon.currentAmmo = currentAmmo;
 		
 		return newWeapon;
@@ -52,11 +52,56 @@ public static class Tools {
 		Weapon.AmmoType ammoType = (Weapon.AmmoType)msg.GetInt();
 		int ammoCount = msg.GetInt();
 
-		Ammo ammo = (Ammo)GameManager.I.possibleItems[ammoId].Duplicate();
+		Ammo ammo = (Ammo)GameManager.GetNewInventoryItem(ammoId);
 		ammo.ammoType = ammoType;
 		ammo.count = ammoCount;
 
 		return ammo;
+	}
+
+	public static Message AddHealable(this Message msg, Healable heal) {
+		ushort healId = heal.itemId;
+		int itemCount = heal.count;
+		float healAmount = heal.healAmount;
+
+		msg.AddUShort(healId);
+		msg.AddInt(itemCount);
+		msg.AddFloat(healAmount);
+
+		return msg;
+	}
+
+	public static Healable GetHealable(this Message msg) {
+		ushort healId = msg.GetUShort();
+		int itemCount = msg.GetInt();
+		float healAmount = msg.GetFloat();
+
+		Healable healable = (Healable)GameManager.GetNewInventoryItem(healId);
+		healable.count = itemCount;
+		healable.healAmount = healAmount;
+
+		return healable;
+	}
+
+	public static Message AddGrenade(this Message msg, Grenade grenade) {
+		// TODO: Grenade
+		ushort grenadeId = grenade.itemId;
+		int itemCount = grenade.count;
+
+		msg.AddUShort(grenadeId);
+		msg.AddInt(itemCount);
+
+		return msg;
+	}
+
+	public static Grenade GetGrenade(this Message msg) {
+		ushort grenadeId = msg.GetUShort();
+		int itemCount = msg.GetInt();
+
+		Grenade grenade = (Grenade)GameManager.GetNewInventoryItem(grenadeId);
+		grenade.count = itemCount;
+
+		return grenade;
 	}
 
 	public static Message AddVector2(this Message msg, Vector2 v2) {

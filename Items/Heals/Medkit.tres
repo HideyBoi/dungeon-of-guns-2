@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bevwyt3v1hxi3"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/Healable.cs" id="1_daung"]
+[ext_resource type="Texture2D" uid="uid://bvtfmuukxevop" path="res://Sprites/Items/Healing/MedKit.png" id="1_nlldb"]
+
+[resource]
+script = ExtResource("1_daung")
+count = 0
+healAmount = 150.0
+timeToUse = 5.0
+itemId = 0
+itemName = "Medkit"
+itemSprite = ExtResource("1_nlldb")

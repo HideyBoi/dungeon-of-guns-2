@@ -9,66 +9,136 @@ using Riptide;
 public class ConfigManager 
 {
 	static string gameSettingsVersion = "VERSION_0";
-	static string gamerulePresetVersion = "VERSION_0";
+	static string gameruleFileVersion = "VERSION_0";
 
-	static Dictionary<string, string> gameSettings;
+	public static Dictionary<string, string> CurrentGameSettings;
 	static string gameSettingsPath = OS.GetUserDataDir() + "/GAME_SETTINGS.sav";
-	static Dictionary<string, string> currentGamerules;
-	static string gamerulesPath = OS.GetUserDataDir() + "/GAMERULE_PRESET.sav";
+	public static Dictionary<string, string> CurrentGamerules;
+	static string gamerulesPath = OS.GetUserDataDir() + "/GAMERULES.sav";
 	
-	// TODO: Run at startup
 	public static void CheckVersions() {
-		if (File.Exists(gamerulesPath + "VERSION")) {
-			if (File.ReadAllText(gamerulesPath + "VERSION") != gamerulePresetVersion)
-				CreateGameruleFile();
+		if (File.Exists(gamerulesPath)) {
+			LoadGamerules();
+			if (CurrentGamerules["version"] != gameruleFileVersion)
+				UpdateGamerulesFile();
 		} else {
 			CreateGameruleFile();
 		}
-		File.WriteAllText(gamerulesPath + "VERSION", gamerulePresetVersion);
+
+		if (File.Exists(gameSettingsPath)) {
+			LoadSettings();
+			if (CurrentGameSettings["version"] != gameSettingsVersion) {
+				UpdateSettingsFile();
+			}
+		} else {
+			CreateSettingsFile();
+		}
 	}
 
-	public static void SaveGamerulePreset(Dictionary<string, string> toSave) {
-		File.WriteAllText(gamerulesPath, JsonSerializer.Serialize(toSave));
-		currentGamerules = toSave;
-
-		if (!NetworkManager.I.Server.IsRunning) {
-			return;
+	public static void SaveGamerules(bool saveNew = false) {
+		if (!saveNew) {
+			File.WriteAllText(gamerulesPath, JsonSerializer.Serialize(CurrentGamerules));
+		} else {
+			File.WriteAllText(gamerulesPath, JsonSerializer.Serialize(GetDefaultGamerules()));
 		}
 
-		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.GameruleData);
-		msg.AddString(JsonSerializer.Serialize(toSave));
-		NetworkManager.I.Client.Send(msg);
+		if (NetworkManager.I != null) {
+			if (!NetworkManager.I.Server.IsRunning) {
+				return;
+			}
+
+			Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.GameruleData);
+			msg.AddString(JsonSerializer.Serialize(CurrentGamerules));
+			NetworkManager.I.Client.Send(msg);
+		}
 	}
 
-	public static Dictionary<string, string> LoadGamerulePreset(bool forceNew = false) {
-		if (!File.Exists(gamerulesPath)) {
-			CreateGameruleFile();
+	public static void LoadGamerules(bool forceNew = false) {
+		if (forceNew || CurrentGamerules == null) {
+			CurrentGamerules = new();	
+			CurrentGamerules = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(gamerulesPath));
 		}
-
-		if (forceNew || currentGamerules == null) {
-			currentGamerules = new();	
-			currentGamerules = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(gamerulesPath));
-		}
-
-		return currentGamerules;
 	}
 
-	public static void CreateGameruleFile() {
-		currentGamerules = new()
+	static void CreateGameruleFile() {
+		SaveGamerules(true);
+	}
+
+	static Dictionary<string, string> GetDefaultGamerules() {
+		return new()
 		{
 			// Add gamerules here. Set them up to be configured in the gamerule menu later.
+			{ "version", gameruleFileVersion },
 			{ "gamemode", "0" },
 			{ "map_size", "4" },
 			{ "lives_count", "3" },
 			{ "infinite_lives", "false" }
 		};
+	}
 
-		SaveGamerulePreset(currentGamerules);
+	static void UpdateGamerulesFile() {
+		Dictionary<string, string> defaults = GetDefaultGamerules();
+		CurrentGamerules["version"] = gameruleFileVersion;
+		foreach (string key in defaults.Keys)
+		{
+			// Check if there's a missing key
+			if (!CurrentGamerules.ContainsKey(key)) {
+				// Add the new key
+				CurrentGamerules.Add(key, defaults[key]);
+			}
+		}
+
+		SaveGamerules();
 	}
 
 	[MessageHandler((ushort)NetworkManager.MessageIds.GameruleData)]
 	public static void HandleGameruleData(Message msg) {
 		string dataString = msg.GetString();
-		currentGamerules = JsonSerializer.Deserialize<Dictionary<string, string>>(dataString);
+		CurrentGamerules = JsonSerializer.Deserialize<Dictionary<string, string>>(dataString);
+	}
+
+	public static void SaveSettings(bool saveNew = false) {
+		if (!saveNew) {
+			File.WriteAllText(gameSettingsPath, JsonSerializer.Serialize(CurrentGameSettings));
+		} else {
+			File.WriteAllText(gameSettingsPath, JsonSerializer.Serialize(GetDefaultSettings()));
+		}
+	}
+
+	public static void LoadSettings(bool forceNew = false) {
+		if (forceNew || CurrentGameSettings == null) {
+			CurrentGameSettings = new();	
+			CurrentGameSettings = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(gameSettingsPath));
+		}
+	}
+
+	static void CreateSettingsFile() {
+		SaveSettings(true);
+	}
+
+	static Dictionary<string, string> GetDefaultSettings() {
+		return new()
+		{
+			// Add settings here
+			{ "version", gameSettingsVersion },
+			{ "sfx_vol", "0" },
+			{ "amb_vol", "4" },
+			{ "fullscreen", "False" },
+		};
+	}
+
+	static void UpdateSettingsFile() {
+		Dictionary<string, string> defaults = GetDefaultSettings();
+		CurrentGameSettings["version"] = gameSettingsVersion;
+		foreach (string key in defaults.Keys)
+		{
+			// Check if there's a missing key
+			if (!CurrentGameSettings.ContainsKey(key)) {
+				// Add the new key
+				CurrentGameSettings.Add(key, defaults[key]);
+			}
+		}
+
+		SaveSettings();
 	}
 }

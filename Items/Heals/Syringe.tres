@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dela5clusv6vh"]
+
+[ext_resource type="Texture2D" uid="uid://h12g2u62ays5" path="res://Sprites/Items/Healing/Syringe.png" id="1_pwe04"]
+[ext_resource type="Script" path="res://Scripts/Inventory/Healable.cs" id="2_62wt8"]
+
+[resource]
+script = ExtResource("2_62wt8")
+count = 0
+healAmount = 19.0
+timeToUse = 1.0
+healType = 1
+itemId = 0
+itemName = "Syringe"
+itemSprite = ExtResource("1_pwe04")

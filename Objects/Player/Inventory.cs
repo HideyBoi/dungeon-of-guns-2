@@ -12,6 +12,13 @@ public partial class Inventory : Node2D
 	[Export] Label activeAmmoLabel;
 	[Export] Label activeTotalAmmoLabel;
 	[Export] Control normalUi;
+	[Export] Control syringeUi;
+	[Export] Label syringeCountLabel;
+	[Export] Control medkitUi;
+	[Export] Label medkitCountLabel;
+	[Export] Control grenadeUi;
+	[Export] TextureRect grenadeTexture;
+	[Export] Label grenadeCountLabel;
 	[Export] InventoryGuiDrop bigUi;
 	[Export] PackedScene itemObject;
 	[Export] float reach = 600;
@@ -30,7 +37,9 @@ public partial class Inventory : Node2D
 	
 	int weaponsIndex = 0;
 	public Weapon[] weapons = new Weapon[4];
-	int[] ammoCounts = new int[4];
+	public int[] ammoCounts = new int[4];
+	public int[] heals = new int[2];
+	public Grenade currentGrenade = null;
 
     public override void _Ready()
     {
@@ -51,7 +60,7 @@ public partial class Inventory : Node2D
 		ammoCounts[2] = 300;
 		ammoCounts[3] = 400;
 
-		UpdateWeaponUI();
+		UpdateUi();
     }
 
     public override void _Process(double delta)
@@ -61,7 +70,7 @@ public partial class Inventory : Node2D
 			if (weaponsIndex >= weapons.Length)
 				weaponsIndex = 0;
 
-			UpdateWeaponUI();
+			UpdateUi();
 		}
 		
         if (Input.IsActionJustPressed("scroll_down")) {
@@ -69,7 +78,7 @@ public partial class Inventory : Node2D
 			if (weaponsIndex < 0)
 				weaponsIndex = weapons.Length - 1;
 			
-			UpdateWeaponUI();
+			UpdateUi();
 		}
 
 		if (Input.IsActionJustPressed("show_inventory")) {
@@ -85,18 +94,40 @@ public partial class Inventory : Node2D
 			DropWeapon(weaponsIndex);
 		}
 
+		/*
 		if (Input.IsActionJustPressed("debug1")) {
-			InventoryItemObject obj = itemObject.Instantiate<InventoryItemObject>();
-			obj.GlobalPosition = GlobalPosition;
-
-			Ammo medium = (Ammo)GameManager.I.possibleItems[1].Duplicate();
+			Ammo medium = (Ammo)GameManager.GetNewInventoryItem(1);
 			medium.count = ammoCounts[1];
 			ammoCounts[1] = 0;
 
-			obj.Setup(medium, NetworkManager.I.Client.Id, Vector2.Down, 1);
-			GameManager.I.AddChild(obj);
+			DropItem(medium);
 
 			UpdateWeaponUI();
+		}
+		*/
+
+		if (Input.IsActionJustPressed("debug1")) {
+			Healable healable = (Healable)GameManager.GetNewInventoryItem(4);
+			healable.count = 1;
+			DropItem(healable);
+		}
+
+		if (Input.IsActionJustPressed("debug2")) {
+			Healable healable = (Healable)GameManager.GetNewInventoryItem(5);
+			healable.count = 1;
+			DropItem(healable);
+		}
+
+		if (Input.IsActionJustPressed("debug3")) {
+			Grenade grenade = (Grenade)GameManager.GetNewInventoryItem(6);
+			grenade.count = 9;
+			DropItem(grenade);
+		}
+
+		if (Input.IsActionJustPressed("debug4")) {
+			Grenade grenade = (Grenade)GameManager.GetNewInventoryItem(7);
+			grenade.count = 9;
+			DropItem(grenade);
 		}
     }
 
@@ -152,33 +183,51 @@ public partial class Inventory : Node2D
 						break;
 				}
 				break;
+			case Healable healable:
+				heals[(int)healable.healType] += healable.count;
+				break;
+			case Grenade grenade:
+				if (currentGrenade != null) {
+					if (currentGrenade.grenadeType == grenade.grenadeType) {
+						currentGrenade.count += grenade.count;
+					} else {
+						DropItem(currentGrenade);
+						currentGrenade = grenade;
+					}
+				} else {
+					currentGrenade = grenade;
+				}
+				break;
 		}
 
 		itemObject.Pickup();
 
-		UpdateWeaponUI();
+		UpdateUi();
 	}
 
     public void DropWeapon(int indexToDrop) {
 		if (weapons[indexToDrop] == null)
 			return;
 		
-		InventoryItemObject item = itemObject.Instantiate<InventoryItemObject>();
-		item.GlobalPosition = GlobalPosition;
+		DropItem(weapons[indexToDrop]);
+		weapons[indexToDrop] = null;
+
+		UpdateUi();
+	}
+
+	void DropItem(InventoryItem item) {
+		InventoryItemObject itemObj = itemObject.Instantiate<InventoryItemObject>();
+		itemObj.GlobalPosition = GlobalPosition;
 
 		float radians = 3.14f / 180 * Tools.RandFloatRange(0, 360);
 		Vector2 dir = new Vector2((float)Math.Sin(radians), -(float)Math.Cos(radians));
 
-		item.Setup(weapons[indexToDrop], NetworkManager.I.Client.Id, dir, Tools.RandFloatRange(0.7f, 1f));
+		itemObj.Setup(item, NetworkManager.I.Client.Id, dir, Tools.RandFloatRange(0.7f, 1f));
 
-		GameManager.I.AddChild(item);
-
-		weapons[indexToDrop] = null;
-
-		UpdateWeaponUI();
+		GameManager.I.AddChild(itemObj);
 	}
 
-	public void UpdateWeaponUI () {
+	public void UpdateUi () {
 		int currentPos = weaponsIndex;
 		
 		for (int i = 0; i < 4; i++)
@@ -210,6 +259,28 @@ public partial class Inventory : Node2D
 			if (currentPos >= 4) {
 				currentPos = 0;
 			}
+		}
+
+		if (heals[1] == 0) {
+			syringeUi.Hide();
+		} else {
+			syringeUi.Show();
+			syringeCountLabel.Text = $"{heals[1]} x";
+		}
+		
+		if (heals[0] == 0) {
+			medkitUi.Hide();
+		} else {
+			medkitUi.Show();
+			medkitCountLabel.Text = $"{heals[0]} x";
+		}
+
+		if (currentGrenade == null) {
+			grenadeUi.Hide();
+		} else {
+			grenadeUi.Show();
+			grenadeCountLabel.Text = $"{currentGrenade.count} x";
+			grenadeTexture.Texture = currentGrenade.itemSprite;
 		}
 	}
 

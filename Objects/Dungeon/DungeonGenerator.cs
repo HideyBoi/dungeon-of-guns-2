@@ -38,7 +38,7 @@ public partial class DungeonGenerator : Node2D
 	}
 
 	public void Start() {
-		ruleData = ConfigManager.LoadGamerulePreset();
+		ruleData = ConfigManager.CurrentGamerules;
 
 		Thread thread = new(StartGen);
 		thread.Start();	
