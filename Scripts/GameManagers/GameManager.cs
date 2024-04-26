@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using Godot;
 using Riptide;
 
@@ -13,6 +14,11 @@ public partial class GameManager : Node2D {
     }
 
     [Export] public InventoryItem[] possibleItems;
+    [Export] public int[] rareChestItems;
+    [Export] public int[] midChestItems;
+    [Export] public int[] commonChestItems;
+    [Export] public int[] secondaries;
+    [Export] public int[] ammo;
 
     public static Dictionary<ushort, PlayerObject> PlayingPlayers = new();
 

@@ -27,7 +27,9 @@ partial class NetworkManager : Node {
 		PlayerPosRot,
 		ItemSpawn,
 		ItemRemove,
-		ItemMove
+		ItemMove,
+		ChestOpened,
+		ChestRegenerated
 	}
 
 	public const byte MessageHandlerGroupId = 206;

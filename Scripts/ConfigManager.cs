@@ -8,8 +8,8 @@ using Riptide;
 
 public class ConfigManager 
 {
-	static string gameSettingsVersion = "VERSION_0";
-	static string gameruleFileVersion = "VERSION_0";
+	static string gameSettingsVersion = "0";
+	static string gameruleFileVersion = "0";
 
 	public static Dictionary<string, string> CurrentGameSettings;
 	static string gameSettingsPath = OS.GetUserDataDir() + "/GAME_SETTINGS.sav";
@@ -73,7 +73,11 @@ public class ConfigManager
 			{ "map_size", "4" },
 			{ "lives_count", "3" },
 			{ "infinite_lives", "false" },
-			{ "med_multiplier", "1" }
+			{ "med_multiplier", "1" },
+			{ "legendary_chance", "20"},
+			{ "rare_chance", "40"},
+			{ "chests_regenerate", "false"},
+			{ "chests_regeneration_time", "120"}
 		};
 	}
 

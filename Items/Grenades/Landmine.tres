@@ -1,7 +1,11 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bja618u82276b"]
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://bja618u82276b"]
 
-[ext_resource type="Texture2D" uid="uid://w0py7xlkqlx7" path="res://Sprites/Items/Throwables/Landmine.png" id="1_krw35"]
+[ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="1_a2nh3"]
 [ext_resource type="Script" path="res://Scripts/Inventory/Grenade.cs" id="2_8ei7n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdlg7"]
+atlas = ExtResource("1_a2nh3")
+region = Rect2(70, 0, 16, 16)
 
 [resource]
 script = ExtResource("2_8ei7n")
@@ -9,4 +13,4 @@ count = 0
 grenadeType = 1
 itemId = 0
 itemName = "Landmine"
-itemSprite = ExtResource("1_krw35")
+itemSprite = SubResource("AtlasTexture_kdlg7")

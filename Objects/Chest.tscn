@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://dv7hy83qy6agl"]
+
+[ext_resource type="Texture2D" uid="uid://blwaogh0pki8q" path="res://Sprites/Chest.png" id="1_46wbn"]
+[ext_resource type="Script" path="res://Objects/Chest.cs" id="1_pb0ce"]
+[ext_resource type="PackedScene" uid="uid://de64ffignjl8f" path="res://Objects/InventoryItemObject.tscn" id="2_ktm64"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t5b33"]
+radius = 7.0
+height = 16.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0i46k"]
+atlas = ExtResource("1_46wbn")
+region = Rect2(0, 0, 16, 16)
+
+[node name="Chest" type="StaticBody2D" node_paths=PackedStringArray("chestSprite")]
+script = ExtResource("1_pb0ce")
+sprites = Array[Texture2D]([])
+chestSprite = NodePath("Sprite2D")
+itemObject = ExtResource("2_ktm64")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_t5b33")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = SubResource("AtlasTexture_0i46k")

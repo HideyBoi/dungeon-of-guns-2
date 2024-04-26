@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dg8su5nj5f20l"]
+[gd_scene load_steps=16 format=3 uid="uid://dg8su5nj5f20l"]
 
 [ext_resource type="Script" path="res://Objects/Player/Inventory.cs" id="1_b8kk5"]
 [ext_resource type="PackedScene" uid="uid://de64ffignjl8f" path="res://Objects/InventoryItemObject.tscn" id="2_pcjo5"]
@@ -9,14 +9,21 @@
 [ext_resource type="Material" uid="uid://cl0yudwrh1bgl" path="res://Sprites/Items/RareMat.tres" id="4_n1puw"]
 [ext_resource type="Texture2D" uid="uid://cjaofa2vi86q0" path="res://Sprites/Items/placeholderGun.png" id="5_4dhuy"]
 [ext_resource type="Material" uid="uid://dykrh5iip7pcp" path="res://Sprites/Items/LegendaryMat.tres" id="5_d8ucx"]
-[ext_resource type="Texture2D" uid="uid://h12g2u62ays5" path="res://Sprites/Items/Healing/Syringe.png" id="7_hvadv"]
 [ext_resource type="Script" path="res://Objects/Player/InventoryGuiDrop.cs" id="7_k0f1r"]
-[ext_resource type="Texture2D" uid="uid://bvtfmuukxevop" path="res://Sprites/Items/Healing/MedKit.png" id="8_vhfm8"]
 [ext_resource type="Texture2D" uid="uid://dnrruuo8cs8xp" path="res://Sprites/Items/Throwables/Grenade.png" id="9_q8c40"]
+[ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="10_ljyyk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_y0iek"]
 font = ExtResource("4_jla0q")
 font_size = 21
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ss0yj"]
+atlas = ExtResource("10_ljyyk")
+region = Rect2(35, 43, 18, 7)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nibch"]
+atlas = ExtResource("10_ljyyk")
+region = Rect2(89, 1, 16, 15)
 
 [node name="Inventory" type="Node2D" node_paths=PackedStringArray("inactiveSprites", "inactiveAmmoLabels", "activeSprite", "activeAmmoLabel", "activeTotalAmmoLabel", "normalUi", "syringeUi", "syringeCountLabel", "medkitUi", "medkitCountLabel", "grenadeUi", "grenadeTexture", "grenadeCountLabel", "bigUi")]
 script = ExtResource("1_b8kk5")
@@ -281,9 +288,11 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -20.0
+offset_top = 7.0
+offset_bottom = -5.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("7_hvadv")
+texture = SubResource("AtlasTexture_ss0yj")
 
 [node name="Label" type="Label" parent="UI/General/Syringe"]
 layout_mode = 1
@@ -315,10 +324,12 @@ anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -20.0
+offset_left = -19.0
+offset_top = 3.0
+offset_right = -2.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("8_vhfm8")
+texture = SubResource("AtlasTexture_nibch")
 
 [node name="Label" type="Label" parent="UI/General/Medkit"]
 layout_mode = 1
@@ -354,6 +365,7 @@ offset_left = -20.0
 grow_horizontal = 0
 grow_vertical = 2
 texture = ExtResource("9_q8c40")
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="UI/General/Grenade"]
 layout_mode = 1
