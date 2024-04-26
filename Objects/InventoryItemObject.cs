@@ -109,7 +109,7 @@ public partial class InventoryItemObject : CharacterBody2D
 		if (Items.TryGetValue(id, out InventoryItemObject inventoryItemObject)) {
 			inventoryItemObject.GlobalPosition = newPos;
 		} else {
-			GD.PrintErr("Missing item!!!!");
+			GD.PushWarning("/!\\ Missing item! Could be a race condition, probably safe to ignore.");
 		}
 	}
 

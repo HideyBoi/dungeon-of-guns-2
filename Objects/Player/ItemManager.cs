@@ -19,13 +19,16 @@ public partial class ItemManager : Marker2D
 		float absAngle = MathF.Abs(angle);
 
 		rotation.GlobalRotationDegrees = angle;
-		rotation.Position = new(maxRotOffset * ((absAngle - 1)/(90 - 1)), rotation.Position.Y);
+		float offset = maxRotOffset * ((absAngle - 1)/(90 - 1));
+		rotation.Position = new(offset, rotation.Position.Y);
 
-		if (GlobalPosition.X - mousePos.X < 0)
-			Scale = new(1, 1);
-		else		
-			Scale = new(-1, 1);
-	}
+		if (GlobalPosition.X - mousePos.X < 0) {
+            Scale = new(1, 1);
+        } else {
+            Scale = new(-1, 1);
+			rotation.Position = new(rotation.Position.X + (maxRotOffset * -2), rotation.Position.Y);
+        }
+    }
 
 	public void UpdateHolding(int newGunIndex) {
 		gun = inventory.weapons[newGunIndex];
