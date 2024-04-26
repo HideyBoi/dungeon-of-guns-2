@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public partial class InventoryItemObject : CharacterBody2D
 {
-	public static Dictionary<ushort, InventoryItemObject> objects;
+	public static Dictionary<ushort, InventoryItemObject> Items;
 	static PackedScene itemObject;
 
 	enum ItemType { NONE, WEAPON, AMMO, MEDICAL, GRENADE }
@@ -30,17 +30,17 @@ public partial class InventoryItemObject : CharacterBody2D
 		Velocity = spawnVelocity * speed * impulse;
 
 		if (!fromNetwork) {
-			if (objects == null)
-				objects = new();
+			if (Items == null)
+				Items = new();
 
 			bool foundId = false;
 			while(!foundId) {
 				thisId = (ushort)Tools.RandIntRange(0, 69696969);
 				
-				foundId = !objects.TryGetValue(thisId, out _);
+				foundId = !Items.TryGetValue(thisId, out _);
 			}
 
-			objects.Add(thisId, this);
+			Items.Add(thisId, this);
 		}
 
 		Item = item;
@@ -85,16 +85,33 @@ public partial class InventoryItemObject : CharacterBody2D
 			return;
 		
 		Vector2 vel = Vector2.Zero;
-		vel.X = Mathf.Lerp(Velocity.X, 0, deceleration);
-		vel.Y = Mathf.Lerp(Velocity.Y, 0, deceleration);
+		vel.X = Mathf.Lerp(Velocity.X, 0, deceleration * (float)delta);
+		vel.Y = Mathf.Lerp(Velocity.Y, 0, deceleration * (float)delta);
 		Velocity = vel;
+
+		MoveAndSlide();
 
 		if (lastPos != GlobalPosition) {
 			lastPos = GlobalPosition;
 
-			// Send item move packet
+			Message msg =  Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.ItemMove);
+			msg.AddUShort(thisId);
+			msg.AddVector2(GlobalPosition);
+			NetworkManager.I.Client.Send(msg);
 		}
     }
+
+	[MessageHandler((ushort)NetworkManager.MessageIds.ItemMove)]
+	public static void ItemMove(Message msg) {
+		ushort id = msg.GetUShort();
+		Vector2 newPos = msg.GetVector2();
+
+		if (Items.TryGetValue(id, out InventoryItemObject inventoryItemObject)) {
+			inventoryItemObject.GlobalPosition = newPos;
+		} else {
+			GD.PrintErr("Missing item!!!!");
+		}
+	}
 
 	SceneTreeTimer timeToEndInteract;
 
@@ -161,10 +178,10 @@ public partial class InventoryItemObject : CharacterBody2D
 		inventoryItemObject.GlobalPosition = pos;
 		inventoryItemObject.thisId = currentId;
 
-		if (objects == null)
-			objects = new();
+		if (Items == null)
+			Items = new();
 
-		objects.Add(currentId, inventoryItemObject);
+		Items.Add(currentId, inventoryItemObject);
 
 		InventoryItem item = null;
 
@@ -212,8 +229,8 @@ public partial class InventoryItemObject : CharacterBody2D
 		ushort objectId = msg.GetUShort();
 		ushort itemId = msg.GetUShort();
 
-		objects[objectId].QueueFree();
-		objects.Remove(objectId);
+		Items[objectId].QueueFree();
+		Items.Remove(objectId);
 
 		// Todo, play pickup sound
 	}
@@ -221,7 +238,7 @@ public partial class InventoryItemObject : CharacterBody2D
     public override void _ExitTree()
     {
         try {
-			objects.Remove(thisId);
+			Items.Remove(thisId);
 		} catch (ArgumentNullException) {
 			// do nothing cus wtv lol
 		}

@@ -222,7 +222,7 @@ public partial class Inventory : Node2D
 		InventoryItemObject itemObj = itemObject.Instantiate<InventoryItemObject>();
 		itemObj.GlobalPosition = GlobalPosition;
 
-		float radians = 3.14f / 180 * Tools.RandFloatRange(0, 360);
+		float radians = Mathf.DegToRad(Tools.RandFloatRange(0, 360));
 		Vector2 dir = new Vector2((float)Math.Sin(radians), -(float)Math.Cos(radians));
 
 		itemObj.Setup(item, NetworkManager.I.Client.Id, dir, Tools.RandFloatRange(0.7f, 1f));

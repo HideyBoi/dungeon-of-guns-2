@@ -16,13 +16,14 @@ font_size = 6
 [node name="InventoryItemObject" type="CharacterBody2D" node_paths=PackedStringArray("itemSprite", "itemText", "popupRoot")]
 y_sort_enabled = true
 collision_layer = 2
+collision_mask = 4
 script = ExtResource("1_blsai")
 itemSprite = NodePath("Sprite2D")
 mats = Array[Material]([ExtResource("2_t4h4s"), ExtResource("3_31ung"), ExtResource("4_oocmn")])
 itemText = NodePath("Labels/Name")
 popupRoot = NodePath("Labels")
-speed = 9999.0
-deceleration = 8.0
+speed = 60.0
+deceleration = 7.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Pickup"]]
 position = Vector2(0, -5)
