@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cldmaollllsj7"]
+
+[ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="1_c1adw"]
+[ext_resource type="Script" path="res://Objects/Player/ItemManager.cs" id="1_o0iv7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3whmt"]
+atlas = ExtResource("1_c1adw")
+region = Rect2(0, 0, 32, 14)
+
+[node name="ItemManager" type="Marker2D" node_paths=PackedStringArray("rotation", "rotationHelper", "gunSprite")]
+rotation = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":null)
+
+gizmo_extents = 6.0
+script = ExtResource("1_o0iv7")
+rotation = NodePath("Rotation")
+rotationHelper = NodePath("RotationHelper")
+gunSprite = NodePath("Rotation/GunSprite")
+
+[node name="Rotation" type="Node2D" parent="."]
+
+[node name="GunSprite" type="Sprite2D" parent="Rotation"]
+position = Vector2(-6, 0)
+texture = SubResource("AtlasTexture_3whmt")
+offset = Vector2(12, 0)
+
+[node name="RotationHelper" type="Marker2D" parent="."]

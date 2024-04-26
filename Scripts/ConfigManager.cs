@@ -72,7 +72,8 @@ public class ConfigManager
 			{ "gamemode", "0" },
 			{ "map_size", "4" },
 			{ "lives_count", "3" },
-			{ "infinite_lives", "false" }
+			{ "infinite_lives", "false" },
+			{ "med_multiplier", "1" }
 		};
 	}
 

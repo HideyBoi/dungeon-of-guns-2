@@ -1,0 +1,23 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://bppgo2pg3o6m1"]
+
+[ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="1_r8e5b"]
+[ext_resource type="Script" path="res://Scripts/Inventory/Weapon.cs" id="2_d1s0s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yuww"]
+atlas = ExtResource("1_r8e5b")
+region = Rect2(0, 21, 31, 12)
+
+[resource]
+script = ExtResource("2_d1s0s")
+damage = 0
+damageFalloff = 0.0
+minBloom = 0.0
+maxBloom = 0.0
+visibleRecoilAmount = 0.0
+timeBetweenShots = 0.0
+maxAmmo = 0
+ammoType = 1
+rarity = 0
+itemId = 0
+itemName = "Assualt Rifle"
+itemSprite = SubResource("AtlasTexture_5yuww")

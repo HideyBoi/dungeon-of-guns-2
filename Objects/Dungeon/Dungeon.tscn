@@ -1,21 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://cbems1yjd83uv"]
+[gd_scene load_steps=5 format=3 uid="uid://cbems1yjd83uv"]
 
-[ext_resource type="PackedScene" uid="uid://tsfpfpuarod2" path="res://Objects/Player/LocalPlayer.tscn" id="2_u4hvx"]
 [ext_resource type="PackedScene" uid="uid://b7v3whibaf6h7" path="res://Objects/Dungeon/Rooms/Test1.tscn" id="3_4qvg7"]
 [ext_resource type="Script" path="res://Objects/Dungeon/DungeonGenerator.cs" id="3_7ps08"]
+[ext_resource type="PackedScene" uid="uid://ecvm6adagvkl" path="res://Objects/Dungeon/ProcGenGameManager.tscn" id="4_ckoqb"]
 [ext_resource type="PackedScene" uid="uid://baanajs4vvkkc" path="res://Objects/Dungeon/Rooms/Test2.tscn" id="4_sdsvx"]
-[ext_resource type="Script" path="res://Scripts/GameManagers/ProcGenGameManager.cs" id="4_us62j"]
-[ext_resource type="PackedScene" uid="uid://da30y5csi1c1o" path="res://Objects/Player/RemotePlayer.tscn" id="6_hh8bt"]
-[ext_resource type="Resource" uid="uid://bppgo2pg3o6m1" path="res://Items/Weapons/big boi.tres" id="7_vl7ik"]
-[ext_resource type="Resource" uid="uid://dgg3hhcapyvra" path="res://Items/Ammo/LightAmmo.tres" id="7_xgqyu"]
-[ext_resource type="Resource" uid="uid://c7yp2octyn1ax" path="res://Items/Ammo/MediumAmmo.tres" id="8_6nlhb"]
-[ext_resource type="Resource" uid="uid://ddquf86xqetcm" path="res://Items/Weapons/literally an SMG or smth.tres" id="8_xgdoy"]
-[ext_resource type="Resource" uid="uid://n32xv2uslnjw" path="res://Items/Ammo/HeavyAmmo.tres" id="9_nj3yi"]
-[ext_resource type="Resource" uid="uid://crl04fal4hftl" path="res://Items/Ammo/ShellAmmo.tres" id="10_t0qm7"]
-[ext_resource type="Resource" uid="uid://bevwyt3v1hxi3" path="res://Items/Heals/Medkit.tres" id="11_n64ag"]
-[ext_resource type="Resource" uid="uid://dela5clusv6vh" path="res://Items/Heals/Syringe.tres" id="12_4eduh"]
-[ext_resource type="Resource" uid="uid://bdrsve1vg10cu" path="res://Items/Grenades/StandardGrenade.tres" id="13_fmkbx"]
-[ext_resource type="Resource" uid="uid://bja618u82276b" path="res://Items/Grenades/Landmine.tres" id="14_hx2ys"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -27,9 +15,4 @@ distance = 1800
 connectionChance = 60.0
 possibleRooms = Array[PackedScene]([ExtResource("3_4qvg7"), ExtResource("4_sdsvx")])
 
-[node name="ProcGenGameManager" type="Node2D" parent="." groups=["GameManager"]]
-y_sort_enabled = true
-script = ExtResource("4_us62j")
-localPlayer = ExtResource("2_u4hvx")
-remotePlayer = ExtResource("6_hh8bt")
-possibleItems = Array[Resource]([ExtResource("7_xgqyu"), ExtResource("8_6nlhb"), ExtResource("9_nj3yi"), ExtResource("10_t0qm7"), ExtResource("11_n64ag"), ExtResource("12_4eduh"), ExtResource("13_fmkbx"), ExtResource("14_hx2ys"), ExtResource("8_xgdoy"), ExtResource("7_vl7ik")])
+[node name="ProcGenGameManager" parent="." instance=ExtResource("4_ckoqb")]

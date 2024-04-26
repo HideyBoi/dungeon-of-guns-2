@@ -29,6 +29,6 @@ public partial class GameManager : Node2D {
     }
 
     public static InventoryItem GetNewInventoryItem(ushort itemId) {
-        return (InventoryItem)I.possibleItems[itemId].Duplicate();
+        return (InventoryItem)I.possibleItems[itemId].Duplicate(true);
     }
 }

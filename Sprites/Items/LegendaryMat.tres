@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://dykrh5iip7pcp"]
+
+[ext_resource type="Shader" uid="uid://vvvm77fleoui" path="res://Sprites/Items/RarityShader.res" id="1_gnvj8"]
+[ext_resource type="Texture2D" uid="uid://doywjawp8njc4" path="res://Sprites/Items/Overlay.png" id="2_vq7yn"]
+
+[resource]
+shader = ExtResource("1_gnvj8")
+shader_parameter/RarityColor = Color(0, 0.796078, 0.309804, 1)
+shader_parameter/TimeScale = 0.1
+shader_parameter/Overlay = ExtResource("2_vq7yn")

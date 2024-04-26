@@ -10,9 +10,13 @@ public partial class LocalPlayer : CharacterBody2D
 	float lastX = 0;
 	enum PlayerMoveState  { MOVING };
 	PlayerMoveState currentState;
+	[Export] AnimatedSprite2D playerSprite;
 
 	public void SetupPlayer(ushort myId) {
 		pId = myId;
+		#if !DEBUG
+		DisplayServer.MouseSetMode(DisplayServer.MouseMode.Confined);
+		#endif
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -39,25 +43,15 @@ public partial class LocalPlayer : CharacterBody2D
 
 		Velocity = vel;
 
-		/*
-		if (currentMoveDir.X != 0)
-			lastX = currentMoveDir.X;
-
-		if (currentMoveDir.Length() > 0) {
-			if (lastX > 0) {
-				playerSprite.Play("Walk-R");
-			} else {
-				playerSprite.Play("Walk-L");
-			}	
-		} else {
-			if (lastX > 0) {
-				playerSprite.Play("Idle-R");
-			} else {
-				playerSprite.Play("Idle-L");
-			}
+		Vector2 mousePos = GetLocalMousePosition();
+		
+		if (mousePos.X >= 0)  {
+			playerSprite.Scale = new(1, 1);
 		}
-		*/
-
+		else {
+			playerSprite.Scale = new(-1, 1);
+		}
+			
 		MoveAndSlide();
 
 		Message posRot = Message.Create(MessageSendMode.Unreliable, NetworkManager.MessageIds.PlayerPosRot);

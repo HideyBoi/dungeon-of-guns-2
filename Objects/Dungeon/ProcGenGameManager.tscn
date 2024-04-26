@@ -1,0 +1,25 @@
+[gd_scene load_steps=17 format=3 uid="uid://ecvm6adagvkl"]
+
+[ext_resource type="Script" path="res://Scripts/GameManagers/ProcGenGameManager.cs" id="1_j16l4"]
+[ext_resource type="PackedScene" uid="uid://tsfpfpuarod2" path="res://Objects/Player/LocalPlayer.tscn" id="2_scj6m"]
+[ext_resource type="PackedScene" uid="uid://da30y5csi1c1o" path="res://Objects/Player/RemotePlayer.tscn" id="3_e4cg0"]
+[ext_resource type="Resource" uid="uid://dgg3hhcapyvra" path="res://Items/Ammo/LightAmmo.tres" id="4_ry3br"]
+[ext_resource type="Resource" uid="uid://c7yp2octyn1ax" path="res://Items/Ammo/MediumAmmo.tres" id="5_22r2i"]
+[ext_resource type="Resource" uid="uid://n32xv2uslnjw" path="res://Items/Ammo/HeavyAmmo.tres" id="6_mw015"]
+[ext_resource type="Resource" uid="uid://crl04fal4hftl" path="res://Items/Ammo/ShellAmmo.tres" id="7_jgjnm"]
+[ext_resource type="Resource" uid="uid://bevwyt3v1hxi3" path="res://Items/Heals/Medkit.tres" id="8_7pwow"]
+[ext_resource type="Resource" uid="uid://dela5clusv6vh" path="res://Items/Heals/Syringe.tres" id="9_drnj2"]
+[ext_resource type="Resource" uid="uid://bdrsve1vg10cu" path="res://Items/Grenades/StandardGrenade.tres" id="10_vc4ik"]
+[ext_resource type="Resource" uid="uid://bja618u82276b" path="res://Items/Grenades/Landmine.tres" id="11_3xyxs"]
+[ext_resource type="Resource" uid="uid://ddquf86xqetcm" path="res://Items/Weapons/SMG-L.tres" id="12_h7gwn"]
+[ext_resource type="Resource" uid="uid://bppgo2pg3o6m1" path="res://Items/Weapons/AssualtRifle-C.tres" id="13_bo52h"]
+[ext_resource type="Resource" uid="uid://c87s76f3f33mb" path="res://Items/Weapons/HeavyPistol-L.tres" id="14_15pf1"]
+[ext_resource type="Resource" uid="uid://chu5wc6y48347" path="res://Items/Weapons/Pistol-C.tres" id="15_j6bmy"]
+[ext_resource type="Resource" uid="uid://bwldmvltmk7x5" path="res://Items/Weapons/Shotgun-R.tres" id="16_mc87n"]
+
+[node name="ProcGenGameManager" type="Node2D" groups=["GameManager"]]
+y_sort_enabled = true
+script = ExtResource("1_j16l4")
+localPlayer = ExtResource("2_scj6m")
+remotePlayer = ExtResource("3_e4cg0")
+possibleItems = Array[Resource]([ExtResource("4_ry3br"), ExtResource("5_22r2i"), ExtResource("6_mw015"), ExtResource("7_jgjnm"), ExtResource("8_7pwow"), ExtResource("9_drnj2"), ExtResource("10_vc4ik"), ExtResource("11_3xyxs"), ExtResource("12_h7gwn"), ExtResource("13_bo52h"), ExtResource("14_15pf1"), ExtResource("15_j6bmy"), ExtResource("16_mc87n")])

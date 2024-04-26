@@ -1,11 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://dg8su5nj5f20l"]
+[gd_scene load_steps=15 format=3 uid="uid://dg8su5nj5f20l"]
 
 [ext_resource type="Script" path="res://Objects/Player/Inventory.cs" id="1_b8kk5"]
 [ext_resource type="PackedScene" uid="uid://de64ffignjl8f" path="res://Objects/InventoryItemObject.tscn" id="2_pcjo5"]
+[ext_resource type="Material" uid="uid://b1uuc4gxqlti4" path="res://Sprites/Items/CommonMat.tres" id="3_5ydux"]
 [ext_resource type="Theme" uid="uid://bg86n0iurkxcu" path="res://InventoryGui.tres" id="3_20m0n"]
 [ext_resource type="Texture2D" uid="uid://c4ij43p4o0jiu" path="res://Sprites/Items/placeholderFist.png" id="3_fvpex"]
 [ext_resource type="FontFile" uid="uid://yklo8ih7un4s" path="res://Sprites/UI/fonts/vhs.ttf" id="4_jla0q"]
+[ext_resource type="Material" uid="uid://cl0yudwrh1bgl" path="res://Sprites/Items/RareMat.tres" id="4_n1puw"]
 [ext_resource type="Texture2D" uid="uid://cjaofa2vi86q0" path="res://Sprites/Items/placeholderGun.png" id="5_4dhuy"]
+[ext_resource type="Material" uid="uid://dykrh5iip7pcp" path="res://Sprites/Items/LegendaryMat.tres" id="5_d8ucx"]
 [ext_resource type="Texture2D" uid="uid://h12g2u62ays5" path="res://Sprites/Items/Healing/Syringe.png" id="7_hvadv"]
 [ext_resource type="Script" path="res://Objects/Player/InventoryGuiDrop.cs" id="7_k0f1r"]
 [ext_resource type="Texture2D" uid="uid://bvtfmuukxevop" path="res://Sprites/Items/Healing/MedKit.png" id="8_vhfm8"]
@@ -33,13 +36,14 @@ grenadeCountLabel = NodePath("UI/General/Grenade/Label")
 bigUi = NodePath("UI/BigScreen")
 itemObject = ExtResource("2_pcjo5")
 reach = 45.0
+itemMats = Array[Material]([ExtResource("3_5ydux"), ExtResource("4_n1puw"), ExtResource("5_d8ucx")])
 itemLayerMask = 3
 fistIcon = ExtResource("3_fvpex")
 debug = true
 debugWeapon1 = 8
 debugWeapon2 = 9
-debugWeapon3 = 8
-debugWeapon4 = 9
+debugWeapon3 = 11
+debugWeapon4 = 12
 
 [node name="UI" type="CanvasLayer" parent="."]
 

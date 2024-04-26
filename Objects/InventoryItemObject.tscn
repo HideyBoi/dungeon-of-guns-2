@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://de64ffignjl8f"]
+[gd_scene load_steps=8 format=3 uid="uid://de64ffignjl8f"]
 
 [ext_resource type="Script" path="res://Objects/InventoryItemObject.cs" id="1_blsai"]
+[ext_resource type="Material" uid="uid://b1uuc4gxqlti4" path="res://Sprites/Items/CommonMat.tres" id="2_t4h4s"]
+[ext_resource type="Material" uid="uid://cl0yudwrh1bgl" path="res://Sprites/Items/RareMat.tres" id="3_31ung"]
 [ext_resource type="Theme" uid="uid://dd8pxex3rwxau" path="res://DefaultTheme.tres" id="3_r52ut"]
+[ext_resource type="Material" uid="uid://dykrh5iip7pcp" path="res://Sprites/Items/LegendaryMat.tres" id="4_oocmn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jubq2"]
 radius = 5.0
@@ -15,6 +18,7 @@ y_sort_enabled = true
 collision_layer = 2
 script = ExtResource("1_blsai")
 itemSprite = NodePath("Sprite2D")
+mats = Array[Material]([ExtResource("2_t4h4s"), ExtResource("3_31ung"), ExtResource("4_oocmn")])
 itemText = NodePath("Labels/Name")
 popupRoot = NodePath("Labels")
 speed = 9999.0

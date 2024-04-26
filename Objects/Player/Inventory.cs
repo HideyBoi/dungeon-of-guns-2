@@ -22,11 +22,20 @@ public partial class Inventory : Node2D
 	[Export] InventoryGuiDrop bigUi;
 	[Export] PackedScene itemObject;
 	[Export] float reach = 600;
+	[Export] Material[] itemMats;
 	[Export(PropertyHint.Layers2DPhysics)] uint itemLayerMask;
 
 	[ExportCategory("Fist Item")]
 	[Export] public Texture2D fistIcon;
 	[Export] Weapon.Rarity rarity;
+
+	[ExportCategory("Inventory Data")]
+	[Export] ItemManager itemManager;
+	int weaponsIndex = 0;
+	public Weapon[] weapons = new Weapon[4];
+	public int[] ammoCounts = new int[4];
+	public int[] heals = new int[2];
+	public Grenade currentGrenade = null;
 
 	[ExportCategory("Debug")]
 	[Export] bool debug = false;
@@ -34,12 +43,6 @@ public partial class Inventory : Node2D
 	[Export] int debugWeapon2 = -1;
 	[Export] int debugWeapon3 = -1;
 	[Export] int debugWeapon4 = -1;
-	
-	int weaponsIndex = 0;
-	public Weapon[] weapons = new Weapon[4];
-	public int[] ammoCounts = new int[4];
-	public int[] heals = new int[2];
-	public Grenade currentGrenade = null;
 
     public override void _Ready()
     {
@@ -230,26 +233,32 @@ public partial class Inventory : Node2D
 	public void UpdateUi () {
 		int currentPos = weaponsIndex;
 		
+		itemManager.UpdateHolding(weaponsIndex);
+		
 		for (int i = 0; i < 4; i++)
 		{
 			// Update active gui
 			if (i == 0) {
 				if (weapons[currentPos] == null) {
 					activeSprite.Texture = fistIcon;
+					activeSprite.Material = itemMats[0];
 					activeAmmoLabel.Text = "";
 					activeTotalAmmoLabel.Text = "";
 				} else {
 					activeSprite.Texture = weapons[currentPos].itemSprite;
 					activeAmmoLabel.Text = weapons[currentPos].currentAmmo.ToString();
+					activeSprite.Material = itemMats[(int)weapons[currentPos].rarity];
 					activeTotalAmmoLabel.Text = GetAmmoCount(weapons[currentPos].ammoType).ToString();
 				}
 			// Update inactive gui
 			} else {
 				if (weapons[currentPos] == null) {
 					inactiveSprites[i].Texture = fistIcon;
+					inactiveSprites[i].Material = itemMats[0];
 					inactiveAmmoLabels[i].Text = "---";
 				} else {
 					inactiveSprites[i].Texture = weapons[currentPos].itemSprite;
+					inactiveSprites[i].Material = itemMats[(int)weapons[currentPos].rarity];
 					inactiveAmmoLabels[i].Text = weapons[currentPos].currentAmmo.ToString();
 				}
 			}

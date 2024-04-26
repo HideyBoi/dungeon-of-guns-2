@@ -12,6 +12,7 @@ public partial class InventoryItemObject : CharacterBody2D
 
 	public InventoryItem Item;
 	[Export] Sprite2D itemSprite;
+	[Export] Material[] mats;
 	[Export] Label itemText;
 	[Export] Control popupRoot;
 	[Export] float speed;
@@ -50,6 +51,7 @@ public partial class InventoryItemObject : CharacterBody2D
 			case Weapon weapon:
 				itemType = ItemType.WEAPON;
 				itemText.Text = $"{weapon.itemName}\n{weapon.currentAmmo} - {Weapon.GetRarityText(weapon.rarity)}";
+				itemSprite.Material = mats[(int)weapon.rarity];
 				break;
 			case Ammo ammo:
 				itemType = ItemType.AMMO;
@@ -57,8 +59,8 @@ public partial class InventoryItemObject : CharacterBody2D
 				break;
 			case Healable heal:
 				itemType = ItemType.MEDICAL;
-				itemText.Text = $"{heal.itemName}\n{heal.count} | +{heal.healAmount}hp";
-				// TODO: Calculate new heal value based on gamerule
+				int healAmount = (int)Math.Floor(heal.healAmount * float.Parse(ConfigManager.CurrentGamerules["med_multiplier"]));
+				itemText.Text = $"{heal.itemName}\n{heal.count} | +{healAmount}hp";
 				break;
 			case Grenade grenade:
 				itemType = ItemType.GRENADE;
@@ -69,7 +71,7 @@ public partial class InventoryItemObject : CharacterBody2D
 				itemText.Text = $"{item.itemName}\n/!\\ Unknown ItemType.";
 				GD.PushWarning($"Item {item.itemName} did not match any supported classes.");
 				break;
-		};
+		}
 
 		if (!fromNetwork)
 			SendSpawn();
