@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dg8su5nj5f20l"]
+[gd_scene load_steps=18 format=3 uid="uid://dg8su5nj5f20l"]
 
 [ext_resource type="Script" path="res://Objects/Player/Inventory.cs" id="1_b8kk5"]
 [ext_resource type="PackedScene" uid="uid://de64ffignjl8f" path="res://Objects/InventoryItemObject.tscn" id="2_pcjo5"]
@@ -9,7 +9,9 @@
 [ext_resource type="Material" uid="uid://cl0yudwrh1bgl" path="res://Sprites/Items/RareMat.tres" id="4_n1puw"]
 [ext_resource type="Texture2D" uid="uid://cjaofa2vi86q0" path="res://Sprites/Items/placeholderGun.png" id="5_4dhuy"]
 [ext_resource type="Material" uid="uid://dykrh5iip7pcp" path="res://Sprites/Items/LegendaryMat.tres" id="5_d8ucx"]
+[ext_resource type="Texture2D" uid="uid://bqq4th05mbph8" path="res://Sprites/UI/interactBar_Fill.png" id="7_5rl0c"]
 [ext_resource type="Script" path="res://Objects/Player/InventoryGuiDrop.cs" id="7_k0f1r"]
+[ext_resource type="Texture2D" uid="uid://y66f180cjcqa" path="res://Sprites/UI/interactBar_Background.png" id="7_xjmfh"]
 [ext_resource type="Texture2D" uid="uid://dnrruuo8cs8xp" path="res://Sprites/Items/Throwables/Grenade.png" id="9_q8c40"]
 [ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="10_ljyyk"]
 
@@ -25,7 +27,7 @@ region = Rect2(35, 43, 18, 7)
 atlas = ExtResource("10_ljyyk")
 region = Rect2(89, 1, 16, 15)
 
-[node name="Inventory" type="Node2D" node_paths=PackedStringArray("inactiveSprites", "inactiveAmmoLabels", "activeSprite", "activeAmmoLabel", "activeTotalAmmoLabel", "normalUi", "syringeUi", "syringeCountLabel", "medkitUi", "medkitCountLabel", "grenadeUi", "grenadeTexture", "grenadeCountLabel", "bigUi")]
+[node name="Inventory" type="Node2D" node_paths=PackedStringArray("inactiveSprites", "inactiveAmmoLabels", "activeSprite", "activeAmmoLabel", "activeTotalAmmoLabel", "normalUi", "syringeUi", "syringeCountLabel", "medkitUi", "medkitCountLabel", "grenadeUi", "grenadeTexture", "grenadeCountLabel", "bigUi", "interactBar")]
 script = ExtResource("1_b8kk5")
 inactiveSprites = [null, NodePath("UI/General/VBoxContainer/Inactive5/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive4/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive3/TextureRect")]
 inactiveAmmoLabels = [null, NodePath("UI/General/VBoxContainer/Inactive5/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive4/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive3/CurrentAmmo")]
@@ -41,18 +43,46 @@ grenadeUi = NodePath("UI/General/Grenade")
 grenadeTexture = NodePath("UI/General/Grenade/TextureRect")
 grenadeCountLabel = NodePath("UI/General/Grenade/Label")
 bigUi = NodePath("UI/BigScreen")
+interactBar = NodePath("UI/HUD/ChestProgress")
 itemObject = ExtResource("2_pcjo5")
 reach = 45.0
 itemMats = Array[Material]([ExtResource("3_5ydux"), ExtResource("4_n1puw"), ExtResource("5_d8ucx")])
 itemLayerMask = 3
 fistIcon = ExtResource("3_fvpex")
-debug = true
 debugWeapon1 = 8
 debugWeapon2 = 9
 debugWeapon3 = 11
 debugWeapon4 = 12
 
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="ChestProgress" type="TextureProgressBar" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.5
+offset_right = 100.5
+offset_bottom = 16.0
+grow_horizontal = 2
+scale = Vector2(1, 0.987916)
+max_value = 0.5
+step = 0.001
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_top = 16
+stretch_margin_right = 3
+texture_under = ExtResource("7_xjmfh")
+texture_progress = ExtResource("7_5rl0c")
 
 [node name="General" type="Control" parent="UI"]
 layout_mode = 3
@@ -62,6 +92,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_20m0n")
+metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/General"]
 layout_mode = 1
@@ -391,6 +422,7 @@ inventory = NodePath("../..")
 names = [NodePath("HBoxContainer/1/Name"), NodePath("HBoxContainer/2/Name"), NodePath("HBoxContainer/3/Name"), NodePath("HBoxContainer/4/Name")]
 images = [NodePath("HBoxContainer/1/TextureRect"), NodePath("HBoxContainer/2/TextureRect"), NodePath("HBoxContainer/3/TextureRect"), NodePath("HBoxContainer/4/TextureRect")]
 ammoCounts = [NodePath("HBoxContainer/1/CurrentAmmo"), NodePath("HBoxContainer/2/CurrentAmmo"), NodePath("HBoxContainer/3/CurrentAmmo"), NodePath("HBoxContainer/4/CurrentAmmo")]
+metadata/_edit_lock_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/BigScreen"]
 custom_minimum_size = Vector2(260, 0)

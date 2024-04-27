@@ -8,7 +8,7 @@ using Riptide;
 
 public class ConfigManager 
 {
-	static string gameSettingsVersion = "0";
+	static string gameSettingsVersion = "3";
 	static string gameruleFileVersion = "0";
 
 	public static Dictionary<string, string> CurrentGameSettings;
@@ -72,11 +72,16 @@ public class ConfigManager
 			{ "gamemode", "0" },
 			{ "map_size", "4" },
 			{ "lives_count", "3" },
-			{ "infinite_lives", "false" },
+			{ "infinite_lives", "False" },
 			{ "med_multiplier", "1" },
 			{ "legendary_chance", "20"},
 			{ "rare_chance", "40"},
-			{ "chests_regenerate", "false"},
+			{ "secondary_chance", "70"},
+			{ "secondary_max_count", "1"},
+			{ "heal_multiplier", "1"},
+			{ "bonus_healable_chance", "4"},
+			{ "ammo_multiplier", "1.2"},
+			{ "chests_regenerate", "False"},
 			{ "chests_regeneration_time", "120"}
 		};
 	}

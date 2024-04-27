@@ -20,6 +20,7 @@ public partial class Inventory : Node2D
 	[Export] TextureRect grenadeTexture;
 	[Export] Label grenadeCountLabel;
 	[Export] InventoryGuiDrop bigUi;
+	[Export] TextureProgressBar interactBar;
 	[Export] PackedScene itemObject;
 	[Export] float reach = 600;
 	[Export] Material[] itemMats;
@@ -146,16 +147,41 @@ public partial class Inventory : Node2D
 
 		if (result.Count > 0) {
 			Node2D collider = (Node2D)result["collider"];
-			if (collider is InventoryItemObject) {
-				InventoryItemObject itemObject = (InventoryItemObject)collider;
-				itemObject.Interact();
+            if (collider is InventoryItemObject itemObject) {
+                itemObject.Interact();
 
-				if (Input.IsActionJustPressed("interact")) {
-					PickupItem(itemObject);
+                if (Input.IsActionJustPressed("interact")) {
+                    PickupItem(itemObject);
+                }
+            }
+            if (collider is Chest chest){
+                chest.Interact();
+
+                if (Input.IsActionPressed("interact")) {
+                    if (chestInteractCounter > 0.5) {
+						chest.Open();
+						chestInteractCounter = 0;
+					} else {
+						chestInteractCounter += delta;
+					}
+                } else {
+					chestInteractCounter = 0;
 				}
+            } else {
+				chestInteractCounter = 0;
 			}
+        } else {
+			chestInteractCounter = 0;
+		}
+
+		interactBar.Value = chestInteractCounter;
+		if (interactBar.Value == 0) {
+			interactBar.Hide();
+		} else {
+			interactBar.Show();
 		}
 	}
+	double chestInteractCounter;
 
 	void PickupItem(InventoryItemObject itemObject) {
 		InventoryItem item = itemObject.Item;

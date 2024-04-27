@@ -9,7 +9,6 @@ public partial class SteamLobbyManager: Node {
 	protected Callback<GameLobbyJoinRequested_t> gameLobbyJoinRequested;
 	protected Callback<LobbyEnter_t> lobbyEnter;
 
-	private const string HostAddressKey = "HostAddress";
 	public CSteamID LobbyId {get; private set; }
 
 	public override void _Ready()

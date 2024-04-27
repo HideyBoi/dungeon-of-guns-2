@@ -170,6 +170,8 @@ partial class NetworkManager : Node {
 	private void FailedToConnect(object sender, EventArgs e)
 	{
 		SceneManager.I.ChangeScene("res://Objects/GUI/MainMenuUi.tscn");
+		GD.Print(sender);
+		GD.Print(e);
 		// TODO: Tell em why you couldn't connect.
 	}
 

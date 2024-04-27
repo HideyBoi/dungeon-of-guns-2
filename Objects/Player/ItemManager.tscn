@@ -15,11 +15,11 @@ script = ExtResource("1_o0iv7")
 rotation = NodePath("Rotation")
 rotationHelper = NodePath("RotationHelper")
 gunSprite = NodePath("Rotation/GunSprite")
-leftAimCorrection = -16.0
 
 [node name="Rotation" type="Node2D" parent="."]
 
 [node name="GunSprite" type="Sprite2D" parent="Rotation"]
+z_index = 1
 texture = SubResource("AtlasTexture_3whmt")
 offset = Vector2(6, 0)
 

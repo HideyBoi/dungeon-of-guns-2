@@ -15,6 +15,17 @@ public static class Tools {
 		return (float)GD.RandRange(min, max);
 	}
 
+	// Summary:
+	//  Random Direction
+	public static Vector2 RandDirection(bool normalized = true) {
+		if (normalized) {
+            Vector2 _new = new(RandFloatRange(-1, 1), RandFloatRange(-1,1));
+			return _new.Normalized();
+        } else {
+			return new(RandFloatRange(-1, 1), RandFloatRange(-1,1));
+		}
+	}
+
 	public static Message AddWeapon(this Message msg, Weapon weapon) {
 		ushort weaponId = weapon.itemId;
 		int currentAmmo = weapon.currentAmmo;

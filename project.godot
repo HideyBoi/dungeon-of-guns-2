@@ -35,6 +35,7 @@ DiscordHandler="*res://Scripts/DiscordHandler.cs"
 
 window/size/viewport_width=550
 window/size/viewport_height=320
+window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

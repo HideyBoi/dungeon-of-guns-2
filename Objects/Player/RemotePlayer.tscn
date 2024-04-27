@@ -3,10 +3,9 @@
 [ext_resource type="Script" path="res://Objects/Player/RemotePlayer.cs" id="1_ku2ms"]
 [ext_resource type="SpriteFrames" uid="uid://b5o3pa4nm5hf8" path="res://Sprites/placeholder/player.aseprite" id="2_tg8pa"]
 
-[node name="RemotePlayer" type="Node2D" node_paths=PackedStringArray("playerSprite")]
+[node name="RemotePlayer" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_ku2ms")
-playerSprite = NodePath("Player")
 
 [node name="Player" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_tg8pa")
