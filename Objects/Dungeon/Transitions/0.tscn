@@ -46,6 +46,7 @@ shape = SubResource("RectangleShape2D_n0w8f")
 position = Vector2(2.7887e-05, -11)
 
 [node name="Wall" type="StaticBody2D" parent="True"]
+collision_layer = 9
 
 [node name="Collider" type="CollisionShape2D" parent="True/Wall"]
 position = Vector2(-3.29574e-05, 13)
@@ -68,6 +69,7 @@ metadata/_aseprite_wizard_config_ = {
 }
 
 [node name="Wall" type="StaticBody2D" parent="False"]
+collision_layer = 9
 
 [node name="Collider" type="CollisionShape2D" parent="False/Wall"]
 shape = SubResource("RectangleShape2D_tms2m")

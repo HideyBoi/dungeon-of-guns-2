@@ -158,30 +158,43 @@ public partial class Inventory : Node2D
                 chest.Interact();
 
                 if (Input.IsActionPressed("interact")) {
-                    if (chestInteractCounter > 0.5) {
+                    if (crateInteractCounter > 0.5) {
 						chest.Open();
-						chestInteractCounter = 0;
+						crateInteractCounter = 0;
 					} else {
-						chestInteractCounter += delta;
+						crateInteractCounter += delta;
 					}
                 } else {
-					chestInteractCounter = 0;
+					crateInteractCounter = 0;
+				}
+            } else if (collider is AmmoCrate ammo){
+                ammo.Interact();
+
+                if (Input.IsActionPressed("interact")) {
+                    if (crateInteractCounter > 0.5) {
+						ammo.Open();
+						crateInteractCounter = 0;
+					} else {
+						crateInteractCounter += delta;
+					}
+                } else {
+					crateInteractCounter = 0;
 				}
             } else {
-				chestInteractCounter = 0;
+				crateInteractCounter = 0;
 			}
         } else {
-			chestInteractCounter = 0;
+			crateInteractCounter = 0;
 		}
 
-		interactBar.Value = chestInteractCounter;
+		interactBar.Value = crateInteractCounter;
 		if (interactBar.Value == 0) {
 			interactBar.Hide();
 		} else {
 			interactBar.Show();
 		}
 	}
-	double chestInteractCounter;
+	double crateInteractCounter;
 
 	void PickupItem(InventoryItemObject itemObject) {
 		InventoryItem item = itemObject.Item;
@@ -256,10 +269,11 @@ public partial class Inventory : Node2D
 		GameManager.I.AddChild(itemObj);
 	}
 
-	public void UpdateUi () {
+	public void UpdateUi (bool fromItemManager = false) {
 		int currentPos = weaponsIndex;
 		
-		itemManager.UpdateHolding(weaponsIndex);
+		if (!fromItemManager)
+			itemManager.UpdateHolding(weaponsIndex);
 		
 		for (int i = 0; i < 4; i++)
 		{

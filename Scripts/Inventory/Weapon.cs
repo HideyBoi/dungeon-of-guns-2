@@ -9,8 +9,11 @@ public partial class Weapon : InventoryItem {
     [Export] public float timeBetweenShots;
     [Export] public int maxAmmo;
     [Export] public AmmoType ammoType;
+    [Export] public float reloadTime;
     [Export] public Rarity rarity;
+    [Export] public Vector2 muzzleLocation; 
     public int currentAmmo;
+    public bool canShoot;
 
     public enum Rarity { Common, Rare, Legendary }
     public enum AmmoType { Light, Medium, Heavy, Shell }

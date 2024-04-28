@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://baanajs4vvkkc"]
+[gd_scene load_steps=10 format=3 uid="uid://baanajs4vvkkc"]
 
 [ext_resource type="TileSet" uid="uid://b0pvykbnygpd3" path="res://Sprites/Dungeon/DungeonTileset.tres" id="1_nbuf2"]
 [ext_resource type="Script" path="res://Objects/Dungeon/Room.cs" id="2_csdcw"]
@@ -8,8 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://qgifwid8bvvc" path="res://Objects/Dungeon/Transitions/3.tscn" id="6_ubbk1"]
 [ext_resource type="PackedScene" uid="uid://fxyqm25gkwav" path="res://Objects/Dungeon/Spawnpoint.tscn" id="7_xs7yh"]
 [ext_resource type="PackedScene" uid="uid://dv7hy83qy6agl" path="res://Objects/Chest.tscn" id="8_y4nhy"]
+[ext_resource type="PackedScene" uid="uid://dq4lf1jmbks66" path="res://Objects/AmmoCrate.tscn" id="9_tyese"]
 
 [node name="TileMap" type="TileMap" node_paths=PackedStringArray("sides")]
+y_sort_enabled = true
 tile_set = ExtResource("1_nbuf2")
 format = 2
 layer_0/name = "Floor"
@@ -53,6 +55,12 @@ position = Vector2(76, 108)
 
 [node name="Chest2" parent="." instance=ExtResource("8_y4nhy")]
 position = Vector2(173, 110)
+
+[node name="AmmoCrate" parent="." instance=ExtResource("9_tyese")]
+position = Vector2(130, 132)
+
+[node name="AmmoCrate2" parent="." instance=ExtResource("9_tyese")]
+position = Vector2(129, 77)
 
 [connection signal="OnTransition" from="0" to="." method="RoomExited"]
 [connection signal="OnTransition" from="1" to="." method="RoomExited"]

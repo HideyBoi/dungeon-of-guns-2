@@ -12,5 +12,5 @@ script = ExtResource("1_yljoh")
 count = 0
 ammoType = 3
 itemId = 0
-itemName = ""
+itemName = "Shells"
 itemSprite = SubResource("AtlasTexture_2eity")

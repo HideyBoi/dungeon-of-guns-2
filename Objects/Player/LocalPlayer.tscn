@@ -346,8 +346,6 @@ playerSprite = NodePath("Player")
 [node name="Player" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_swl1d")
 animation = &"idle"
-frame = 3
-frame_progress = 0.602199
 offset = Vector2(0, -16)
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
@@ -395,9 +393,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_dk8cw")
 
 [node name="Minimap" parent="." instance=ExtResource("3_hy0a7")]
 
-[node name="Inventory" parent="." node_paths=PackedStringArray("inactiveSprites", "inactiveAmmoLabels", "itemManager") instance=ExtResource("5_w8nbu")]
-inactiveSprites = [null, NodePath("UI/General/VBoxContainer/Inactive5/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive4/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive3/TextureRect")]
-inactiveAmmoLabels = [null, NodePath("UI/General/VBoxContainer/Inactive5/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive4/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive3/CurrentAmmo")]
+[node name="Inventory" parent="." node_paths=PackedStringArray("itemManager") instance=ExtResource("5_w8nbu")]
 itemManager = NodePath("../ItemManager")
 
 [node name="ItemManager" parent="." node_paths=PackedStringArray("inventory", "rotation") instance=ExtResource("6_rbrf5")]

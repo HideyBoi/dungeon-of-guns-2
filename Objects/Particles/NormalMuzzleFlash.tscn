@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://14ah7010prn2"]
+
+[ext_resource type="Texture2D" uid="uid://y48sqb2pqjf0" path="res://Sprites/MuzzleFlash.png" id="1_vn8n3"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_doct1"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Curve" id="Curve_vg0oi"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.82793, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ilmf2"]
+curve = SubResource("Curve_vg0oi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5ootq"]
+lifetime_randomness = 0.25
+particle_flag_disable_z = true
+spread = 59.911
+initial_velocity_min = 7.92
+initial_velocity_max = 31.59
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_ilmf2")
+anim_speed_min = 0.76
+anim_speed_max = 0.85
+
+[node name="NormalMuzzleFlash" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_doct1")
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_5ootq")
+texture = ExtResource("1_vn8n3")
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0

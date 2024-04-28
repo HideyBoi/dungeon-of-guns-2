@@ -3,10 +3,14 @@
 [ext_resource type="TileSet" uid="uid://b0pvykbnygpd3" path="res://Sprites/Dungeon/DungeonTileset.tres" id="1_g6tr4"]
 
 [node name="TileMap" type="TileMap"]
+y_sort_enabled = true
 tile_set = ExtResource("1_g6tr4")
 format = 2
 layer_0/name = "Floor"
+layer_0/y_sort_enabled = true
 layer_1/name = "Walls"
+layer_1/y_sort_enabled = true
 layer_1/tile_data = PackedInt32Array()
 layer_2/name = "Objects"
+layer_2/y_sort_enabled = true
 layer_2/tile_data = PackedInt32Array()

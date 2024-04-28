@@ -109,43 +109,6 @@ grow_horizontal = 0
 grow_vertical = 0
 alignment = 2
 
-[node name="Inactive3" type="Panel" parent="UI/General/VBoxContainer"]
-custom_minimum_size = Vector2(45, 20)
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive3"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -34.0
-offset_top = -7.0
-offset_right = -3.0
-offset_bottom = 7.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "999"
-horizontal_alignment = 2
-vertical_alignment = 1
-clip_text = true
-
-[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive3"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 3.0
-offset_top = -9.0
-offset_right = 21.0
-offset_bottom = 9.0
-grow_vertical = 2
-texture = ExtResource("5_4dhuy")
-expand_mode = 1
-stretch_mode = 5
-
 [node name="Inactive4" type="Panel" parent="UI/General/VBoxContainer"]
 custom_minimum_size = Vector2(45, 20)
 layout_mode = 2
@@ -293,6 +256,43 @@ offset_left = 8.0
 offset_top = -18.0
 offset_right = 44.0
 offset_bottom = 18.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Inactive3" type="Panel" parent="UI/General/VBoxContainer"]
+custom_minimum_size = Vector2(45, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -7.0
+offset_right = -3.0
+offset_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 21.0
+offset_bottom = 9.0
 grow_vertical = 2
 texture = ExtResource("5_4dhuy")
 expand_mode = 1

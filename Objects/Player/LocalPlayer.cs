@@ -46,17 +46,25 @@ public partial class LocalPlayer : CharacterBody2D
 		Vector2 mousePos = GetLocalMousePosition();
 		
 		if (mousePos.X >= 0)  {
-			playerSprite.Scale = new(1, 1);
+			playerSprite.FlipH = false;
 		}
 		else {
-			playerSprite.Scale = new(-1, 1);
+			playerSprite.FlipH = true;
 		}
 			
 		MoveAndSlide();
 
+		if (currentMoveDir.Length() > 0.1) {
+			playerSprite.Play("walk");
+		} else {
+			playerSprite.Play("idle");
+		}
+
 		Message posRot = Message.Create(MessageSendMode.Unreliable, NetworkManager.MessageIds.PlayerPosRot);
 		posRot.AddUShort(pId);
 		posRot.AddVector2(GlobalPosition);
+		posRot.AddBool(playerSprite.FlipH);
+
 		NetworkManager.I.Client.Send(posRot);
 	}
 }

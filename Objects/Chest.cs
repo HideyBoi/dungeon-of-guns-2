@@ -2,13 +2,14 @@ using Godot;
 using Riptide;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Intrinsics.X86;
 
 public partial class Chest : StaticBody2D
 {
 	public static Dictionary<ushort, Chest> Chests = new();
 	ushort thisId;
 	[Export] AnimatedSprite2D boxSprite;
+	[Export] SpriteFrames crateSprites;  
+	[Export] SpriteFrames brokenSprite;
 	[Export] PackedScene itemObject;
 	[Export] float[] impulse;
 	[Export] CollisionShape2D collider;
@@ -24,13 +25,16 @@ public partial class Chest : StaticBody2D
 
 		legendaryChance = float.Parse(ConfigManager.CurrentGamerules["legendary_chance"]);
 		rareChance = float.Parse(ConfigManager.CurrentGamerules["rare_chance"]);
+
+		boxSprite.SpriteFrames = crateSprites;
+		boxSprite.Frame = Tools.RandIntRange(0, crateSprites.GetFrameCount("default"));
     }
 
 	SceneTreeTimer timeTillRegen;
 	public void Open(bool fromNetwork = false) {
 		// TODO: Art stuffs to figure out later lol
 		collider.Disabled = true;
-		boxSprite.Frame = 1;
+		boxSprite.SpriteFrames = brokenSprite;
 		
 		if (bool.Parse(ConfigManager.CurrentGamerules["chests_regenerate"])) {
 			timeTillRegen = GetTree().CreateTimer(float.Parse(ConfigManager.CurrentGamerules["chests_regeneration_time"]));
