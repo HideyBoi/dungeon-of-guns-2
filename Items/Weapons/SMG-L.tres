@@ -19,6 +19,7 @@ maxAmmo = 40
 ammoType = 0
 reloadTime = 1.3
 rarity = 2
+muzzleLocation = Vector2(0, 0)
 itemId = 0
 itemName = "Submachine Gun"
 itemSprite = SubResource("AtlasTexture_o7lrh")

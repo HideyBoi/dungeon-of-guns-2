@@ -13,6 +13,6 @@ dest_files=["res://.godot/imported/NormalTiles.aseprite-1d27e5fdd39abd4fa946fd9e
 [params]
 
 split_layers=false
-exclude_layers_pattern=""
+exclude_layers_pattern="Demos"
 only_visible_layers=false
 sheet_type="Packed"

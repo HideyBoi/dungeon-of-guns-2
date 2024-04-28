@@ -25,8 +25,6 @@ public partial class Room : TileMap
 	public void RoomExited(int sideToGet, Node2D body, Vector2 origin) {
 		if (!body.IsInGroup("CanLeaveRoom"))
 			return;
-		
-		//GD.Print("Leaving room");
 
 		body.GetNode<AnimationPlayer>("./transition");
 

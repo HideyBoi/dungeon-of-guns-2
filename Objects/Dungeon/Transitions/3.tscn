@@ -11,7 +11,7 @@ size = Vector2(64, 4)
 size = Vector2(64, 2.99998)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f2lft"]
-size = Vector2(16, 80)
+size = Vector2(32, 94)
 
 [node name="3" type="Node2D"]
 script = ExtResource("1_fklgc")
@@ -47,6 +47,7 @@ shape = SubResource("RectangleShape2D_n0w8f")
 position = Vector2(-2.14577e-05, -6)
 
 [node name="Wall" type="StaticBody2D" parent="True"]
+position = Vector2(2.17199e-05, 6)
 collision_layer = 9
 
 [node name="Collider" type="CollisionShape2D" parent="True/Wall"]
@@ -55,7 +56,7 @@ shape = SubResource("RectangleShape2D_bjrjr")
 
 [node name="False" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(8, 0)
+position = Vector2(8, -16)
 texture = ExtResource("3_wl781")
 metadata/_aseprite_wizard_config_ = {
 "keep_anim_length": false,
@@ -73,6 +74,7 @@ metadata/_aseprite_wizard_config_ = {
 collision_layer = 9
 
 [node name="Collider" type="CollisionShape2D" parent="False/Wall"]
+position = Vector2(8, 0)
 shape = SubResource("RectangleShape2D_f2lft")
 disabled = true
 

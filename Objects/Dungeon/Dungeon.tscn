@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cbems1yjd83uv"]
 
-[ext_resource type="PackedScene" uid="uid://b7v3whibaf6h7" path="res://Objects/Dungeon/Rooms/Test1.tscn" id="3_4qvg7"]
+[ext_resource type="PackedScene" uid="uid://cjvhrx3rnvyyu" path="res://Objects/Dungeon/Rooms/Small1.tscn" id="2_0k300"]
 [ext_resource type="Script" path="res://Objects/Dungeon/DungeonGenerator.cs" id="3_7ps08"]
+[ext_resource type="PackedScene" uid="uid://bqa4nh3r2d7sx" path="res://Objects/Dungeon/Rooms/Small2.tscn" id="3_vkhqw"]
 [ext_resource type="PackedScene" uid="uid://ecvm6adagvkl" path="res://Objects/Dungeon/ProcGenGameManager.tscn" id="4_ckoqb"]
-[ext_resource type="PackedScene" uid="uid://baanajs4vvkkc" path="res://Objects/Dungeon/Rooms/Test2.tscn" id="4_sdsvx"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -14,6 +14,6 @@ position = Vector2(0, -4)
 script = ExtResource("3_7ps08")
 distance = 1800
 connectionChance = 60.0
-possibleRooms = Array[PackedScene]([ExtResource("3_4qvg7"), ExtResource("4_sdsvx")])
+possibleRooms = Array[PackedScene]([ExtResource("2_0k300"), ExtResource("3_vkhqw")])
 
 [node name="ProcGenGameManager" parent="." instance=ExtResource("4_ckoqb")]

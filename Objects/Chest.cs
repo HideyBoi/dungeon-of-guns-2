@@ -64,7 +64,8 @@ public partial class Chest : StaticBody2D
 	void ChestRegen() {
 		// TODO: some sort of sound effect/particle/animation
 		collider.Disabled = false;
-		boxSprite.Frame = 0;
+		boxSprite.SpriteFrames = crateSprites;
+		boxSprite.Frame = Tools.RandIntRange(0, crateSprites.GetFrameCount("default"));
 	}
 
 	void SpawnLoot() {
