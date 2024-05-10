@@ -17,6 +17,7 @@ public partial class AmmoCrate : StaticBody2D
 
 	float legendaryChance;
 	float rareChance;
+	int dropCount;
 
     public override void _Ready()
     {
@@ -25,6 +26,7 @@ public partial class AmmoCrate : StaticBody2D
 
 		legendaryChance = float.Parse(ConfigManager.CurrentGamerules["legendary_chance"]);
 		rareChance = float.Parse(ConfigManager.CurrentGamerules["rare_chance"]);
+		dropCount = int.Parse(ConfigManager.CurrentGamerules["ammo_crate_drop_count"]);
 
 		boxSprite.SpriteFrames = crateSprites;
 		boxSprite.Frame = Tools.RandIntRange(0, crateSprites.GetFrameCount("default"));
@@ -39,7 +41,10 @@ public partial class AmmoCrate : StaticBody2D
 		timeTillRegen.Timeout += AmmoRegen;
 
 		if (!fromNetwork) {
-			SpawnLoot();
+			for (int i = 0; i < dropCount; i++)
+			{
+				SpawnLoot();
+			}
 
 			Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.AmmoOpened);
 			msg.AddUShort(thisId);
@@ -66,7 +71,13 @@ public partial class AmmoCrate : StaticBody2D
 	}
 
 	void SpawnLoot() {
+		Ammo ammo = (Ammo)GameManager.GetNewInventoryItem((ushort)GameManager.I.ammo[Tools.RandIntRange(0, GameManager.I.ammo.Count)]);
+		ammo.count = Tools.RandIntRange(10, 20) * (int)Math.Floor(float.Parse(ConfigManager.CurrentGamerules["ammo_multiplier"]));
 
+		InventoryItemObject newAmmo = itemObject.Instantiate<InventoryItemObject>();
+		newAmmo.Setup(ammo, NetworkManager.I.Client.Id, Tools.RandDirection(), Tools.RandFloatRange(impulse[0], impulse[1]));
+		newAmmo.GlobalPosition = GlobalPosition;
+		GameManager.I.AddChild(newAmmo);
 	}
 
 	SceneTreeTimer timeToEndInteract;

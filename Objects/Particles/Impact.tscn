@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://cauxar6meco6f"]
+
+[ext_resource type="Script" path="res://Objects/Particles/BasicParticleEffect.cs" id="1_t1wtp"]
+
+[sub_resource type="Curve" id="Curve_5fp0s"]
+max_value = 100.0
+_data = [Vector2(0, 0.322166), 0.0, 351.804, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_dfgk1"]
+curve = SubResource("Curve_5fp0s")
+
+[sub_resource type="Curve" id="Curve_668n1"]
+_data = [Vector2(0, 1), 0.0, -2.93831, 0, 0, Vector2(1, 0), 0.142673, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_hgkqr"]
+curve = SubResource("Curve_668n1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xohkd"]
+particle_flag_disable_z = true
+initial_velocity_min = 29.59
+initial_velocity_max = 71.0
+gravity = Vector3(0, 0, 0)
+damping_min = 1.836
+damping_max = 1.836
+damping_curve = SubResource("CurveTexture_dfgk1")
+scale_min = 4.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_hgkqr")
+scale_over_velocity_max = 1.0
+
+[node name="Impact" type="GPUParticles2D"]
+emitting = false
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_xohkd")
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("1_t1wtp")
+
+[connection signal="finished" from="." to="." method="OnFinished"]

@@ -196,6 +196,17 @@ public partial class Inventory : Node2D
 	}
 	double crateInteractCounter;
 
+	public void ObjectEnteredItemZone(Node2D body) {
+		if (!bool.Parse(ConfigManager.CurrentGameSettings["pickup_heals_ammo"]))
+			return;
+
+		if (body is InventoryItemObject inventoryItemObject) {
+			if (inventoryItemObject.Item is Ammo or Healable) {
+				PickupItem(inventoryItemObject);
+			}
+		}
+	}
+
 	void PickupItem(InventoryItemObject itemObject) {
 		InventoryItem item = itemObject.Item;
 

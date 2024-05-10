@@ -26,8 +26,6 @@ public partial class Room : TileMap
 		if (!body.IsInGroup("CanLeaveRoom"))
 			return;
 
-		body.GetNode<AnimationPlayer>("./transition");
-
 		Vector2I newPos = roomPos;
 		Vector2 position;
 		Room newRoom = null;

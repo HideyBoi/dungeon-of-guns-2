@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Objects/Chest.cs" id="1_pb0ce"]
 [ext_resource type="PackedScene" uid="uid://de64ffignjl8f" path="res://Objects/InventoryItemObject.tscn" id="2_ktm64"]
-[ext_resource type="SpriteFrames" uid="uid://mq838thxnu6c" path="res://Sprites/roodolf.aseprite" id="3_o7d3y"]
+[ext_resource type="SpriteFrames" uid="uid://cjmfs7uu6svy3" path="res://Sprites/CrateBroken.aseprite" id="3_fxn6p"]
 [ext_resource type="SpriteFrames" uid="uid://eyxrpggc166v" path="res://Sprites/Crate.aseprite" id="3_or4kr"]
 [ext_resource type="Theme" uid="uid://dd8pxex3rwxau" path="res://DefaultTheme.tres" id="4_ebgnf"]
 
@@ -19,7 +19,7 @@ collision_layer = 10
 script = ExtResource("1_pb0ce")
 boxSprite = NodePath("Sprite2D")
 crateSprites = ExtResource("3_or4kr")
-brokenSprite = ExtResource("3_o7d3y")
+brokenSprite = ExtResource("3_fxn6p")
 itemObject = ExtResource("2_ktm64")
 impulse = PackedFloat32Array(1.4, 2.8)
 collider = NodePath("CollisionShape2D")

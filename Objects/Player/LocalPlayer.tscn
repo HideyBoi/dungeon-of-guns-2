@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://tsfpfpuarod2"]
+[gd_scene load_steps=16 format=3 uid="uid://tsfpfpuarod2"]
 
 [ext_resource type="Script" path="res://Objects/Player/LocalPlayer.cs" id="1_0pq10"]
 [ext_resource type="SpriteFrames" uid="uid://myrwb7koxdjv" path="res://Sprites/Player.aseprite" id="2_swl1d"]
@@ -337,6 +337,10 @@ _data = {
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dk8cw"]
 bg_color = Color(0, 0, 0, 1)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b32g7"]
+radius = 5.0
+height = 18.0
+
 [node name="LocalPlayer" type="CharacterBody2D" node_paths=PackedStringArray("playerSprite") groups=["CanLeaveRoom", "Player"]]
 y_sort_enabled = true
 script = ExtResource("1_0pq10")
@@ -393,12 +397,28 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_dk8cw")
 
 [node name="Minimap" parent="." instance=ExtResource("3_hy0a7")]
 
-[node name="Inventory" parent="." node_paths=PackedStringArray("itemManager") instance=ExtResource("5_w8nbu")]
+[node name="Inventory" parent="." node_paths=PackedStringArray("inactiveSprites", "inactiveAmmoLabels", "itemManager") instance=ExtResource("5_w8nbu")]
+inactiveSprites = [null, NodePath("UI/General/VBoxContainer/Inactive5/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive4/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive3/TextureRect")]
+inactiveAmmoLabels = [null, NodePath("UI/General/VBoxContainer/Inactive5/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive4/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive3/CurrentAmmo")]
 itemManager = NodePath("../ItemManager")
 
-[node name="ItemManager" parent="." node_paths=PackedStringArray("inventory", "rotation") instance=ExtResource("6_rbrf5")]
+[node name="GunshotOrigin" type="Marker2D" parent="."]
+position = Vector2(0, -7)
+
+[node name="ItemManager" parent="." node_paths=PackedStringArray("gunShotOrigin", "inventory", "rotation") instance=ExtResource("6_rbrf5")]
 position = Vector2(0, -7)
 rotation = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":null)
 
+gunShotOrigin = NodePath("../GunshotOrigin")
 inventory = NodePath("../Inventory")
 rotation = NodePath("Rotation")
+
+[node name="ItemPickupZone" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemPickupZone"]
+position = Vector2(0, -2)
+rotation = 1.57079
+shape = SubResource("CapsuleShape2D_b32g7")
+
+[connection signal="body_entered" from="ItemPickupZone" to="Inventory" method="ObjectEnteredItemZone"]

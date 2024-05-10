@@ -8,8 +8,8 @@ using Riptide;
 
 public class ConfigManager 
 {
-	static string gameSettingsVersion = "3";
-	static string gameruleFileVersion = "0";
+	static string gameSettingsVersion = "1";
+	static string gameruleFileVersion = "3";
 
 	public static Dictionary<string, string> CurrentGameSettings;
 	static string gameSettingsPath = OS.GetUserDataDir() + "/GAME_SETTINGS.sav";
@@ -81,6 +81,7 @@ public class ConfigManager
 			{ "heal_multiplier", "1"},
 			{ "bonus_healable_chance", "4"},
 			{ "ammo_multiplier", "1.2"},
+			{ "ammo_crate_drop_count", "1"},
 			{ "chests_regenerate", "False"},
 			{ "chests_regeneration_time", "120"}
 		};
@@ -134,6 +135,7 @@ public class ConfigManager
 			{ "sfx_vol", "0" },
 			{ "amb_vol", "4" },
 			{ "fullscreen", "False" },
+			{ "pickup_heals_ammo", "True"}
 		};
 	}
 

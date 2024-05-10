@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvq20eivkpuv3"]
+
+[ext_resource type="SpriteFrames" uid="uid://dis31oryvbmfc" path="res://Sprites/MuzzleFlash.aseprite" id="1_yvx8h"]
+[ext_resource type="Script" path="res://Objects/Particles/MuzzleFlashEffect.cs" id="2_il6jr"]
+
+[node name="MuzzleLight" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_yvx8h")
+frame = 2
+frame_progress = 0.721095
+offset = Vector2(8, 0)
+script = ExtResource("2_il6jr")

@@ -3,9 +3,10 @@ using Godot;
 public partial class Weapon : InventoryItem {
     [Export] public int damage;
     [Export] public float damageFalloff; // How much the damage decreases for every in-game tile.
-    [Export] public float minBloom;
-    [Export] public float maxBloom;
+    [Export] public float bloom;
     [Export] public float visibleRecoilAmount;
+    [Export] public MuzzleFlashSize flashSize;
+    [Export(PropertyHint.Range, "1,16")] public int shotCount = 1;
     [Export] public float timeBetweenShots;
     [Export] public int maxAmmo;
     [Export] public AmmoType ammoType;
@@ -17,6 +18,7 @@ public partial class Weapon : InventoryItem {
 
     public enum Rarity { Common, Rare, Legendary }
     public enum AmmoType { Light, Medium, Heavy, Shell }
+    public enum MuzzleFlashSize { Light, Medium, Heavy }
 
     public static string GetRarityText(Rarity rarity) {
         switch (rarity)

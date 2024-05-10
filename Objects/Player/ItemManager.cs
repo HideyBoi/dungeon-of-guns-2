@@ -3,11 +3,15 @@ using System;
 
 public partial class ItemManager : Marker2D
 {
+	[Export] Marker2D gunShotOrigin;
 	[Export] Inventory inventory;
 	[Export] Node2D rotation;
 	[Export] Marker2D rotationHelper;
 	[Export] Sprite2D gunSprite;
 	[Export] Marker2D muzzleMarker;
+	[Export] PackedScene muzzleFlashEffect;
+	[Export] PackedScene impactEffect;
+	[Export] PackedScene bulletTracer;
 	[Export(PropertyHint.Range, "0,16")] float maxRotOffset = 8;
 	[Export(PropertyHint.Layers2DPhysics)] uint layerMask;
 	public Weapon gun;
@@ -79,16 +83,37 @@ public partial class ItemManager : Marker2D
 
 		gun.currentAmmo--;
 
-		Vector2 aimDir = GetLocalMousePosition().Normalized();
+		Vector2 aimDir = gunShotOrigin.GetLocalMousePosition().Normalized();
 
-		PhysicsDirectSpaceState2D state = GetWorld2D().DirectSpaceState;
-		PhysicsRayQueryParameters2D parameters = PhysicsRayQueryParameters2D.Create(GlobalPosition, GlobalPosition + (aimDir * 69420));
-		parameters.CollisionMask = layerMask;
-		parameters.Exclude = new Godot.Collections.Array<Rid> { GetParent<CharacterBody2D>().GetRid() };
-		Godot.Collections.Dictionary result = state.IntersectRay(parameters);
+		MuzzleFlashEffect muzzleFlash = muzzleFlashEffect.Instantiate<MuzzleFlashEffect>();
+		AddChild(muzzleFlash);
+		muzzleFlash.Setup(rotation.ToGlobal(gun.muzzleLocation), rotation.GlobalRotation, gun.flashSize);
 
-		if (result.Count > 0) {
-			Node2D collider = (Node2D)result["collider"];
+		for (int i = 0; i < gun.shotCount; i++)
+		{
+			PhysicsDirectSpaceState2D state = GetWorld2D().DirectSpaceState;
+			PhysicsRayQueryParameters2D parameters = PhysicsRayQueryParameters2D.Create(GlobalPosition, GlobalPosition + (aimDir * 69420));
+			parameters.CollisionMask = layerMask;
+			parameters.Exclude = new Godot.Collections.Array<Rid> { GetParent<CharacterBody2D>().GetRid() };
+			Godot.Collections.Dictionary result = state.IntersectRay(parameters);
+
+			if (result.Count > 0) {
+				Node2D collider = (Node2D)result["collider"];
+				Vector2 pos = (Vector2)result["position"];
+				float angle = ((Vector2)result["normal"]).Angle();
+
+				BasicParticleEffect impact = impactEffect.Instantiate<BasicParticleEffect>();
+				impact.GlobalPosition = pos;
+				impact.GlobalRotation = angle;
+				GameManager.I.AddChild(impact);
+
+				BulletTracer tracer = bulletTracer.Instantiate<BulletTracer>();
+				GameManager.I.AddChild(tracer);
+				tracer.GlobalPosition = gunShotOrigin.GlobalPosition;
+				Vector2 start = gunShotOrigin.ToLocal(rotation.ToGlobal(gun.muzzleLocation));
+				Vector2 end = gunShotOrigin.ToLocal(pos);
+				tracer.Setup(start, end);
+			}
 		}
 
 		inventory.UpdateUi(true);

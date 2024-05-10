@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Objects/AmmoCrate.cs" id="1_hjbvk"]
 [ext_resource type="SpriteFrames" uid="uid://dsmfcvmtf72y3" path="res://Sprites/AmmoCrate.aseprite" id="2_28jgr"]
-[ext_resource type="SpriteFrames" uid="uid://d1hfj7x4wh3df" path="res://Sprites/littleroodolf.aseprite" id="3_l1lld"]
+[ext_resource type="SpriteFrames" uid="uid://gjat4vy4lce7" path="res://Sprites/AmmoCrateBroken.aseprite" id="3_nmg3e"]
 [ext_resource type="PackedScene" uid="uid://de64ffignjl8f" path="res://Objects/InventoryItemObject.tscn" id="4_38w08"]
 [ext_resource type="Theme" uid="uid://dd8pxex3rwxau" path="res://DefaultTheme.tres" id="5_aqrfj"]
 
@@ -19,9 +19,9 @@ collision_layer = 10
 script = ExtResource("1_hjbvk")
 boxSprite = NodePath("Sprite2D")
 crateSprites = ExtResource("2_28jgr")
-brokenSprite = ExtResource("3_l1lld")
+brokenSprite = ExtResource("3_nmg3e")
 itemObject = ExtResource("4_38w08")
-impulse = PackedFloat32Array(1.4, 2.8)
+impulse = PackedFloat32Array(0.8, 2.8)
 collider = NodePath("CollisionShape2D")
 popupRoot = NodePath("Labels")
 
