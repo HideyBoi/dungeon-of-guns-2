@@ -33,7 +33,7 @@ public partial class HealthManager : Node2D
     {
 		healthCount.Text = currentHealth.ToString();
         healthBar.Value = currentHealth;
-		delayHealthBar.Value = Mathf.Lerp(delayHealthBar.Value, currentHealth, delta * 4);
+		delayHealthBar.Value = Mathf.Lerp(delayHealthBar.Value, currentHealth, delta);
     }
 
     [MessageHandler((ushort)NetworkManager.MessageIds.DamagePlayer)]
