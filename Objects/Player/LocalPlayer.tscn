@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://tsfpfpuarod2"]
+[gd_scene load_steps=17 format=3 uid="uid://tsfpfpuarod2"]
 
 [ext_resource type="Script" path="res://Objects/Player/LocalPlayer.cs" id="1_0pq10"]
 [ext_resource type="SpriteFrames" uid="uid://myrwb7koxdjv" path="res://Sprites/Player.aseprite" id="2_swl1d"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Objects/Player/TransitionAnimation.cs" id="5_oco3x"]
 [ext_resource type="PackedScene" uid="uid://dg8su5nj5f20l" path="res://Objects/Player/Inventory.tscn" id="5_w8nbu"]
 [ext_resource type="PackedScene" uid="uid://cldmaollllsj7" path="res://Objects/Player/ItemManager.tscn" id="6_rbrf5"]
+[ext_resource type="PackedScene" uid="uid://bmn64ufvokut7" path="res://Objects/Player/HealthManager.tscn" id="7_f0s6q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qv8ek"]
 size = Vector2(11, 3)
@@ -420,5 +421,7 @@ collision_mask = 2
 position = Vector2(0, -2)
 rotation = 1.57079
 shape = SubResource("CapsuleShape2D_b32g7")
+
+[node name="HealthManager" parent="." instance=ExtResource("7_f0s6q")]
 
 [connection signal="body_entered" from="ItemPickupZone" to="Inventory" method="ObjectEnteredItemZone"]

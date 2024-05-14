@@ -36,7 +36,30 @@ public partial class RemotePlayer : Node2D
 
 		lastPos = Position;
 		*/
+
+		if (totalTickDamageAmount > 0) {
+			TickDamage();
+		}
     }
+
+	void TickDamage() {
+		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.DamagePlayer);
+		msg.AddUShort(NetworkManager.I.Client.Id);
+		msg.AddUShort(pId);
+		msg.AddUShort(lastDamagedByItemId);
+		msg.AddInt(totalTickDamageAmount);
+		NetworkManager.I.Client.Send(msg);
+
+		totalTickDamageAmount = 0;
+	}
+
+	ushort lastDamagedByItemId;
+	int totalTickDamageAmount;
+
+	public void DamageRemotePlayer(ushort itemId, int damageAmount) {
+		lastDamagedByItemId = itemId;
+		totalTickDamageAmount += damageAmount;
+	}
 
     [MessageHandler((ushort)NetworkManager.MessageIds.PlayerPosRot)]
     public static void HandlePlayerPosRot(Message msg) {

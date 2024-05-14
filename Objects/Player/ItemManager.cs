@@ -1,8 +1,11 @@
 using Godot;
+using Riptide;
 using System;
 
 public partial class ItemManager : Marker2D
 {
+	static ItemManager instance;
+
 	[Export] Marker2D gunShotOrigin;
 	[Export] Inventory inventory;
 	[Export] Node2D rotation;
@@ -16,7 +19,12 @@ public partial class ItemManager : Marker2D
 	[Export(PropertyHint.Layers2DPhysics)] uint layerMask;
 	public Weapon gun;
 
-	public override void _Process(double delta)
+    public override void _ExitTree()
+    {
+        instance = this;
+    }
+
+    public override void _Process(double delta)
 	{
 		Vector2 mousePos = GetGlobalMousePosition();
 		rotationHelper.LookAt(mousePos);
@@ -83,16 +91,17 @@ public partial class ItemManager : Marker2D
 
 		gun.currentAmmo--;
 
-		Vector2 aimDir = gunShotOrigin.GetLocalMousePosition().Normalized();
-
 		MuzzleFlashEffect muzzleFlash = muzzleFlashEffect.Instantiate<MuzzleFlashEffect>();
 		AddChild(muzzleFlash);
 		muzzleFlash.Setup(rotation.ToGlobal(gun.muzzleLocation), rotation.GlobalRotation, gun.flashSize);
 
 		for (int i = 0; i < gun.shotCount; i++)
 		{
+			float aimDir = Mathf.RadToDeg(gunShotOrigin.GetLocalMousePosition().Normalized().Angle());
+			aimDir += Tools.RandFloatRange(-gun.bloom, gun.bloom);
+
 			PhysicsDirectSpaceState2D state = GetWorld2D().DirectSpaceState;
-			PhysicsRayQueryParameters2D parameters = PhysicsRayQueryParameters2D.Create(GlobalPosition, GlobalPosition + (aimDir * 69420));
+			PhysicsRayQueryParameters2D parameters = PhysicsRayQueryParameters2D.Create(GlobalPosition, GlobalPosition + (Vector2.Right.Rotated(Mathf.DegToRad(aimDir)) * 69420));
 			parameters.CollisionMask = layerMask;
 			parameters.Exclude = new Godot.Collections.Array<Rid> { GetParent<CharacterBody2D>().GetRid() };
 			Godot.Collections.Dictionary result = state.IntersectRay(parameters);
@@ -113,6 +122,16 @@ public partial class ItemManager : Marker2D
 				Vector2 start = gunShotOrigin.ToLocal(rotation.ToGlobal(gun.muzzleLocation));
 				Vector2 end = gunShotOrigin.ToLocal(pos);
 				tracer.Setup(start, end);
+
+				Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.PlayerShot);
+				msg.AddVector2(start);
+				msg.AddVector2(end);
+				msg.AddFloat(angle);
+				NetworkManager.I.Client.Send(msg);
+
+				if (collider is RemotePlayer remotePlayer) {
+					remotePlayer.DamageRemotePlayer(gun.itemId, gun.damage);
+				}
 			}
 		}
 
@@ -171,5 +190,20 @@ public partial class ItemManager : Marker2D
 
 		shotsTimer = null;
 		reloadTimer = null;
+	}
+
+    [MessageHandler((ushort)NetworkManager.MessageIds.PlayerShot)]
+    public static void PlayerShot(Message msg) => instance.PlayerShot(msg.GetVector2(), msg.GetVector2(), msg.GetFloat());
+
+    void PlayerShot(Vector2 start, Vector2 end, float angle) {
+		BasicParticleEffect impact = impactEffect.Instantiate<BasicParticleEffect>();
+		impact.GlobalPosition = end;
+		impact.GlobalRotation = angle;
+		GameManager.I.AddChild(impact);
+
+		BulletTracer tracer = bulletTracer.Instantiate<BulletTracer>();
+		GameManager.I.AddChild(tracer);
+		tracer.GlobalPosition = gunShotOrigin.GlobalPosition;;
+		tracer.Setup(start, end);
 	}
 }

@@ -9,11 +9,10 @@ region = Rect2(0, 39, 16, 14)
 
 [resource]
 script = ExtResource("2_robiq")
-damage = 0
+damage = 3
 damageFalloff = 0.0
-minBloom = 0.0
-maxBloom = 0.0
-visibleRecoilAmount = 0.0
+bloom = 0.0
+screenShakeAmount = 0.0
 flashSize = 0
 shotCount = 1
 timeBetweenShots = 0.1

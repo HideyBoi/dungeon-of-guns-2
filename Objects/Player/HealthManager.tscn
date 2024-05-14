@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmn64ufvokut7"]
+
+[ext_resource type="Script" path="res://Objects/Player/HealthManager.cs" id="1_mcc26"]
+[ext_resource type="Texture2D" uid="uid://y66f180cjcqa" path="res://Sprites/UI/interactBar_Background.png" id="2_rg88p"]
+[ext_resource type="Texture2D" uid="uid://bqq4th05mbph8" path="res://Sprites/UI/interactBar_Fill.png" id="3_1flfl"]
+
+[node name="HealthManager" type="Node2D" node_paths=PackedStringArray("healthBar", "delayHealthBar", "healthCount")]
+script = ExtResource("1_mcc26")
+healthBar = NodePath("CanvasLayer/Control/HealthBar")
+delayHealthBar = NodePath("CanvasLayer/Control/HealthBar/DelayHealthBar")
+healthCount = NodePath("CanvasLayer/Control/HealthBar/count")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -22.0
+offset_right = 100.0
+offset_bottom = -6.0
+grow_vertical = 0
+step = 0.01
+value = 53.22
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 16
+texture_progress = ExtResource("3_1flfl")
+tint_progress = Color(0.945098, 0.176471, 0.223529, 1)
+
+[node name="count" type="Label" parent="CanvasLayer/Control/HealthBar"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -26.0
+offset_right = 50.0
+offset_bottom = -10.0
+grow_vertical = 0
+text = "000"
+vertical_alignment = 1
+
+[node name="DelayHealthBar" type="TextureProgressBar" parent="CanvasLayer/Control/HealthBar"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+step = 0.01
+value = 72.97
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 16
+texture_under = ExtResource("2_rg88p")
+texture_progress = ExtResource("3_1flfl")
+tint_under = Color(0.73, 0.365, 0.389333, 1)
+tint_progress = Color(0.34, 0.068, 0.0861333, 1)

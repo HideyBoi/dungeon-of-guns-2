@@ -4,7 +4,7 @@ public partial class Weapon : InventoryItem {
     [Export] public int damage;
     [Export] public float damageFalloff; // How much the damage decreases for every in-game tile.
     [Export] public float bloom;
-    [Export] public float visibleRecoilAmount;
+    [Export] public float screenShakeAmount;
     [Export] public MuzzleFlashSize flashSize;
     [Export(PropertyHint.Range, "1,16")] public int shotCount = 1;
     [Export] public float timeBetweenShots;

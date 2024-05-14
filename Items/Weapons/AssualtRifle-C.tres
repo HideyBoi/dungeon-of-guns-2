@@ -9,11 +9,10 @@ region = Rect2(0, 21, 31, 12)
 
 [resource]
 script = ExtResource("2_d1s0s")
-damage = 0
+damage = 1
 damageFalloff = 0.0
-minBloom = 0.0
-maxBloom = 0.0
-visibleRecoilAmount = 0.0
+bloom = 0.0
+screenShakeAmount = 0.0
 flashSize = 0
 shotCount = 1
 timeBetweenShots = 0.1
