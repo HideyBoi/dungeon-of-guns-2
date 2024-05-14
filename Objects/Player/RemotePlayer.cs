@@ -7,6 +7,9 @@ public partial class RemotePlayer : StaticBody2D
 	ushort pId;
 	float lastX;
 	Vector2 lastPos;
+	[Export] AnimatedSprite2D animatedSprite;
+	[Export] CollisionShape2D collision;
+
 	public void SetupPlayer(ushort myId) {
 		pId = myId;
 	}
@@ -44,6 +47,7 @@ public partial class RemotePlayer : StaticBody2D
 
 	void TickDamage() {
 		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.DamagePlayer);
+		msg.AddVector2(lastDamageOrigin);
 		msg.AddUShort(NetworkManager.I.Client.Id);
 		msg.AddUShort(pId);
 		msg.AddUShort(lastDamagedByItemId);
@@ -55,8 +59,9 @@ public partial class RemotePlayer : StaticBody2D
 
 	ushort lastDamagedByItemId;
 	int totalTickDamageAmount;
+	Vector2 lastDamageOrigin;
 
-	public void DamageRemotePlayer(ushort itemId, int damageAmount) {
+	public void DamageRemotePlayer(ushort itemId, int damageAmount, Vector2 damageOrigin) {
 		lastDamagedByItemId = itemId;
 		totalTickDamageAmount += damageAmount;
 	}
@@ -73,5 +78,41 @@ public partial class RemotePlayer : StaticBody2D
 		
 		Vector2 pos = msg.GetVector2();
         GameManager.PlayingPlayers[id].playerNode.GlobalPosition = pos;
+    }
+
+	[MessageHandler((ushort)NetworkManager.MessageIds.PlayerRespawn)]
+    public static void PlayerRespawn(Message msg) {
+		ushort id = msg.GetUShort();
+
+		// If this player doesn't exist yet, don't.
+		if (!GameManager.PlayingPlayers.ContainsKey(id))
+		{
+			return;
+		}		
+		
+		RemotePlayer player = (RemotePlayer)GameManager.PlayingPlayers[id].playerNode;
+		player.collision.Disabled = false;
+		player.animatedSprite.Show();
+    }
+
+	[MessageHandler((ushort)NetworkManager.MessageIds.PlayerDead)]
+	
+    public static void PlayerDead(Message msg) {
+		ushort id = msg.GetUShort();
+		ushort killerId = msg.GetUShort();
+
+		// If this player doesn't exist yet, don't.
+		if (!GameManager.PlayingPlayers.ContainsKey(id))
+		{
+			return;
+		}		
+		
+		RemotePlayer player = (RemotePlayer)GameManager.PlayingPlayers[id].playerNode;
+		player.collision.Disabled = true;
+		player.animatedSprite.Hide();
+
+		if (killerId == NetworkManager.I.Client.Id) {
+			HealthManager.instance.killCount++;
+		}
     }
 }

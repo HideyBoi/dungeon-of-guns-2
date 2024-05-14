@@ -6,6 +6,7 @@ using System.Reflection;
 
 public partial class Inventory : Node2D
 {
+	[Export] CanvasLayer visualRoot;
 	[Export] TextureRect[] inactiveSprites;
 	[Export] Label[] inactiveAmmoLabels;
 	[Export] TextureRect activeSprite;
@@ -29,6 +30,7 @@ public partial class Inventory : Node2D
 	[ExportCategory("Fist Item")]
 	[Export] public Texture2D fistIcon;
 	[Export] Weapon.Rarity rarity;
+
 
 	[ExportCategory("Inventory Data")]
 	[Export] ItemManager itemManager;
@@ -65,7 +67,17 @@ public partial class Inventory : Node2D
 		ammoCounts[3] = 400;
 
 		UpdateUi();
+
+		HealthManager.OnChange += SetUiVisibility;
     }
+
+	void SetUiVisibility(int healthState) {
+		if (healthState == 0) {
+			visualRoot.Show();
+		} else {
+			visualRoot.Hide();
+		}
+	}
 
     public override void _Process(double delta)
     {

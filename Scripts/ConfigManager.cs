@@ -9,7 +9,7 @@ using Riptide;
 public class ConfigManager 
 {
 	static string gameSettingsVersion = "1";
-	static string gameruleFileVersion = "4";
+	static string gameruleFileVersion = "5";
 
 	public static Dictionary<string, string> CurrentGameSettings;
 	static string gameSettingsPath = OS.GetUserDataDir() + "/GAME_SETTINGS.sav";
@@ -73,6 +73,7 @@ public class ConfigManager
 			{ "map_size", "4" },
 			{ "lives_count", "3" },
 			{ "infinite_lives", "False" },
+			{ "respawn_time", "5.0"},
 			{ "max_health", "100" },
 			{ "med_multiplier", "1" },
 			{ "legendary_chance", "20"},

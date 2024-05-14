@@ -28,6 +28,10 @@ public partial class GameManager : Node2D {
         SetupItems();
     }
 
+    public virtual void RespawnPlayer(Node2D playerNode) {
+        // Not implemented here.
+    }
+
     public void SetupItems() {
         // For network syncing 
         for (int i = 0; i < possibleItems.Length; i++)

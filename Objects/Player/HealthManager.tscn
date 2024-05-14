@@ -1,18 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://bmn64ufvokut7"]
+[gd_scene load_steps=8 format=3 uid="uid://bmn64ufvokut7"]
 
 [ext_resource type="Script" path="res://Objects/Player/HealthManager.cs" id="1_mcc26"]
 [ext_resource type="Texture2D" uid="uid://y66f180cjcqa" path="res://Sprites/UI/interactBar_Background.png" id="2_rg88p"]
+[ext_resource type="PackedScene" uid="uid://ricqoutmnjlp" path="res://Objects/Player/DamageIndicator.tscn" id="2_rlffp"]
 [ext_resource type="Texture2D" uid="uid://bqq4th05mbph8" path="res://Sprites/UI/interactBar_Fill.png" id="3_1flfl"]
+[ext_resource type="Texture2D" uid="uid://c2qkpxqsvsjp6" path="res://Sprites/roodolf.png" id="5_10n5c"]
+[ext_resource type="FontFile" uid="uid://yklo8ih7un4s" path="res://Sprites/UI/fonts/vhs.ttf" id="5_ajgco"]
+[ext_resource type="Texture2D" uid="uid://uihnux3pc6j3" path="res://Sprites/littleroodolf.png" id="6_nsir3"]
 
-[node name="HealthManager" type="Node2D" node_paths=PackedStringArray("healthBar", "delayHealthBar", "healthCount")]
+[node name="HealthManager" type="Node2D" node_paths=PackedStringArray("healthBar", "delayHealthBar", "healthCount", "normalUi", "spectatorUi", "spectatorLabel", "livesLabel", "killCountLabel", "livesCountLabel", "livesCountRoot")]
 script = ExtResource("1_mcc26")
-healthBar = NodePath("CanvasLayer/Control/HealthBar")
-delayHealthBar = NodePath("CanvasLayer/Control/HealthBar/DelayHealthBar")
-healthCount = NodePath("CanvasLayer/Control/HealthBar/count")
+healthBar = NodePath("CanvasLayer/NormalUi/HealthBar")
+delayHealthBar = NodePath("CanvasLayer/NormalUi/HealthBar/DelayHealthBar")
+healthCount = NodePath("CanvasLayer/NormalUi/HealthBar/count")
+damageIndicator = ExtResource("2_rlffp")
+normalUi = NodePath("CanvasLayer/NormalUi")
+spectatorUi = NodePath("CanvasLayer/Spectator")
+spectatorLabel = NodePath("CanvasLayer/Spectator/Spectating")
+livesLabel = NodePath("CanvasLayer/Spectator/Spectating/LifeInfo")
+killCountLabel = NodePath("CanvasLayer/NormalUi/KillIcon/Label")
+livesCountLabel = NodePath("CanvasLayer/NormalUi/LivesIcon/Label")
+livesCountRoot = NodePath("CanvasLayer/NormalUi/LivesIcon")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="NormalUi" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +32,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/Control"]
+[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/NormalUi"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -39,7 +51,7 @@ stretch_margin_bottom = 16
 texture_progress = ExtResource("3_1flfl")
 tint_progress = Color(0.945098, 0.176471, 0.223529, 1)
 
-[node name="count" type="Label" parent="CanvasLayer/Control/HealthBar"]
+[node name="count" type="Label" parent="CanvasLayer/NormalUi/HealthBar"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -52,7 +64,7 @@ grow_vertical = 0
 text = "000"
 vertical_alignment = 1
 
-[node name="DelayHealthBar" type="TextureProgressBar" parent="CanvasLayer/Control/HealthBar"]
+[node name="DelayHealthBar" type="TextureProgressBar" parent="CanvasLayer/NormalUi/HealthBar"]
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -70,3 +82,79 @@ texture_under = ExtResource("2_rg88p")
 texture_progress = ExtResource("3_1flfl")
 tint_under = Color(0.73, 0.365, 0.389333, 1)
 tint_progress = Color(0.34, 0.068, 0.0861333, 1)
+
+[node name="KillIcon" type="TextureRect" parent="CanvasLayer/NormalUi"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 9.0
+offset_right = 30.0
+offset_bottom = 29.0
+texture = ExtResource("5_10n5c")
+
+[node name="Label" type="Label" parent="CanvasLayer/NormalUi/KillIcon"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 63.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "x 160000"
+vertical_alignment = 1
+
+[node name="LivesIcon" type="TextureRect" parent="CanvasLayer/NormalUi"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 36.0
+offset_right = 30.0
+offset_bottom = 56.0
+texture = ExtResource("6_nsir3")
+
+[node name="Label" type="Label" parent="CanvasLayer/NormalUi/LivesIcon"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_right = 63.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "x 160000"
+vertical_alignment = 1
+
+[node name="Spectator" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Spectating" type="Label" parent="CanvasLayer/Spectator"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("5_ajgco")
+theme_override_font_sizes/font_size = 21
+text = "Spectating: abcefghijklmnopqrstuvwxyz1234567891011121314151617"
+clip_text = true
+
+[node name="LifeInfo" type="Label" parent="CanvasLayer/Spectator/Spectating"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "You have no lives left. Please wait for the match to end."

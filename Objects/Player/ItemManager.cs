@@ -131,7 +131,7 @@ public partial class ItemManager : Marker2D
 				NetworkManager.I.Client.Send(msg);
 
 				if (collider is RemotePlayer remotePlayer) {
-					remotePlayer.DamageRemotePlayer(gun.itemId, gun.damage);
+					remotePlayer.DamageRemotePlayer(gun.itemId, gun.damage, GlobalPosition);
 				}
 			}
 		}

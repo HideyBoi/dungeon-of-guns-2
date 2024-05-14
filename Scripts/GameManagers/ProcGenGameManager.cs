@@ -85,6 +85,33 @@ public partial class ProcGenGameManager : GameManager {
         return Mathf.Sqrt(Mathf.Pow(v1.X - v2.X, 2) + Mathf.Pow(v1.Y - v2.Y, 2));
     }
 
+    public override void RespawnPlayer(Node2D playerNode)
+    {
+        Node2D[] spawnPoints = GetTree().GetNodesInGroup("Spawnpoint").Cast<Node2D>().ToArray();
+
+        float furthestDist = 0;
+        Vector2 furthestSpawn = Vector2.Zero;
+
+        for (int j = 0; j < spawnPoints.Length; j++)
+        {
+            float shortestDist = float.PositiveInfinity;
+            foreach (PlayerObject otherPlayers in PlayingPlayers.Values)
+            {
+                float dist = Distance(otherPlayers.playerNode.GlobalPosition, spawnPoints[j].GlobalPosition);
+                if (dist < shortestDist) {
+                    shortestDist = dist;
+                }
+            }
+
+            if (shortestDist > furthestDist) {
+                furthestDist = shortestDist;
+                furthestSpawn = spawnPoints[j].GlobalPosition;
+            }
+        }   
+
+        playerNode.GlobalPosition = furthestSpawn;
+    }
+
     [MessageHandler((ushort)NetworkManager.MessageIds.SpawnNewPlayer)]
     public static void HandleNewPlayerSpawn(Message msg) {
         ushort id = msg.GetUShort();

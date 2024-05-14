@@ -34,6 +34,8 @@ partial class NetworkManager : Node {
 		AmmoRegenerated,
 		PlayerShot,
 		DamagePlayer,
+		PlayerDead,
+		PlayerRespawn,
 	}
 
 	public const byte MessageHandlerGroupId = 206;
