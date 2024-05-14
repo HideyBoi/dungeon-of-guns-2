@@ -18,6 +18,8 @@ public partial class ProcGenGameManager : GameManager {
 
         NetworkManager.CurrentState = NetworkManager.GameState.IN_GAME;
 
+        PlayingPlayers = new();
+
         SetupItems();
     }
 
