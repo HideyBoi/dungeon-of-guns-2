@@ -132,7 +132,6 @@ public partial class ItemManager : Marker2D
 
 				if (collider is RemotePlayer remotePlayer) {
 					remotePlayer.DamageRemotePlayer(gun.itemId, gun.damage);
-					GD.Print("Damaging player");
 				}
 			}
 		}
