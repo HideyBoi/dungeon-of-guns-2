@@ -9,7 +9,7 @@ using Riptide;
 public class ConfigManager 
 {
 	static string gameSettingsVersion = "1";
-	static string gameruleFileVersion = "3";
+	static string gameruleFileVersion = "4";
 
 	public static Dictionary<string, string> CurrentGameSettings;
 	static string gameSettingsPath = OS.GetUserDataDir() + "/GAME_SETTINGS.sav";

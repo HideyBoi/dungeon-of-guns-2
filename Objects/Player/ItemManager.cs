@@ -19,7 +19,7 @@ public partial class ItemManager : Marker2D
 	[Export(PropertyHint.Layers2DPhysics)] uint layerMask;
 	public Weapon gun;
 
-    public override void _ExitTree()
+    public override void _EnterTree()
     {
         instance = this;
     }
