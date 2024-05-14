@@ -124,6 +124,7 @@ public partial class ItemManager : Marker2D
 				tracer.Setup(start, end);
 
 				Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.PlayerShot);
+				msg.AddVector2(gunShotOrigin.GlobalPosition);
 				msg.AddVector2(start);
 				msg.AddVector2(end);
 				msg.AddFloat(angle);
@@ -193,17 +194,17 @@ public partial class ItemManager : Marker2D
 	}
 
     [MessageHandler((ushort)NetworkManager.MessageIds.PlayerShot)]
-    public static void PlayerShot(Message msg) => instance.PlayerShot(msg.GetVector2(), msg.GetVector2(), msg.GetFloat());
+    public static void PlayerShot(Message msg) => instance.PlayerShot(msg.GetVector2(),msg.GetVector2(), msg.GetVector2(), msg.GetFloat());
 
-    void PlayerShot(Vector2 start, Vector2 end, float angle) {
+    void PlayerShot(Vector2 origin, Vector2 start, Vector2 end, float angle) {
 		BasicParticleEffect impact = impactEffect.Instantiate<BasicParticleEffect>();
-		impact.GlobalPosition = end;
+		impact.GlobalPosition = origin + end;
 		impact.GlobalRotation = angle;
 		GameManager.I.AddChild(impact);
 
 		BulletTracer tracer = bulletTracer.Instantiate<BulletTracer>();
 		GameManager.I.AddChild(tracer);
-		tracer.GlobalPosition = gunShotOrigin.GlobalPosition;;
+		tracer.GlobalPosition = origin;
 		tracer.Setup(start, end);
 	}
 }

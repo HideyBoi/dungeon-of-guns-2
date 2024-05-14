@@ -55,6 +55,7 @@ debugWeapon3 = 11
 debugWeapon4 = 12
 
 [node name="UI" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="HUD" type="Control" parent="UI"]
 layout_mode = 3
