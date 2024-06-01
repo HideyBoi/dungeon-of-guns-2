@@ -253,7 +253,7 @@ public partial class Inventory : Node2D
 				break;
 			case Grenade grenade:
 				if (currentGrenade != null) {
-					if (currentGrenade.grenadeType == grenade.grenadeType) {
+					if (currentGrenade.itemId == grenade.itemId) {
 						currentGrenade.count += grenade.count;
 					} else {
 						DropItem(currentGrenade);

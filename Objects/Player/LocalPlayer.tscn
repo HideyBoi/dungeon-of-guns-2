@@ -398,7 +398,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_dk8cw")
 
 [node name="Minimap" parent="." instance=ExtResource("3_hy0a7")]
 
-[node name="Inventory" parent="." node_paths=PackedStringArray("itemManager") instance=ExtResource("5_w8nbu")]
+[node name="Inventory" parent="." node_paths=PackedStringArray("inactiveSprites", "inactiveAmmoLabels", "itemManager") instance=ExtResource("5_w8nbu")]
+inactiveSprites = [null, NodePath("UI/General/VBoxContainer/Inactive5/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive4/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive3/TextureRect")]
+inactiveAmmoLabels = [null, NodePath("UI/General/VBoxContainer/Inactive5/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive4/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive3/CurrentAmmo")]
 itemManager = NodePath("../ItemManager")
 
 [node name="GunshotOrigin" type="Marker2D" parent="."]

@@ -15,8 +15,7 @@ config/version="0.0.0"
 run/main_scene="res://Intro.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="res://Sprites/ButtonPrompts/Switch/Switch_X.png"
-boot_splash/fullsize=false
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [aseprite]
@@ -35,7 +34,8 @@ DiscordHandler="*res://Scripts/DiscordHandler.cs"
 
 window/size/viewport_width=550
 window/size/viewport_height=320
-window/size/mode=2
+window/size/window_width_override=825
+window/size/window_height_override=480
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

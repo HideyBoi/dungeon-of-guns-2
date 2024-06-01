@@ -27,8 +27,9 @@ region = Rect2(35, 43, 18, 7)
 atlas = ExtResource("10_ljyyk")
 region = Rect2(89, 1, 16, 15)
 
-[node name="Inventory" type="Node2D" node_paths=PackedStringArray("inactiveSprites", "inactiveAmmoLabels", "activeSprite", "activeAmmoLabel", "activeTotalAmmoLabel", "normalUi", "syringeUi", "syringeCountLabel", "medkitUi", "medkitCountLabel", "grenadeUi", "grenadeTexture", "grenadeCountLabel", "bigUi", "interactBar")]
+[node name="Inventory" type="Node2D" node_paths=PackedStringArray("visualRoot", "inactiveSprites", "inactiveAmmoLabels", "activeSprite", "activeAmmoLabel", "activeTotalAmmoLabel", "normalUi", "syringeUi", "syringeCountLabel", "medkitUi", "medkitCountLabel", "grenadeUi", "grenadeTexture", "grenadeCountLabel", "bigUi", "interactBar")]
 script = ExtResource("1_b8kk5")
+visualRoot = NodePath("UI")
 inactiveSprites = [null, NodePath("UI/General/VBoxContainer/Inactive5/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive4/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive3/TextureRect")]
 inactiveAmmoLabels = [null, NodePath("UI/General/VBoxContainer/Inactive5/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive4/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive3/CurrentAmmo")]
 activeSprite = NodePath("UI/General/VBoxContainer/Active/TextureRect")

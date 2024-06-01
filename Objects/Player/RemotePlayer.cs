@@ -64,6 +64,7 @@ public partial class RemotePlayer : StaticBody2D
 	public void DamageRemotePlayer(ushort itemId, int damageAmount, Vector2 damageOrigin) {
 		lastDamagedByItemId = itemId;
 		totalTickDamageAmount += damageAmount;
+		lastDamageOrigin = damageOrigin;
 	}
 
     [MessageHandler((ushort)NetworkManager.MessageIds.PlayerPosRot)]

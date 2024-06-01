@@ -2,9 +2,19 @@ using Godot;
 
 public partial class Grenade : InventoryItem {
 	[Export] public int count;
-	[Export] public GrenadeType grenadeType;
+	[Export] public float maxThrowPower;
+	[Export] public float minThrowPower;
+	[Export] public PackedScene blastEffect;
+	[Export] public float blastRadius;
+	[Export] public Curve2D damageFalloff;
+	[Export] public float damageAmount;
 
-	// TODO: Grenades
+	GrenadeObject grenadeObject;
+	public virtual void OnStartUse(GrenadeObject hostObject) {
+		grenadeObject = hostObject;
+	}
+	public virtual void OnFinishedUse() {
 
-	public enum GrenadeType { STANDARD, MINE };
+	}
+
 }

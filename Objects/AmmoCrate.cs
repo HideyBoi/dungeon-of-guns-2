@@ -2,11 +2,12 @@ using Godot;
 using Riptide;
 using System;
 using System.Collections.Generic;
+using NGuid;
 
 public partial class AmmoCrate : StaticBody2D
 {
-	public static Dictionary<ushort, AmmoCrate> AmmoCrates = new();
-	ushort thisId;
+	public static Dictionary<string, AmmoCrate> AmmoCrates = new();
+	string thisId;
 	[Export] AnimatedSprite2D boxSprite;
 	[Export] SpriteFrames crateSprites;  
 	[Export] SpriteFrames brokenSprite;
@@ -21,7 +22,7 @@ public partial class AmmoCrate : StaticBody2D
 
     public override void _Ready()
     {
-		thisId = (ushort)GlobalPosition.GetHashCode();
+		thisId = GuidHelpers.CreateFromName(GuidHelpers.DnsNamespace, GlobalPosition.ToString()).ToString();
 		AmmoCrates.Add(thisId, this);
 
 		legendaryChance = float.Parse(ConfigManager.CurrentGamerules["legendary_chance"]);
@@ -47,14 +48,14 @@ public partial class AmmoCrate : StaticBody2D
 			}
 
 			Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.AmmoOpened);
-			msg.AddUShort(thisId);
+			msg.AddString(thisId);
 			NetworkManager.I.Client.Send(msg);
 		}
 	}
 
 	[MessageHandler((ushort)NetworkManager.MessageIds.AmmoOpened)]
 	public static void AmmoOpenedRemotely(Message msg) {
-		ushort AmmoId = msg.GetUShort();
+		string AmmoId = msg.GetString();
 
 		if (AmmoCrates.TryGetValue(AmmoId, out AmmoCrate ammoCrate)) {
 			ammoCrate.Open(true);

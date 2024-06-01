@@ -7,6 +7,8 @@ using Riptide.Transports.Steam;
 using Riptide.Utils;
 
 partial class NetworkManager : Node {
+	public bool isSteamServer = false;
+
 	[Serializable]
 	public class Player {
 		public ushort Id = 0;
@@ -52,6 +54,11 @@ partial class NetworkManager : Node {
 
 	public override void _Ready()
 	{
+		String[] args = OS.GetCmdlineUserArgs();
+		if (isSteamServer) {
+			isSteamServer = !args.Contains("--local_mode");
+		}
+
 		I = this;
 
 		if (!SteamManager.Initialized)
@@ -63,11 +70,18 @@ partial class NetworkManager : Node {
 		RiptideLogger.Initialize(GD.Print, false);
 
 
-		SteamServer steamServer = new SteamServer();
-		Server = new Server(steamServer);
+		if (isSteamServer) {
+			SteamServer steamServer = new SteamServer();
+			Server = new Server(steamServer);
+			Client = new Client(new SteamClient(steamServer));
+		} else {
+			GD.PushWarning("/!\\ LOADING LOCAL MODE. IS THIS WHAT YOU WANTED TO DO?");
+			Server = new();
+			Client = new();
+		}
+
 		Server.ClientConnected += NewPlayerConnected;
 
-		Client = new Client(new SteamClient(steamServer));
 		Client.Connected += DidConnect;
 		Client.ConnectionFailed += FailedToConnect;
 		Client.ClientDisconnected += ClientPlayerLeft;

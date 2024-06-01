@@ -1,4 +1,5 @@
 using Godot;
+using Riptide;
 using Steamworks;
 using System;
 
@@ -18,6 +19,11 @@ public partial class MainMenuUi : Control
 	}
 
 	public void StartHosting() {
+		if (!NetworkManager.I.isSteamServer) {
+			StartLocalHost();
+			return;
+		}
+
 		ELobbyType type = ELobbyType.k_ELobbyTypePrivate;
 		switch (lobbyPrivacySelector.Selected) {
 			case 0:
@@ -43,7 +49,21 @@ public partial class MainMenuUi : Control
 		ShowConnectingScreen();
 	}
 
+	public void StartLocalHost() {
+		NetworkManager.I.Server.Start(25569, (ushort)maxPlayersSelector.Value);
+		NetworkManager.I.Client.Connect($"127.0.0.1:25569");
+		NetworkManager.CurrentState = NetworkManager.GameState.LOBBY;
+		ShowLobbyScreen();
+	}
+
 	public void JoinLobby() {
+		if (!NetworkManager.I.isSteamServer) {
+			NetworkManager.I.Client.Connect($"127.0.0.1:25569");
+			ShowConnectingScreen();
+			ShowLobbyScreen();
+			return;
+		}
+
 		ulong id = 0;
 		try {
 			id = ulong.Parse(lobbyIdInput.Text);

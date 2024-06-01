@@ -1,12 +1,13 @@
 using Godot;
+using NGuid;
 using Riptide;
 using System;
 using System.Collections.Generic;
 
 public partial class Chest : StaticBody2D
 {
-	public static Dictionary<ushort, Chest> Chests = new();
-	ushort thisId;
+	public static Dictionary<string, Chest> Chests = new();
+	string thisId;
 	[Export] AnimatedSprite2D boxSprite;
 	[Export] SpriteFrames crateSprites;  
 	[Export] SpriteFrames brokenSprite;
@@ -18,9 +19,10 @@ public partial class Chest : StaticBody2D
 	float legendaryChance;
 	float rareChance;
 
+
     public override void _Ready()
     {
-		thisId = (ushort)GlobalPosition.GetHashCode();
+		thisId = GuidHelpers.CreateFromName(GuidHelpers.DnsNamespace, GlobalPosition.ToString()).ToString();
 		Chests.Add(thisId, this);
 
 		legendaryChance = float.Parse(ConfigManager.CurrentGamerules["legendary_chance"]);
@@ -45,14 +47,15 @@ public partial class Chest : StaticBody2D
 			SpawnLoot();
 
 			Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.ChestOpened);
-			msg.AddUShort(thisId);
+			msg.AddString(thisId);
+			GD.Print("Locally opening " + thisId + " Total chest count is " + Chests.Count);	
 			NetworkManager.I.Client.Send(msg);
 		}
 	}
 
 	[MessageHandler((ushort)NetworkManager.MessageIds.ChestOpened)]
 	public static void ChestOpenedRemotely(Message msg) {
-		ushort chestId = msg.GetUShort();
+		string chestId = msg.GetString();
 
 		if (Chests.TryGetValue(chestId, out Chest chest)) {
 			chest.Open(true);

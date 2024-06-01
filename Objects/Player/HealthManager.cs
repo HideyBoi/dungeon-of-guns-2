@@ -122,7 +122,6 @@ public partial class HealthManager : Node2D
 		// TODO: AUDIO: Hit sounds!!
 
 		if (currentHealth <= 0) {
-			GD.Print("Player died! Now what?");
 			// TODO: Chat system because yeah we need that
 			// it was in the original except it was bad. 
 
@@ -132,17 +131,17 @@ public partial class HealthManager : Node2D
 			spectateTargetName = NetworkManager.ConnectedPlayers[GameManager.PlayingPlayers[fromId].pId].name;
 
 			if (livesCount != -1) {
-				livesCount--;
-
 				if (livesCount != 0) {
 					StartRespawn();
 				}
+				livesCount--;
 			} else {
 				StartRespawn();
 			}
 
 			Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.PlayerDead);
 			msg.AddUShort(pId);
+			msg.AddUShort(fromId);
 			NetworkManager.I.Client.Send(msg);
 		}
 	}
@@ -156,7 +155,7 @@ public partial class HealthManager : Node2D
 	void Respawn() {
 		respawnTimer.Timeout -= Respawn;
 		GameManager.I.RespawnPlayer(GetParent<Node2D>());
-		healthState = HealthState.ALIVE;
+		ChangeHealthState(HealthState.ALIVE);
 
 		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.PlayerRespawn);
 		msg.AddUShort(pId);
