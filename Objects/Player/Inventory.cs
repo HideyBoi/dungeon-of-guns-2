@@ -9,9 +9,9 @@ public partial class Inventory : Node2D
 	[Export] CanvasLayer visualRoot;
 	[Export] TextureRect[] inactiveSprites;
 	[Export] Label[] inactiveAmmoLabels;
-	[Export] TextureRect activeSprite;
-	[Export] Label activeAmmoLabel;
-	[Export] Label activeTotalAmmoLabel;
+	[Export] TextureRect[] activeSprites;
+	[Export] Label[] activeAmmoLabels;
+	[Export] Label[] activeTotalAmmoLabels;
 	[Export] Control normalUi;
 	[Export] Control syringeUi;
 	[Export] Label syringeCountLabel;
@@ -82,17 +82,19 @@ public partial class Inventory : Node2D
     public override void _Process(double delta)
     {
         if (Input.IsActionJustPressed("scroll_up")) {
-			weaponsIndex++;
-			if (weaponsIndex >= weapons.Length)
-				weaponsIndex = 0;
+			weaponsIndex--;
+			
+			if (weaponsIndex < 0)
+				weaponsIndex = weapons.Length - 1;
 
 			UpdateUi();
 		}
 		
         if (Input.IsActionJustPressed("scroll_down")) {
-			weaponsIndex--;
-			if (weaponsIndex < 0)
-				weaponsIndex = weapons.Length - 1;
+			weaponsIndex++;
+			
+			if (weaponsIndex >= weapons.Length)
+				weaponsIndex = 0;
 			
 			UpdateUi();
 		}
@@ -293,7 +295,6 @@ public partial class Inventory : Node2D
 	}
 
 	public void UpdateUi (bool fromItemManager = false) {
-		int currentPos = weaponsIndex;
 		
 		if (!fromItemManager)
 			itemManager.UpdateHolding(weaponsIndex);
@@ -301,35 +302,35 @@ public partial class Inventory : Node2D
 		for (int i = 0; i < 4; i++)
 		{
 			// Update active gui
-			if (i == 0) {
-				if (weapons[currentPos] == null) {
-					activeSprite.Texture = fistIcon;
-					activeSprite.Material = itemMats[0];
-					activeAmmoLabel.Text = "";
-					activeTotalAmmoLabel.Text = "";
+			if (i == weaponsIndex) {
+				activeSprites[i].GetParent<Control>().Show();
+				inactiveSprites[i].GetParent<Control>().Hide();
+
+				if (weapons[i] == null) {
+					activeSprites[i].Texture = fistIcon;
+					activeSprites[i].Material = itemMats[0];
+					activeAmmoLabels[i].Text = "";
+					activeTotalAmmoLabels[i].Text = "";
 				} else {
-					activeSprite.Texture = weapons[currentPos].itemSprite;
-					activeAmmoLabel.Text = weapons[currentPos].currentAmmo.ToString();
-					activeSprite.Material = itemMats[(int)weapons[currentPos].rarity];
-					activeTotalAmmoLabel.Text = GetAmmoCount(weapons[currentPos].ammoType).ToString();
+					activeSprites[i].Texture = weapons[i].itemSprite;
+					activeAmmoLabels[i].Text = weapons[i].currentAmmo.ToString();
+					activeSprites[i].Material = itemMats[(int)weapons[i].rarity];
+					activeTotalAmmoLabels[i].Text = GetAmmoCount(weapons[i].ammoType).ToString();
 				}
 			// Update inactive gui
 			} else {
-				if (weapons[currentPos] == null) {
+				activeSprites[i].GetParent<Control>().Hide();
+				inactiveSprites[i].GetParent<Control>().Show();
+
+				if (weapons[i] == null) {
 					inactiveSprites[i].Texture = fistIcon;
 					inactiveSprites[i].Material = itemMats[0];
 					inactiveAmmoLabels[i].Text = "---";
 				} else {
-					inactiveSprites[i].Texture = weapons[currentPos].itemSprite;
-					inactiveSprites[i].Material = itemMats[(int)weapons[currentPos].rarity];
-					inactiveAmmoLabels[i].Text = weapons[currentPos].currentAmmo.ToString();
+					inactiveSprites[i].Texture = weapons[i].itemSprite;
+					inactiveSprites[i].Material = itemMats[(int)weapons[i].rarity];
+					inactiveAmmoLabels[i].Text = weapons[i].currentAmmo.ToString();
 				}
-			}
-
-			currentPos++;
-
-			if (currentPos >= 4) {
-				currentPos = 0;
 			}
 		}
 

@@ -27,14 +27,14 @@ region = Rect2(35, 43, 18, 7)
 atlas = ExtResource("10_ljyyk")
 region = Rect2(89, 1, 16, 15)
 
-[node name="Inventory" type="Node2D" node_paths=PackedStringArray("visualRoot", "inactiveSprites", "inactiveAmmoLabels", "activeSprite", "activeAmmoLabel", "activeTotalAmmoLabel", "normalUi", "syringeUi", "syringeCountLabel", "medkitUi", "medkitCountLabel", "grenadeUi", "grenadeTexture", "grenadeCountLabel", "bigUi", "interactBar")]
+[node name="Inventory" type="Node2D" node_paths=PackedStringArray("visualRoot", "inactiveSprites", "inactiveAmmoLabels", "activeSprites", "activeAmmoLabels", "activeTotalAmmoLabels", "normalUi", "syringeUi", "syringeCountLabel", "medkitUi", "medkitCountLabel", "grenadeUi", "grenadeTexture", "grenadeCountLabel", "bigUi", "interactBar")]
 script = ExtResource("1_b8kk5")
 visualRoot = NodePath("UI")
-inactiveSprites = [null, NodePath("UI/General/VBoxContainer/Inactive5/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive4/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive3/TextureRect")]
-inactiveAmmoLabels = [null, NodePath("UI/General/VBoxContainer/Inactive5/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive4/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive3/CurrentAmmo")]
-activeSprite = NodePath("UI/General/VBoxContainer/Active/TextureRect")
-activeAmmoLabel = NodePath("UI/General/VBoxContainer/Active/CurrentAmmo")
-activeTotalAmmoLabel = NodePath("UI/General/VBoxContainer/Active/TotalAmmo")
+inactiveSprites = [NodePath("UI/General/VBoxContainer/Inactive/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive2/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive3/TextureRect"), NodePath("UI/General/VBoxContainer/Inactive4/TextureRect")]
+inactiveAmmoLabels = [NodePath("UI/General/VBoxContainer/Inactive/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive2/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive3/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Inactive4/CurrentAmmo")]
+activeSprites = [NodePath("UI/General/VBoxContainer/Active/TextureRect"), NodePath("UI/General/VBoxContainer/Active2/TextureRect"), NodePath("UI/General/VBoxContainer/Active3/TextureRect"), NodePath("UI/General/VBoxContainer/Active4/TextureRect")]
+activeAmmoLabels = [NodePath("UI/General/VBoxContainer/Active/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Active2/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Active3/CurrentAmmo"), NodePath("UI/General/VBoxContainer/Active4/CurrentAmmo")]
+activeTotalAmmoLabels = [NodePath("UI/General/VBoxContainer/Active/TotalAmmo"), NodePath("UI/General/VBoxContainer/Active2/TotalAmmo"), NodePath("UI/General/VBoxContainer/Active3/TotalAmmo"), NodePath("UI/General/VBoxContainer/Active4/TotalAmmo")]
 normalUi = NodePath("UI/General")
 syringeUi = NodePath("UI/General/Syringe")
 syringeCountLabel = NodePath("UI/General/Syringe/Label")
@@ -111,12 +111,12 @@ grow_horizontal = 0
 grow_vertical = 0
 alignment = 2
 
-[node name="Inactive4" type="Panel" parent="UI/General/VBoxContainer"]
+[node name="Inactive" type="Panel" parent="UI/General/VBoxContainer"]
 custom_minimum_size = Vector2(45, 20)
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive4"]
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -134,44 +134,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 clip_text = true
 
-[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive4"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 3.0
-offset_top = -9.0
-offset_right = 21.0
-offset_bottom = 9.0
-grow_vertical = 2
-texture = ExtResource("5_4dhuy")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Inactive5" type="Panel" parent="UI/General/VBoxContainer"]
-custom_minimum_size = Vector2(45, 20)
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive5"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -34.0
-offset_top = -7.0
-offset_right = -3.0
-offset_bottom = 7.0
-grow_horizontal = 0
-grow_vertical = 2
-text = "999"
-horizontal_alignment = 2
-vertical_alignment = 1
-clip_text = true
-
-[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive5"]
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -186,6 +149,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Active" type="Panel" parent="UI/General/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(95, 42)
 layout_mode = 2
 
@@ -263,6 +227,122 @@ texture = ExtResource("5_4dhuy")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="Inactive2" type="Panel" parent="UI/General/VBoxContainer"]
+custom_minimum_size = Vector2(45, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -7.0
+offset_right = -3.0
+offset_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive2"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 21.0
+offset_bottom = 9.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Active2" type="Panel" parent="UI/General/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(95, 42)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/General/VBoxContainer/Active2"]
+visible = false
+layout_mode = 0
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 96.0
+offset_bottom = 24.0
+text = "fucking pew pew"
+clip_text = true
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Active2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -49.0
+offset_top = -16.0
+offset_right = -8.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+label_settings = SubResource("LabelSettings_y0iek")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="-" type="Label" parent="UI/General/VBoxContainer/Active2"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -27.0
+offset_right = -16.0
+offset_bottom = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "____"
+
+[node name="TotalAmmo" type="Label" parent="UI/General/VBoxContainer/Active2"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -18.0
+offset_right = -10.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "99999"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Active2"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -18.0
+offset_right = 44.0
+offset_bottom = 18.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Inactive3" type="Panel" parent="UI/General/VBoxContainer"]
 custom_minimum_size = Vector2(45, 20)
 layout_mode = 2
@@ -295,6 +375,201 @@ offset_left = 3.0
 offset_top = -9.0
 offset_right = 21.0
 offset_bottom = 9.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Active3" type="Panel" parent="UI/General/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(95, 42)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/General/VBoxContainer/Active3"]
+visible = false
+layout_mode = 0
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 96.0
+offset_bottom = 24.0
+text = "fucking pew pew"
+clip_text = true
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Active3"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -49.0
+offset_top = -16.0
+offset_right = -8.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+label_settings = SubResource("LabelSettings_y0iek")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="-" type="Label" parent="UI/General/VBoxContainer/Active3"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -27.0
+offset_right = -16.0
+offset_bottom = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "____"
+
+[node name="TotalAmmo" type="Label" parent="UI/General/VBoxContainer/Active3"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -18.0
+offset_right = -10.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "99999"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Active3"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -18.0
+offset_right = 44.0
+offset_bottom = 18.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Inactive4" type="Panel" parent="UI/General/VBoxContainer"]
+custom_minimum_size = Vector2(45, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Inactive4"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -7.0
+offset_right = -3.0
+offset_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+horizontal_alignment = 2
+vertical_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Inactive4"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 3.0
+offset_top = -9.0
+offset_right = 21.0
+offset_bottom = 9.0
+grow_vertical = 2
+texture = ExtResource("5_4dhuy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Active4" type="Panel" parent="UI/General/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(95, 42)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/General/VBoxContainer/Active4"]
+visible = false
+layout_mode = 0
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 96.0
+offset_bottom = 24.0
+text = "fucking pew pew"
+clip_text = true
+
+[node name="CurrentAmmo" type="Label" parent="UI/General/VBoxContainer/Active4"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -49.0
+offset_top = -16.0
+offset_right = -8.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "999"
+label_settings = SubResource("LabelSettings_y0iek")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="-" type="Label" parent="UI/General/VBoxContainer/Active4"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -27.0
+offset_right = -16.0
+offset_bottom = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "____"
+
+[node name="TotalAmmo" type="Label" parent="UI/General/VBoxContainer/Active4"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -18.0
+offset_right = -10.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "99999"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/General/VBoxContainer/Active4"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -18.0
+offset_right = 44.0
+offset_bottom = 18.0
 grow_vertical = 2
 texture = ExtResource("5_4dhuy")
 expand_mode = 1
