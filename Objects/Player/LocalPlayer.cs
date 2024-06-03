@@ -64,6 +64,7 @@ public partial class LocalPlayer : CharacterBody2D
 		posRot.AddUShort(pId);
 		posRot.AddVector2(GlobalPosition);
 		posRot.AddBool(playerSprite.FlipH);
+		posRot.AddString(playerSprite.Animation);
 
 		NetworkManager.I.Client.Send(posRot);
 	}

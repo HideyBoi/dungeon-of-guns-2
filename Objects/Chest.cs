@@ -48,7 +48,6 @@ public partial class Chest : StaticBody2D
 
 			Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.ChestOpened);
 			msg.AddString(thisId);
-			GD.Print("Locally opening " + thisId + " Total chest count is " + Chests.Count);	
 			NetworkManager.I.Client.Send(msg);
 		}
 	}
@@ -105,14 +104,14 @@ public partial class Chest : StaticBody2D
 		if (healRng < float.Parse(ConfigManager.CurrentGamerules["secondary_chance"])) {
 			InventoryItem secondary = GameManager.GetNewInventoryItem((ushort)GameManager.I.secondaries[Tools.RandIntRange(0, GameManager.I.secondaries.Count)]);
 			if (secondary is Healable healable) {
-				healable.count = Tools.RandIntRange(0, int.Parse(ConfigManager.CurrentGamerules["secondary_max_count"] + 1));
+				healable.count = Tools.RandIntRange(1, int.Parse(ConfigManager.CurrentGamerules["secondary_max_count"]) + 1);
 
 				InventoryItemObject newSecondary = itemObject.Instantiate<InventoryItemObject>();
 				newSecondary.Setup(healable, NetworkManager.I.Client.Id, Tools.RandDirection(), Tools.RandFloatRange(impulse[0], impulse[1]));
 				newSecondary.GlobalPosition = GlobalPosition;
 				GameManager.I.AddChild(newSecondary);
 			} else if (secondary is Grenade grenade) {
-				grenade.count = Tools.RandIntRange(0, int.Parse(ConfigManager.CurrentGamerules["secondary_max_count"] + 1));
+				grenade.count = Tools.RandIntRange(1, int.Parse(ConfigManager.CurrentGamerules["secondary_max_count"]) + 1);
 
 				InventoryItemObject newSecondary = itemObject.Instantiate<InventoryItemObject>();
 				newSecondary.Setup(grenade, NetworkManager.I.Client.Id, Tools.RandDirection(), Tools.RandFloatRange(impulse[0], impulse[1]));

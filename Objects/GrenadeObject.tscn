@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://n4ce5jm7wml8"]
+[gd_scene load_steps=8 format=3 uid="uid://n4ce5jm7wml8"]
 
 [ext_resource type="Script" path="res://Objects/GrenadeObject.cs" id="1_4aldc"]
 [ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="2_j5h6n"]
@@ -14,11 +14,16 @@ region = Rect2(70, 0, 16, 16)
 [sub_resource type="LabelSettings" id="LabelSettings_qgmp4"]
 font_size = 6
 
-[node name="GrenadeObject" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_x5458"]
+radius = 14.0
+
+[node name="GrenadeObject" type="CharacterBody2D" node_paths=PackedStringArray("nearbyDetector", "sprite")]
 y_sort_enabled = true
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_4aldc")
+nearbyDetector = NodePath("NearbyDetection")
+sprite = NodePath("Sprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Pickup"]]
 z_index = 2
@@ -63,3 +68,12 @@ grow_horizontal = 2
 text = "run lol"
 label_settings = SubResource("LabelSettings_qgmp4")
 horizontal_alignment = 1
+
+[node name="NearbyDetection" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NearbyDetection"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_x5458")
+
+[connection signal="body_entered" from="NearbyDetection" to="." method="NearbyDetection"]

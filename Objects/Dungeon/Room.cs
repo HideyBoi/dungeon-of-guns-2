@@ -18,6 +18,9 @@ public partial class Room : TileMap
 			} else {
 				sides[i].GetNode<Node2D>("./False").Visible = true;
 				sides[i].GetNode<CollisionShape2D>("./False/Wall/Collider").SetDeferred("disabled", false);
+				if (i == 0) {
+					sides[i].GetNode<CollisionShape2D>("./False/BulletWall/Collider").SetDeferred("disabled", false);
+				}
 			}
 		}
 	}

@@ -1,16 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://cldmaollllsj7"]
+[gd_scene load_steps=10 format=3 uid="uid://cldmaollllsj7"]
 
 [ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="1_c1adw"]
 [ext_resource type="Script" path="res://Objects/Player/ItemManager.cs" id="1_o0iv7"]
 [ext_resource type="PackedScene" uid="uid://bvq20eivkpuv3" path="res://Objects/Particles/MuzzleFlash.tscn" id="2_gyyrk"]
 [ext_resource type="PackedScene" uid="uid://cauxar6meco6f" path="res://Objects/Particles/Impact.tscn" id="3_h7dgm"]
 [ext_resource type="PackedScene" uid="uid://ta157ys7xp46" path="res://Objects/Particles/BulletTracer.tscn" id="4_mxtaf"]
+[ext_resource type="PackedScene" uid="uid://n4ce5jm7wml8" path="res://Objects/GrenadeObject.tscn" id="5_doexl"]
+[ext_resource type="Texture2D" uid="uid://55uh4g8ffim8" path="res://Sprites/UI/powerCharge.png" id="6_m6ei7"]
+[ext_resource type="Texture2D" uid="uid://cpq3opvipvs8c" path="res://Sprites/UI/powerChargePointer.png" id="7_va4p2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rhph8"]
 atlas = ExtResource("1_c1adw")
 region = Rect2(35, 1, 31, 14)
 
-[node name="ItemManager" type="Marker2D" node_paths=PackedStringArray("rotation", "rotationHelper", "gunSprite", "muzzleMarker")]
+[node name="ItemManager" type="Marker2D" node_paths=PackedStringArray("rotation", "rotationHelper", "gunSprite", "muzzleMarker", "grenadeHoldPos", "grenadeChargeRoot", "grenadeChargePointer")]
 rotation = Object(Node2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"script":null)
 
 gizmo_extents = 6.0
@@ -23,15 +26,58 @@ muzzleFlashEffect = ExtResource("2_gyyrk")
 impactEffect = ExtResource("3_h7dgm")
 bulletTracer = ExtResource("4_mxtaf")
 layerMask = 8
+grenadePrefab = ExtResource("5_doexl")
+grenadeHoldPos = NodePath("Rotation/GunSprite/GrenadePos")
+grenadeChargeRoot = NodePath("CanvasLayer/GrenadeThrowPower")
+grenadeChargePointer = NodePath("CanvasLayer/GrenadeThrowPower/Charge/Marker")
+markerMoveDur = 0.4
 
 [node name="Rotation" type="Node2D" parent="."]
 
 [node name="GunSprite" type="Sprite2D" parent="Rotation"]
-z_index = 1
+z_index = 2
 texture = SubResource("AtlasTexture_rhph8")
 offset = Vector2(6, 0)
 
 [node name="Muzzle" type="Marker2D" parent="Rotation/GunSprite"]
 position = Vector2(21.5, -1)
 
+[node name="GrenadePos" type="Marker2D" parent="Rotation/GunSprite"]
+position = Vector2(-7, 5)
+
 [node name="RotationHelper" type="Marker2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GrenadeThrowPower" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Charge" type="TextureRect" parent="CanvasLayer/GrenadeThrowPower"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = 43.12
+offset_right = 30.0
+offset_bottom = 60.17
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_m6ei7")
+
+[node name="Marker" type="TextureRect" parent="CanvasLayer/GrenadeThrowPower/Charge"]
+layout_mode = 1
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 9.0
+offset_bottom = 13.0
+texture = ExtResource("7_va4p2")
+stretch_mode = 2

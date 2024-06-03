@@ -5,6 +5,7 @@ using System;
 public partial class ItemManager : Marker2D
 {
 	static ItemManager instance;
+	ushort thisId;
 
 	[Export] Marker2D gunShotOrigin;
 	[Export] Inventory inventory;
@@ -18,11 +19,22 @@ public partial class ItemManager : Marker2D
 	[Export(PropertyHint.Range, "0,16")] float maxRotOffset = 8;
 	[Export(PropertyHint.Layers2DPhysics)] uint layerMask;
 	public Weapon gun;
+	[ExportGroup("Grenades")]
+	[Export] PackedScene grenadePrefab;
+	[Export] Marker2D grenadeHoldPos;
+	[Export] Control grenadeChargeRoot;
+	[Export] Control grenadeChargePointer;
+	[Export] double markerMoveDur = 0.6f;
+	public Grenade currentGrenade;
 
     public override void _EnterTree()
     {
         instance = this;
+		thisId = NetworkManager.I.Client.Id;
+
+		MoveGrenadeMarker();
     }
+
 
     public override void _Process(double delta)
 	{
@@ -44,6 +56,9 @@ public partial class ItemManager : Marker2D
         }
     }
 
+
+	GrenadeObject grenadeObject;
+	bool throwing = true;
     public override void _PhysicsProcess(double delta)
     {
         TickShoot();
@@ -53,6 +68,47 @@ public partial class ItemManager : Marker2D
 				Reload();
 			}
 		}
+
+		if (currentGrenade != null && Input.IsActionJustPressed("grenade")) {
+			grenadeChargeRoot.Show();
+			throwing = true;
+			grenadeObject = grenadePrefab.Instantiate<GrenadeObject>();
+			grenadeHoldPos.AddChild(grenadeObject);
+			currentGrenade.count--;
+			grenadeObject.Setup((Grenade)currentGrenade.Duplicate());
+			inventory.UpdateUi(true);
+		}
+
+		if (throwing && Input.IsActionJustReleased("grenade")) {
+			grenadeChargeRoot.Hide();
+			throwing = false;
+
+			if (grenadeObject == null)
+				return;
+
+			Vector2 dir = gunShotOrigin.GetLocalMousePosition().Normalized();
+			float pointerPos = grenadeChargePointer.Position.X; 
+			dir = dir * ((pointerPos - 1) / 55) * currentGrenade.throwPower;
+			grenadeObject.Release(dir);
+
+			GrenadeObject saved = grenadeObject;
+			grenadeObject.GetParent().RemoveChild(grenadeObject);
+			GameManager.I.AddChild(saved);
+			saved.GlobalPosition = grenadeHoldPos.GlobalPosition;
+		}
+
+		#region 
+		Message msg = Message.Create(MessageSendMode.Unreliable, NetworkManager.MessageIds.GunPosRot);
+
+		msg.AddUShort(thisId);
+		msg.AddFloat(rotation.GlobalRotation);
+		msg.AddVector2(rotation.Position);
+		msg.AddVector2(Scale);
+		msg.AddBool(gun != null);
+		if (gun != null) msg.AddUShort(gun.itemId);
+
+		NetworkManager.I.Client.Send(msg);
+		#endregion
     }
 
     bool wantsToShoot = false;
@@ -181,7 +237,29 @@ public partial class ItemManager : Marker2D
 		inventory.UpdateUi(true);
 	}
 
-	public void UpdateHolding(int newGunIndex) {
+	Tween grenadeMarkerTween;
+	void MoveGrenadeMarker() {
+		grenadeMarkerTween = CreateTween();
+		grenadeMarkerTween.SetLoops();
+		grenadeMarkerTween.TweenProperty(grenadeChargePointer, "position", new Vector2(56, 0), markerMoveDur).SetEase(Tween.EaseType.InOut);
+		grenadeMarkerTween.TweenProperty(grenadeChargePointer, "position", new Vector2(1, 0), markerMoveDur).SetEase(Tween.EaseType.InOut);
+
+		/*
+		if (isGoingRight) {
+			grenadeMarkerTween = CreateTween();
+			grenadeMarkerTween.TweenProperty(grenadeChargePointer, "position", new Vector2(56, 0), markerMoveDur).SetEase(Tween.EaseType.InOut);
+			grenadeMarkerTween.TweenCallback(Callable.From(MoveGrenadeMarker)).SetDelay(markerMoveDur);
+			isGoingRight = !isGoingRight;
+		} else {
+			grenadeMarkerTween = CreateTween();
+			grenadeMarkerTween.TweenProperty(grenadeChargePointer, "position", new Vector2(1, 0), markerMoveDur).SetEase(Tween.EaseType.InOut);
+			grenadeMarkerTween.TweenCallback(Callable.From(MoveGrenadeMarker)).SetDelay(markerMoveDur);
+			isGoingRight = !isGoingRight;
+		}
+		*/
+	}
+
+	public void UpdateHolding(int newGunIndex, Grenade newGrenade) {
 		gun = inventory.weapons[newGunIndex];
 		if (gun != null) {
 			gunSprite.Texture = gun.itemSprite;
@@ -191,6 +269,8 @@ public partial class ItemManager : Marker2D
 
 		shotsTimer = null;
 		reloadTimer = null;
+
+		currentGrenade = newGrenade;
 	}
 
     [MessageHandler((ushort)NetworkManager.MessageIds.PlayerShot)]

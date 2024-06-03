@@ -122,6 +122,12 @@ public partial class HealthManager : Node2D
 		// TODO: AUDIO: Hit sounds!!
 
 		if (currentHealth <= 0) {
+			// For technical reasons, players cant kill themselves because i'm too lazy to fix that
+			if (fromId == pId) {
+				currentHealth = 1;
+				return;
+			}
+
 			// TODO: Chat system because yeah we need that
 			// it was in the original except it was bad. 
 

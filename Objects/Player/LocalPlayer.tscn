@@ -339,8 +339,8 @@ _data = {
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b32g7"]
-radius = 5.0
-height = 18.0
+radius = 8.0
+height = 24.0
 
 [node name="LocalPlayer" type="CharacterBody2D" node_paths=PackedStringArray("playerSprite") groups=["CanLeaveRoom", "Player"]]
 y_sort_enabled = true
@@ -416,6 +416,7 @@ rotation = NodePath("Rotation")
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ItemPickupZone"]
+z_index = 3
 position = Vector2(0, -2)
 rotation = 1.57079
 shape = SubResource("CapsuleShape2D_b32g7")

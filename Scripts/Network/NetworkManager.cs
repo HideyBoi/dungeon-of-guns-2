@@ -27,6 +27,7 @@ partial class NetworkManager : Node {
 		MapDataCompleted,
 		SpawnNewPlayer,
 		PlayerPosRot,
+		GunPosRot,
 		ItemSpawn,
 		ItemRemove,
 		ItemMove,

@@ -122,8 +122,7 @@ public partial class Inventory : Node2D
 
 			UpdateWeaponUI();
 		}
-		*/
-
+		
 		if (Input.IsActionJustPressed("debug1")) {
 			Healable healable = (Healable)GameManager.GetNewInventoryItem(4);
 			healable.count = 1;
@@ -147,6 +146,7 @@ public partial class Inventory : Node2D
 			grenade.count = 9;
 			DropItem(grenade);
 		}
+		*/
     }
 
     public override void _PhysicsProcess(double delta)
@@ -217,6 +217,15 @@ public partial class Inventory : Node2D
 		if (body is InventoryItemObject inventoryItemObject) {
 			if (inventoryItemObject.Item is Ammo or Healable) {
 				PickupItem(inventoryItemObject);
+			}
+			if (inventoryItemObject.Item is Grenade grenade) {
+				if (currentGrenade != null) {
+					if (currentGrenade.itemId == grenade.itemId) {
+						PickupItem(inventoryItemObject);
+					}
+				} else {
+					PickupItem(inventoryItemObject);
+				}
 			}
 		}
 	}
@@ -296,9 +305,6 @@ public partial class Inventory : Node2D
 
 	public void UpdateUi (bool fromItemManager = false) {
 		
-		if (!fromItemManager)
-			itemManager.UpdateHolding(weaponsIndex);
-		
 		for (int i = 0; i < 4; i++)
 		{
 			// Update active gui
@@ -348,13 +354,23 @@ public partial class Inventory : Node2D
 			medkitCountLabel.Text = $"{heals[0]} x";
 		}
 
+
 		if (currentGrenade == null) {
 			grenadeUi.Hide();
 		} else {
-			grenadeUi.Show();
-			grenadeCountLabel.Text = $"{currentGrenade.count} x";
-			grenadeTexture.Texture = currentGrenade.itemSprite;
+			if (currentGrenade.count <= 0) {
+				grenadeUi.Hide();
+				currentGrenade = null;
+			} else {
+				grenadeUi.Show();
+				grenadeCountLabel.Text = $"{currentGrenade.count} x";
+				grenadeTexture.Texture = currentGrenade.itemSprite;
+			}
+			
 		}
+
+		if (!fromItemManager)
+			itemManager.UpdateHolding(weaponsIndex, currentGrenade);
 	}
 
 	int GetAmmoCount(Weapon.AmmoType ammoType) {

@@ -71,6 +71,7 @@ metadata/_aseprite_wizard_config_ = {
 
 [node name="Wall" type="StaticBody2D" parent="False"]
 collision_layer = 9
+collision_mask = 9
 
 [node name="Collider" type="CollisionShape2D" parent="False/Wall"]
 position = Vector2(0, -8)

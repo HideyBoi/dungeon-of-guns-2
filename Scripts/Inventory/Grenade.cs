@@ -2,14 +2,17 @@ using Godot;
 
 public partial class Grenade : InventoryItem {
 	[Export] public int count;
-	[Export] public float maxThrowPower;
-	[Export] public float minThrowPower;
+	[Export] public float throwPower;
+	[Export] public float drag = 2;
+	[Export(PropertyHint.Range, "0,1")] public float bounceAmount = 0.3f;
 	[Export] public PackedScene blastEffect;
 	[Export] public float blastRadius;
 	[Export] public Curve2D damageFalloff;
 	[Export] public float damageAmount;
+	[Export] bool useFuse;
+	[Export] Vector2 fusePos;
 
-	GrenadeObject grenadeObject;
+	public GrenadeObject grenadeObject;
 	public virtual void OnStartUse(GrenadeObject hostObject) {
 		grenadeObject = hostObject;
 	}
