@@ -31,8 +31,6 @@ public partial class ItemManager : Marker2D
     {
         instance = this;
 		thisId = NetworkManager.I.Client.Id;
-
-		MoveGrenadeMarker();
     }
 
 
@@ -71,6 +69,7 @@ public partial class ItemManager : Marker2D
 
 		if (currentGrenade != null && Input.IsActionJustPressed("grenade")) {
 			grenadeChargeRoot.Show();
+			MoveGrenadeMarker();
 			throwing = true;
 			grenadeObject = grenadePrefab.Instantiate<GrenadeObject>();
 			grenadeHoldPos.AddChild(grenadeObject);
@@ -79,6 +78,12 @@ public partial class ItemManager : Marker2D
 
 		if (throwing && Input.IsActionJustReleased("grenade")) {
 			grenadeChargeRoot.Hide();
+			
+			if (grenadeMarkerTween != null) {
+				grenadeMarkerTween.Stop();
+				grenadeMarkerTween = null;
+			}
+
 			throwing = false;
 
 			if (grenadeObject == null)
@@ -241,10 +246,10 @@ public partial class ItemManager : Marker2D
 	Tween grenadeMarkerTween;
 	void MoveGrenadeMarker() {
 		grenadeMarkerTween = CreateTween();
-		grenadeMarkerTween.SetLoops();
-		grenadeMarkerTween.TweenProperty(grenadeChargePointer, "position", new Vector2(56, 0), markerMoveDur).SetEase(Tween.EaseType.InOut);
-		grenadeMarkerTween.TweenProperty(grenadeChargePointer, "position", new Vector2(1, 0), markerMoveDur).SetEase(Tween.EaseType.InOut);
 
+		grenadeChargePointer.Position = new(1, 0);
+		grenadeMarkerTween.TweenProperty(grenadeChargePointer, "position", new Vector2(56, 0), markerMoveDur * 1.2).SetEase(Tween.EaseType.InOut);
+		grenadeMarkerTween.TweenProperty(grenadeChargePointer, "position", new Vector2(30, 0), markerMoveDur).SetEase(Tween.EaseType.InOut);
 		/*
 		if (isGoingRight) {
 			grenadeMarkerTween = CreateTween();
