@@ -137,6 +137,7 @@ public partial class RemotePlayer : StaticBody2D
     public static void PlayerDead(Message msg) {
 		ushort id = msg.GetUShort();
 		ushort killerId = msg.GetUShort();
+		ushort itemId = msg.GetUShort();
 
 		// If this player doesn't exist yet, don't.
 		if (!GameManager.PlayingPlayers.ContainsKey(id))
@@ -149,7 +150,9 @@ public partial class RemotePlayer : StaticBody2D
 		player.animatedSprite.Hide();
 
 		if (killerId == NetworkManager.I.Client.Id) {
-			HealthManager.instance.killCount++;
+			HealthManager.instance.GotKill(player.pId);
 		}
+
+		HealthManager.instance.ShowKillChat(killerId, id, itemId);
     }
 }

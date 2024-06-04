@@ -122,4 +122,8 @@ public static class Tools {
 	public static Vector2 GetVector2(this Message msg) {
 		return new Vector2(msg.GetFloat(), msg.GetFloat());
 	}
+
+	public static float Distance(Vector2 v1, Vector2 v2) {
+        return Mathf.Abs(Mathf.Sqrt(Mathf.Pow(v1.X - v2.X, 2) + Mathf.Pow(v1.Y - v2.Y, 2)));
+    }
 }

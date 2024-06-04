@@ -147,6 +147,18 @@ public partial class Inventory : Node2D
 			DropItem(grenade);
 		}
 		*/
+		if (Input.IsActionJustPressed("debug1")) {
+			Healable healable = (Healable)GameManager.GetNewInventoryItem(4);
+			healable.count = 1;
+			DropItem(healable);
+		}
+
+		if (Input.IsActionJustPressed("debug2")) {
+			Healable healable = (Healable)GameManager.GetNewInventoryItem(5);
+			healable.count = 1;
+			DropItem(healable);
+		}
+
 		if (Input.IsActionJustPressed("debug3")) {
 			Grenade grenade = (Grenade)GameManager.GetNewInventoryItem(6);
 			grenade.count = 9;

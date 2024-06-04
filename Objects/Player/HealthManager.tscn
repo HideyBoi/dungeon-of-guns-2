@@ -1,28 +1,73 @@
-[gd_scene load_steps=8 format=3 uid="uid://bmn64ufvokut7"]
+[gd_scene load_steps=11 format=3 uid="uid://bmn64ufvokut7"]
 
 [ext_resource type="Script" path="res://Objects/Player/HealthManager.cs" id="1_mcc26"]
 [ext_resource type="Texture2D" uid="uid://y66f180cjcqa" path="res://Sprites/UI/interactBar_Background.png" id="2_rg88p"]
 [ext_resource type="PackedScene" uid="uid://ricqoutmnjlp" path="res://Objects/Player/DamageIndicator.tscn" id="2_rlffp"]
 [ext_resource type="Texture2D" uid="uid://bqq4th05mbph8" path="res://Sprites/UI/interactBar_Fill.png" id="3_1flfl"]
+[ext_resource type="PackedScene" uid="uid://doo1mwhbo446d" path="res://Objects/GUI/ListItems/KillElement.tscn" id="3_kfgdj"]
+[ext_resource type="Resource" uid="uid://bevwyt3v1hxi3" path="res://Items/Heals/Medkit.tres" id="4_cokhy"]
 [ext_resource type="Texture2D" uid="uid://c2qkpxqsvsjp6" path="res://Sprites/roodolf.png" id="5_10n5c"]
 [ext_resource type="FontFile" uid="uid://yklo8ih7un4s" path="res://Sprites/UI/fonts/vhs.ttf" id="5_ajgco"]
+[ext_resource type="Resource" uid="uid://dela5clusv6vh" path="res://Items/Heals/Syringe.tres" id="5_tqwqg"]
 [ext_resource type="Texture2D" uid="uid://uihnux3pc6j3" path="res://Sprites/littleroodolf.png" id="6_nsir3"]
 
-[node name="HealthManager" type="Node2D" node_paths=PackedStringArray("healthBar", "delayHealthBar", "healthCount", "normalUi", "spectatorUi", "spectatorLabel", "livesLabel", "killCountLabel", "livesCountLabel", "livesCountRoot")]
+[node name="HealthManager" type="Node2D" node_paths=PackedStringArray("healthBar", "delayHealthBar", "healthCount", "normalUi", "spectatorUi", "spectatorLabel", "livesLabel", "killCountLabel", "livesCountLabel", "livesCountRoot", "publicKillFeed", "privateKillFeed", "healIndicator")]
 script = ExtResource("1_mcc26")
 healthBar = NodePath("CanvasLayer/NormalUi/HealthBar")
 delayHealthBar = NodePath("CanvasLayer/NormalUi/HealthBar/DelayHealthBar")
 healthCount = NodePath("CanvasLayer/NormalUi/HealthBar/count")
 damageIndicator = ExtResource("2_rlffp")
 normalUi = NodePath("CanvasLayer/NormalUi")
-spectatorUi = NodePath("CanvasLayer/Spectator")
-spectatorLabel = NodePath("CanvasLayer/Spectator/Spectating")
-livesLabel = NodePath("CanvasLayer/Spectator/Spectating/LifeInfo")
+spectatorUi = NodePath("CanvasLayer/SpectatorUi")
+spectatorLabel = NodePath("CanvasLayer/SpectatorUi/Spectating")
+livesLabel = NodePath("CanvasLayer/SpectatorUi/Spectating/LifeInfo")
 killCountLabel = NodePath("CanvasLayer/NormalUi/KillIcon/Label")
 livesCountLabel = NodePath("CanvasLayer/NormalUi/LivesIcon/Label")
 livesCountRoot = NodePath("CanvasLayer/NormalUi/LivesIcon")
+publicKillFeed = NodePath("CanvasLayer/PersistantUi/PublicKillFeed")
+privateKillFeed = NodePath("CanvasLayer/PersistantUi/KillFeed")
+killElement = ExtResource("3_kfgdj")
+heals = Array[Resource]([ExtResource("4_cokhy"), ExtResource("5_tqwqg")])
+healIndicator = NodePath("CanvasLayer/NormalUi/HealIndicator")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PersistantUi" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="KillFeed" type="VBoxContainer" parent="CanvasLayer/PersistantUi"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -239.0
+offset_right = 150.0
+offset_bottom = -39.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 2
+
+[node name="PublicKillFeed" type="VBoxContainer" parent="CanvasLayer/PersistantUi"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -131.0
+offset_right = 409.0
+offset_bottom = 69.0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+alignment = 2
 
 [node name="NormalUi" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -31,6 +76,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/NormalUi"]
 layout_mode = 1
@@ -83,6 +129,39 @@ texture_progress = ExtResource("3_1flfl")
 tint_under = Color(0.73, 0.365, 0.389333, 1)
 tint_progress = Color(0.34, 0.068, 0.0861333, 1)
 
+[node name="HealIndicator" type="TextureProgressBar" parent="CanvasLayer/NormalUi"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -40.0
+offset_right = 77.0
+offset_bottom = -24.0
+grow_vertical = 0
+step = 0.01
+value = 46.19
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 16
+texture_progress = ExtResource("3_1flfl")
+tint_progress = Color(0.945098, 0.176471, 0.223529, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/NormalUi/HealIndicator"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -10.0
+offset_right = -4.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Healing..."
+vertical_alignment = 1
+
 [node name="KillIcon" type="TextureRect" parent="CanvasLayer/NormalUi"]
 layout_mode = 0
 offset_left = 10.0
@@ -125,7 +204,7 @@ grow_vertical = 2
 text = "x 160000"
 vertical_alignment = 1
 
-[node name="Spectator" type="Control" parent="CanvasLayer"]
+[node name="SpectatorUi" type="Control" parent="CanvasLayer"]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -133,8 +212,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
-[node name="Spectating" type="Label" parent="CanvasLayer/Spectator"]
+[node name="Spectating" type="Label" parent="CanvasLayer/SpectatorUi"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -148,7 +228,7 @@ theme_override_font_sizes/font_size = 21
 text = "Spectating: abcefghijklmnopqrstuvwxyz1234567891011121314151617"
 clip_text = true
 
-[node name="LifeInfo" type="Label" parent="CanvasLayer/Spectator/Spectating"]
+[node name="LifeInfo" type="Label" parent="CanvasLayer/SpectatorUi/Spectating"]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0

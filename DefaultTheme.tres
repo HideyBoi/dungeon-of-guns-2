@@ -135,5 +135,7 @@ PopupMenu/icons/radio_checked = ExtResource("5_5jdbv")
 PopupMenu/icons/radio_unchecked = ExtResource("6_jqhd7")
 PopupMenu/styles/hover = SubResource("StyleBoxTexture_ynvcw")
 PopupMenu/styles/panel = SubResource("StyleBoxTexture_pf2sm")
+RichTextLabel/font_sizes/normal_font_size = 16
+RichTextLabel/fonts/normal_font = ExtResource("1_0xrtr")
 SpinBox/icons/updown = ExtResource("5_jm2pj")
 VScrollBar/styles/grabber = SubResource("StyleBoxTexture_r1ln2")

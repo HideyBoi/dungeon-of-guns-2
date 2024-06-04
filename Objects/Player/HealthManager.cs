@@ -7,6 +7,7 @@ public partial class HealthManager : Node2D
 {
 
 	public static HealthManager instance;
+	[Export] Inventory inventory;
 
 	int maxHealth;
 	int currentHealth;
@@ -35,6 +36,12 @@ public partial class HealthManager : Node2D
 
 	[Export] Node2D root;
 	[Export] CollisionShape2D collision;
+
+	[Export] Control publicKillFeed;
+	[Export] Control privateKillFeed;
+	[Export] PackedScene killElement;
+	[Export] Healable[] heals;
+	[Export] TextureProgressBar healIndicator;
  
     public override void _EnterTree()
     {
@@ -56,6 +63,12 @@ public partial class HealthManager : Node2D
 		delayHealthBar.Value = maxHealth;
     }
 
+	bool isHealing = false;
+	int healIndex;
+	float timeToHeal;
+	float currentTime;
+
+	Vector2 lastPos;
     public override void _Process(double delta)
     {
 		healthCount.Text = currentHealth.ToString();
@@ -65,6 +78,54 @@ public partial class HealthManager : Node2D
 		if (healthState == HealthState.DEAD) {
 			TickSpectating();
 		}
+
+		if (Input.IsActionJustPressed("medkit")) {
+			if (inventory.heals[0] < 1) 
+				return;
+			isHealing = true;
+			healIndex = 0;
+			timeToHeal = heals[0].timeToUse;
+			currentTime = 0;
+		}
+
+		if (Input.IsActionJustPressed("syringe")) {
+			if (inventory.heals[1] < 1) 
+				return;
+			
+			isHealing = true;
+			healIndex = 1;
+			timeToHeal = heals[1].timeToUse;
+			currentTime = 0;
+		}
+
+		if (Input.IsActionJustReleased("medkit") || Input.IsActionJustReleased("syringe")) {
+			currentTime = 0;
+			isHealing = false;
+		}
+
+		if (isHealing) {
+			currentTime += (float)delta;
+			if (currentTime > timeToHeal) {
+				inventory.UpdateUi();
+				
+				currentTime = 0;
+				inventory.heals[healIndex]--;
+				currentHealth += (int)Mathf.Floor(heals[healIndex].healAmount * float.Parse(ConfigManager.CurrentGamerules["med_multiplier"]));
+				isHealing = false;
+				if (currentHealth > maxHealth)
+					currentHealth = maxHealth;
+			}
+		}
+
+		if (Tools.Distance(lastPos, GlobalPosition) > 3) {
+			lastPos = GlobalPosition;
+			currentTime = 0;
+			isHealing = false;
+		}
+
+		healIndicator.Visible = currentTime > 0;
+		healIndicator.Value = currentTime;
+		healIndicator.MaxValue = timeToHeal;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -128,8 +189,7 @@ public partial class HealthManager : Node2D
 				return;
 			}
 
-			// TODO: Chat system because yeah we need that
-			// it was in the original except it was bad. 
+			ShowKillChat(fromId, pId, itemId); 
 
 			ChangeHealthState(HealthState.DEAD);
 
@@ -137,10 +197,10 @@ public partial class HealthManager : Node2D
 			spectateTargetName = NetworkManager.ConnectedPlayers[GameManager.PlayingPlayers[fromId].pId].name;
 
 			if (livesCount != -1) {
+				livesCount--;
 				if (livesCount != 0) {
 					StartRespawn();
 				}
-				livesCount--;
 			} else {
 				StartRespawn();
 			}
@@ -148,6 +208,7 @@ public partial class HealthManager : Node2D
 			Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.PlayerDead);
 			msg.AddUShort(pId);
 			msg.AddUShort(fromId);
+			msg.AddUShort(itemId);
 			NetworkManager.I.Client.Send(msg);
 		}
 	}
@@ -192,5 +253,25 @@ public partial class HealthManager : Node2D
 				spectatorUi.Show();
 				break;
 		}
+	}
+
+	public void GotKill(ushort victimId) {
+		killCount++;
+		
+		KillElement newElement = killElement.Instantiate<KillElement>();
+		newElement.SetupPrivateKill(NetworkManager.ConnectedPlayers[GameManager.PlayingPlayers[victimId].pId].name);
+		privateKillFeed.AddChild(newElement);
+	}
+
+	public void ShowKillChat(ushort killerId, ushort victimId, ushort itemId) {
+		KillElement newElement = killElement.Instantiate<KillElement>();
+
+		string killerName = NetworkManager.ConnectedPlayers[GameManager.PlayingPlayers[killerId].pId].name;
+		string victimName = NetworkManager.ConnectedPlayers[GameManager.PlayingPlayers[victimId].pId].name;
+		string gunName = GameManager.GetNewInventoryItem(itemId).itemName;
+
+		newElement.SetupPublicKill(victimName, killerName, gunName);
+
+		publicKillFeed.AddChild(newElement);
 	}
 }

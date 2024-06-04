@@ -10,7 +10,7 @@ region = Rect2(89, 1, 16, 15)
 [resource]
 script = ExtResource("1_daung")
 count = 0
-healAmount = 150.0
+healAmount = 100.0
 timeToUse = 5.0
 healType = 0
 itemId = 0

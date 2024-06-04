@@ -421,8 +421,9 @@ position = Vector2(0, -2)
 rotation = 1.57079
 shape = SubResource("CapsuleShape2D_b32g7")
 
-[node name="HealthManager" parent="." node_paths=PackedStringArray("root", "collision") instance=ExtResource("7_f0s6q")]
+[node name="HealthManager" parent="." node_paths=PackedStringArray("inventory", "root", "collision") instance=ExtResource("7_f0s6q")]
 position = Vector2(0, -7)
+inventory = NodePath("../Inventory")
 root = NodePath("..")
 collision = NodePath("../CollisionShape2D")
 

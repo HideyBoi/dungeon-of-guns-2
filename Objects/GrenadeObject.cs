@@ -162,16 +162,12 @@ public partial class GrenadeObject : CharacterBody2D
 	}
 
 	int CalcDamageAmount(Vector2 playerPos) {
-		float dist = Distance(explosionArea.GlobalPosition, playerPos);
+		float dist = Tools.Distance(explosionArea.GlobalPosition, playerPos);
 		float distNormalized = dist/(thisGrenade.blastRadius + 10);
 		int damage = (int)MathF.Floor(thisGrenade.damageFalloff.Sample(distNormalized) * thisGrenade.damageAmount);
 		GD.Print(damage);
 		return damage;
 	}
-
-	float Distance(Vector2 v1, Vector2 v2) {
-        return Mathf.Abs(Mathf.Sqrt(Mathf.Pow(v1.X - v2.X, 2) + Mathf.Pow(v1.Y - v2.Y, 2)));
-    }
 
 	[MessageHandler((ushort)NetworkManager.MessageIds.GrenadeExplode)]
 	public static void HandleExplosion(Message msg) {
