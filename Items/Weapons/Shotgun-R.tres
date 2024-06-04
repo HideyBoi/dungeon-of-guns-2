@@ -16,6 +16,7 @@ screenShakeAmount = 0.0
 flashSize = 0
 shotCount = 8
 timeBetweenShots = 1.0
+isAutomatic = false
 maxAmmo = 4
 ammoType = 3
 reloadTime = 1.3

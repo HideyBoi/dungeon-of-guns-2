@@ -8,6 +8,7 @@ public partial class Weapon : InventoryItem {
     [Export] public MuzzleFlashSize flashSize;
     [Export(PropertyHint.Range, "1,16")] public int shotCount = 1;
     [Export] public float timeBetweenShots;
+    [Export] public bool isAutomatic;
     [Export] public int maxAmmo;
     [Export] public AmmoType ammoType;
     [Export] public float reloadTime;

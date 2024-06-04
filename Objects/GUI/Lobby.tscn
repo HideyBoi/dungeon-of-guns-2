@@ -168,7 +168,7 @@ offset_right = -75.0
 offset_bottom = 10.0
 grow_horizontal = 0
 grow_vertical = 2
-min_value = 3.0
+min_value = 2.0
 max_value = 20.0
 value = 3.0
 rounded = true
@@ -321,9 +321,9 @@ text = "Leave Game"
 [connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/Manage/ResetToDefaults" to="HSplitContainer/Settings/ResetConfirm" method="show"]
 [connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/Gamemode/OptionButton" to="HSplitContainer/Settings" method="UpdateValues"]
 [connection signal="value_changed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Count" to="HSplitContainer/Settings" method="UpdateValues"]
-[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Lar" to="HSplitContainer/Settings" method="MapSizePreset" binds= [10]]
-[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Med" to="HSplitContainer/Settings" method="MapSizePreset" binds= [6]]
-[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Small" to="HSplitContainer/Settings" method="MapSizePreset" binds= [4]]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Lar" to="HSplitContainer/Settings" method="MapSizePreset" binds= [6]]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Med" to="HSplitContainer/Settings" method="MapSizePreset" binds= [4]]
+[connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/MapSize/Small" to="HSplitContainer/Settings" method="MapSizePreset" binds= [2]]
 [connection signal="value_changed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/LivesCount/Count" to="HSplitContainer/Settings" method="UpdateValues"]
 [connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer/LivesCount/Infinite" to="HSplitContainer/Settings" method="UpdateValues"]
 [connection signal="pressed" from="HSplitContainer/Settings/VBoxContainer/CopyLobby" to="." method="CopyLobbyId"]

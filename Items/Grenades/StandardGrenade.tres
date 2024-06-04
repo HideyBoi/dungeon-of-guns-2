@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://Scripts/Inventory/Grenades/StandardGrenade.cs" id="2_iob0r"]
 
 [sub_resource type="Curve" id="Curve_0ufy8"]
-_data = [Vector2(0, 0), -2.84667, 1.43986, 0, 0, Vector2(0.99999, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), -2.84667, -5.48363e-07, 0, 0, Vector2(1, 0), -1.63278, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_85s7u"]
@@ -20,7 +20,7 @@ throwPower = 160.0
 drag = 2.0
 bounceAmount = 0.35
 blastEffect = ExtResource("1_qffc6")
-blastRadius = 32.0
+blastRadius = 50.0
 damageFalloff = SubResource("Curve_0ufy8")
 damageAmount = 100.0
 useFuse = false

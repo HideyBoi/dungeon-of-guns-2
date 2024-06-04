@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://b01mwvr0cwdtf"]
+
+[ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="1_038al"]
+[ext_resource type="Script" path="res://Scripts/Inventory/Weapon.cs" id="2_dvcp3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7lrh"]
+atlas = ExtResource("1_038al")
+region = Rect2(35, 1, 31, 14)
+
+[resource]
+script = ExtResource("2_dvcp3")
+damage = 11
+damageFalloff = 0.0
+bloom = 1.3
+screenShakeAmount = 0.0
+flashSize = 0
+shotCount = 1
+timeBetweenShots = 0.18
+isAutomatic = true
+maxAmmo = 40
+ammoType = 0
+reloadTime = 1.3
+rarity = 1
+muzzleLocation = Vector2(21.5, -1)
+itemId = 0
+itemName = "Submachine Gun"
+itemSprite = SubResource("AtlasTexture_o7lrh")

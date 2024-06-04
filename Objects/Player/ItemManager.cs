@@ -157,6 +157,9 @@ public partial class ItemManager : Marker2D
 		AddChild(muzzleFlash);
 		muzzleFlash.Setup(rotation.ToGlobal(gun.muzzleLocation), rotation.GlobalRotation, gun.flashSize);
 
+		if (!gun.isAutomatic)
+			wantsToShoot = false;
+
 		for (int i = 0; i < gun.shotCount; i++)
 		{
 			float aimDir = Mathf.RadToDeg(gunShotOrigin.GetLocalMousePosition().Normalized().Angle());

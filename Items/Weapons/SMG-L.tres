@@ -9,13 +9,14 @@ region = Rect2(35, 1, 31, 14)
 
 [resource]
 script = ExtResource("2_vxjct")
-damage = 5
+damage = 12
 damageFalloff = 0.0
-bloom = 0.0
+bloom = 1.0
 screenShakeAmount = 0.0
 flashSize = 0
 shotCount = 1
 timeBetweenShots = 0.1
+isAutomatic = true
 maxAmmo = 40
 ammoType = 0
 reloadTime = 1.3

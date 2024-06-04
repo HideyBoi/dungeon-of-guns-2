@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ecvm6adagvkl"]
+[gd_scene load_steps=21 format=3 uid="uid://ecvm6adagvkl"]
 
 [ext_resource type="Script" path="res://Scripts/GameManagers/ProcGenGameManager.cs" id="1_j16l4"]
 [ext_resource type="PackedScene" uid="uid://tsfpfpuarod2" path="res://Objects/Player/LocalPlayer.tscn" id="2_scj6m"]
@@ -16,10 +16,14 @@
 [ext_resource type="Resource" uid="uid://c87s76f3f33mb" path="res://Items/Weapons/HeavyPistol-L.tres" id="14_15pf1"]
 [ext_resource type="Resource" uid="uid://chu5wc6y48347" path="res://Items/Weapons/Pistol-C.tres" id="15_j6bmy"]
 [ext_resource type="Resource" uid="uid://bwldmvltmk7x5" path="res://Items/Weapons/Shotgun-R.tres" id="16_mc87n"]
+[ext_resource type="Resource" uid="uid://b01b6aygwyrbi" path="res://Items/Weapons/AssualtRifle-L.tres" id="17_y8vwi"]
+[ext_resource type="Resource" uid="uid://d2wbtbv16d6ur" path="res://Items/Weapons/AssualtRifle-R.tres" id="18_b2pr0"]
+[ext_resource type="Resource" uid="uid://72fgxgaonfee" path="res://Items/Weapons/Pistol-R.tres" id="19_unmrp"]
+[ext_resource type="Resource" uid="uid://b01mwvr0cwdtf" path="res://Items/Weapons/SMG-R.tres" id="20_imbou"]
 
 [node name="ProcGenGameManager" type="Node2D" groups=["GameManager"]]
 y_sort_enabled = true
 script = ExtResource("1_j16l4")
 localPlayer = ExtResource("2_scj6m")
 remotePlayer = ExtResource("3_e4cg0")
-possibleItems = Array[Resource]([ExtResource("4_ry3br"), ExtResource("5_22r2i"), ExtResource("6_mw015"), ExtResource("7_jgjnm"), ExtResource("8_7pwow"), ExtResource("9_drnj2"), ExtResource("10_vc4ik"), ExtResource("11_3xyxs"), ExtResource("12_h7gwn"), ExtResource("13_bo52h"), ExtResource("14_15pf1"), ExtResource("15_j6bmy"), ExtResource("16_mc87n")])
+possibleItems = Array[Resource]([ExtResource("4_ry3br"), ExtResource("5_22r2i"), ExtResource("6_mw015"), ExtResource("7_jgjnm"), ExtResource("8_7pwow"), ExtResource("9_drnj2"), ExtResource("10_vc4ik"), ExtResource("11_3xyxs"), ExtResource("12_h7gwn"), ExtResource("13_bo52h"), ExtResource("14_15pf1"), ExtResource("15_j6bmy"), ExtResource("16_mc87n"), ExtResource("17_y8vwi"), ExtResource("18_b2pr0"), ExtResource("19_unmrp"), ExtResource("20_imbou")])

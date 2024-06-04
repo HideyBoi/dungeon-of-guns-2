@@ -1,14 +1,14 @@
-[gd_resource type="Resource" load_steps=4 format=3 uid="uid://bppgo2pg3o6m1"]
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://d2wbtbv16d6ur"]
 
-[ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="1_r8e5b"]
-[ext_resource type="Script" path="res://Scripts/Inventory/Weapon.cs" id="2_d1s0s"]
+[ext_resource type="Texture2D" uid="uid://cwy5p7gwilyee" path="res://Sprites/Items/Guns.png" id="1_cmjn2"]
+[ext_resource type="Script" path="res://Scripts/Inventory/Weapon.cs" id="2_s8jjj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5yuww"]
-atlas = ExtResource("1_r8e5b")
+atlas = ExtResource("1_cmjn2")
 region = Rect2(0, 21, 31, 12)
 
 [resource]
-script = ExtResource("2_d1s0s")
+script = ExtResource("2_s8jjj")
 damage = 15
 damageFalloff = 0.0
 bloom = 0.6
@@ -17,7 +17,7 @@ flashSize = 0
 shotCount = 1
 timeBetweenShots = 0.1
 isAutomatic = true
-maxAmmo = 25
+maxAmmo = 30
 ammoType = 1
 reloadTime = 1.3
 rarity = 0

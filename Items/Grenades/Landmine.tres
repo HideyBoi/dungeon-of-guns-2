@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://Scripts/Inventory/Grenades/LandmineGrenade.cs" id="2_3y7qv"]
 
 [sub_resource type="Curve" id="Curve_4cbhe"]
-_data = [Vector2(0, 0.501769), -1.00589, 0.0, 0, 0, Vector2(0.593168, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.459627, 0.991995), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.00589, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vvb7l"]
@@ -20,7 +20,7 @@ throwPower = 120.0
 drag = 2.0
 bounceAmount = 0.1
 blastEffect = ExtResource("1_n8lef")
-blastRadius = 28.0
+blastRadius = 32.0
 damageFalloff = SubResource("Curve_4cbhe")
 damageAmount = 85.0
 useFuse = false

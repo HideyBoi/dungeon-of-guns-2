@@ -47,7 +47,7 @@ public partial class DungeonGenerator : Node2D
     void StartGen() {
 		desiredSize = int.Parse(ruleData["map_size"]);
 
-		if (desiredSize < 3) {
+		if (desiredSize < 2) {
 			GD.PrintErr("Houston, we fucked up.");
 			
 			NetworkManager.I.Server.Stop();
