@@ -7,7 +7,7 @@ public partial class Grenade : InventoryItem {
 	[Export(PropertyHint.Range, "0,1")] public float bounceAmount = 0.3f;
 	[Export] public PackedScene blastEffect;
 	[Export] public float blastRadius;
-	[Export] public Curve2D damageFalloff;
+	[Export] public Curve damageFalloff;
 	[Export] public float damageAmount;
 	[Export] bool useFuse;
 	[Export] Vector2 fusePos;

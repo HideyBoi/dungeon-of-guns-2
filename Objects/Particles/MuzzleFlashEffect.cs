@@ -22,6 +22,7 @@ public partial class MuzzleFlashEffect : AnimatedSprite2D
 	SceneTreeTimer timer;
 
 	void Done() {
+		timer.Timeout -= Done;
 		QueueFree();
 	}
 }

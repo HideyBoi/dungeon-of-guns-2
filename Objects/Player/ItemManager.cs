@@ -74,9 +74,7 @@ public partial class ItemManager : Marker2D
 			throwing = true;
 			grenadeObject = grenadePrefab.Instantiate<GrenadeObject>();
 			grenadeHoldPos.AddChild(grenadeObject);
-			currentGrenade.count--;
 			grenadeObject.Setup((Grenade)currentGrenade.Duplicate());
-			inventory.UpdateUi(true);
 		}
 
 		if (throwing && Input.IsActionJustReleased("grenade")) {
@@ -95,6 +93,9 @@ public partial class ItemManager : Marker2D
 			grenadeObject.GetParent().RemoveChild(grenadeObject);
 			GameManager.I.AddChild(saved);
 			saved.GlobalPosition = grenadeHoldPos.GlobalPosition;
+			
+			currentGrenade.count--;
+			inventory.UpdateUi();
 		}
 
 		#region 

@@ -73,6 +73,8 @@ public partial class InventoryItemObject : CharacterBody2D
 				break;
 		}
 
+		// TODO: Sound
+
 		if (!fromNetwork)
 			SendSpawn();
 	}
@@ -160,8 +162,6 @@ public partial class InventoryItemObject : CharacterBody2D
 		}
 
 		NetworkManager.I.Client.Send(msg);
-
-		// TODO: Sound
 	}
 	
 	[MessageHandler((ushort)NetworkManager.MessageIds.ItemSpawn)]

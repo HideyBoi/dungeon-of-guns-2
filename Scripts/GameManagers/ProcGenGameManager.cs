@@ -82,7 +82,7 @@ public partial class ProcGenGameManager : GameManager {
     }
 
     float Distance(Vector2 v1, Vector2 v2) {
-        return Mathf.Sqrt(Mathf.Pow(v1.X - v2.X, 2) + Mathf.Pow(v1.Y - v2.Y, 2));
+        return Mathf.Abs(Mathf.Sqrt(Mathf.Pow(v1.X - v2.X, 2) + Mathf.Pow(v1.Y - v2.Y, 2)));
     }
 
     public override void RespawnPlayer(Node2D playerNode)

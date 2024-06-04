@@ -111,7 +111,7 @@ public partial class HealthManager : Node2D
 		instance.OnPlayerDamaged(damageOrigin, fromId, itemId, damageAmount);
 	}
 
-	void OnPlayerDamaged(Vector2 damageOrigin, ushort fromId, ushort itemId, int damageAmount) {
+	public void OnPlayerDamaged(Vector2 damageOrigin, ushort fromId, ushort itemId, int damageAmount) {
 		currentHealth -= damageAmount;
 
 		DamageIndicator indicator = damageIndicator.Instantiate<DamageIndicator>();
@@ -162,6 +162,8 @@ public partial class HealthManager : Node2D
 		respawnTimer.Timeout -= Respawn;
 		GameManager.I.RespawnPlayer(GetParent<Node2D>());
 		ChangeHealthState(HealthState.ALIVE);
+		// Can you believe that i fucking forgot to reset the player's health????? CAN YOU FUCKING BELIEVE I DIDN'T IMPLEMENT PROBABLY THE MOST IMPORTANT PART OF RESPAWNING????
+		currentHealth = maxHealth;
 
 		Message msg = Message.Create(MessageSendMode.Reliable, NetworkManager.MessageIds.PlayerRespawn);
 		msg.AddUShort(pId);

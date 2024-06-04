@@ -147,6 +147,17 @@ public partial class Inventory : Node2D
 			DropItem(grenade);
 		}
 		*/
+		if (Input.IsActionJustPressed("debug3")) {
+			Grenade grenade = (Grenade)GameManager.GetNewInventoryItem(6);
+			grenade.count = 9;
+			DropItem(grenade);
+		}
+
+		if (Input.IsActionJustPressed("debug4")) {
+			Grenade grenade = (Grenade)GameManager.GetNewInventoryItem(7);
+			grenade.count = 9;
+			DropItem(grenade);
+		}
     }
 
     public override void _PhysicsProcess(double delta)

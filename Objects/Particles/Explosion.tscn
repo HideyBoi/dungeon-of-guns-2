@@ -1,0 +1,80 @@
+[gd_scene load_steps=11 format=3 uid="uid://c1c6yrqxadlga"]
+
+[ext_resource type="Texture2D" uid="uid://c38t7vjbwj428" path="res://Sprites/dust.png" id="1_kgbqh"]
+[ext_resource type="Texture2D" uid="uid://d3vtnk5smbd8y" path="res://Sprites/ExplosionPiece.png" id="2_piodw"]
+[ext_resource type="Script" path="res://Objects/Particles/BasicParticleEffect.cs" id="2_vwikd"]
+
+[sub_resource type="Curve" id="Curve_hgc2f"]
+max_value = 0.5
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.184397, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_qd3l5"]
+curve = SubResource("Curve_hgc2f")
+
+[sub_resource type="Curve" id="Curve_m5wq1"]
+max_value = 100.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.535461, 100), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2gvjm"]
+curve = SubResource("Curve_m5wq1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_542wg"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 16.0
+emission_ring_inner_radius = 0.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 4.0
+initial_velocity_max = 6.0
+gravity = Vector3(0, 0, 0)
+damping_curve = SubResource("CurveTexture_2gvjm")
+scale_max = 3.0
+alpha_curve = SubResource("CurveTexture_qd3l5")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hi5uj"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 2
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rxdx2"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 8.0
+emission_ring_inner_radius = 8.0
+inherit_velocity_ratio = 1.0
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+anim_speed_min = 2.53
+anim_speed_max = 2.53
+
+[node name="Explosion" type="GPUParticles2D"]
+z_index = 19
+emitting = false
+amount = 7
+process_material = SubResource("ParticleProcessMaterial_542wg")
+texture = ExtResource("1_kgbqh")
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("2_vwikd")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 20
+material = SubResource("CanvasItemMaterial_hi5uj")
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_rxdx2")
+texture = ExtResource("2_piodw")
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+script = ExtResource("2_vwikd")

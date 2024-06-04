@@ -4,7 +4,7 @@ using Riptide;
 
 public partial class RemotePlayer : StaticBody2D
 {
-	ushort pId;
+	public ushort pId;
 	float lastX;
 	Vector2 lastPos;
 	[Export] AnimatedSprite2D animatedSprite;

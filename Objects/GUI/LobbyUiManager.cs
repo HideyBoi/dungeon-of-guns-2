@@ -130,6 +130,8 @@ public partial class LobbyUiManager : Control
 
 	void CheckReadyState() {
 		if (readyPlayers.Count == NetworkManager.ConnectedPlayers.Count) {
+			// Trigger sync
+			ConfigManager.SaveGamerules();
 			SceneManager.I.ChangeScene(gameWorld.ResourcePath, sync: true);
 		}
 	}
