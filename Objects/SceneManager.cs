@@ -130,7 +130,7 @@ public partial class SceneManager : Node
 		try {
 			finishedPlayers.Remove(e.Id);
 
-			if (DungeonGenerator.I == null) {
+			if (DungeonGenerator.I != null) {
 				DungeonGenerator.I.finishedPlayers.Remove(e.Id);
 			}
 		} catch {
@@ -142,4 +142,5 @@ public partial class SceneManager : Node
     {
         NetworkManager.I.Client.ClientDisconnected -= ClientPlayerLeft;
     }
+
 }

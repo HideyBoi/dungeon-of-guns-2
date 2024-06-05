@@ -24,6 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 1
 theme = ExtResource("1_0wxf2")
 script = ExtResource("1_6ubcb")
 lobby = ExtResource("2_hs34j")
@@ -58,6 +59,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 1
 theme = ExtResource("1_0wxf2")
 
 [node name="FG" type="Panel" parent="HostMenu/Control"]
@@ -73,6 +75,7 @@ offset_right = 150.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HostMenu/Control/FG"]
 layout_mode = 1
@@ -158,6 +161,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 1
 theme = ExtResource("1_0wxf2")
 
 [node name="FG" type="Panel" parent="JoinMenu/Control"]
@@ -173,6 +177,7 @@ offset_right = 150.0
 offset_bottom = 65.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="JoinMenu/Control/FG"]
 layout_mode = 1
@@ -238,6 +243,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_j4pf7")
 
 [node name="Label" type="Label" parent="Connecting/BG"]
