@@ -154,7 +154,7 @@ public partial class ItemManager : Marker2D
 		gun.currentAmmo--;
 
 		MuzzleFlashEffect muzzleFlash = muzzleFlashEffect.Instantiate<MuzzleFlashEffect>();
-		AddChild(muzzleFlash);
+		gunSprite.AddChild(muzzleFlash);
 		muzzleFlash.Setup(rotation.ToGlobal(gun.muzzleLocation), rotation.GlobalRotation, gun.flashSize);
 
 		if (!gun.isAutomatic)

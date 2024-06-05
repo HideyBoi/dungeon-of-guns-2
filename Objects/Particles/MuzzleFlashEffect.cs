@@ -10,8 +10,14 @@ public partial class MuzzleFlashEffect : AnimatedSprite2D
 
 		switch (flashSize)
 		{
-			default:
-				Play("default");
+			case Weapon.MuzzleFlashSize.Light:
+				Play("light");
+				break;
+			case Weapon.MuzzleFlashSize.Medium:
+				Play("medium");
+				break;
+			case Weapon.MuzzleFlashSize.Heavy:
+				Play("heavy");
 				break;
 		}
 
