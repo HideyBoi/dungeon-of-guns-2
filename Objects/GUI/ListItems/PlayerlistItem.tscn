@@ -49,8 +49,12 @@ vertical_alignment = 1
 clip_text = true
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+transparent_bg = true
 title = "goodbye or nahhhh?"
-size = Vector2i(315, 210)
+initial_position = 1
+size = Vector2i(315, 95)
+borderless = true
+transparent = true
 ok_button_text = "Kick"
 dialog_text = "Are you sure you want to kick [x] from the game? 
 They will be allowed to rejoin."

@@ -136,10 +136,9 @@ offset_right = -3.0
 offset_bottom = 10.0
 grow_horizontal = 0
 grow_vertical = 2
-item_count = 1
 selected = 0
+item_count = 1
 popup/item_0/text = "FFA"
-popup/item_0/id = 0
 
 [node name="MapSize" type="Panel" parent="HSplitContainer/Settings/VBoxContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(260, 28)
