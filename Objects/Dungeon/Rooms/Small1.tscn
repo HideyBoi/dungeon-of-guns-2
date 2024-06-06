@@ -19,7 +19,6 @@ layer_0/tile_data = PackedInt32Array(720896, 65536, 0, 786432, 65536, 2, 720897,
 layer_1/name = "Walls"
 layer_1/tile_data = PackedInt32Array(131074, 262144, 4, 196610, 262144, 5, 262146, 262144, 5, 327682, 262144, 5, 393218, 262144, 5, 458754, 393216, 1, 524290, 393216, 2, 589826, 655360, 4, 131075, 327680, 4, 131076, 327680, 4, 131077, 327680, 4, 131078, 327680, 4, 131079, 393216, 2, 589839, 524288, 4, 524303, 262144, 2, 458767, 262144, 1, 393231, 262144, 1, 327695, 262144, 1, 262159, 262144, 1, 196623, 262144, 1, 131087, 393216, 4, 131086, 327680, 2, 131085, 327680, 2, 131084, 327680, 2, 131083, 327680, 2, 131082, 262144, 2, 196611, 524288, 1, 262147, 524288, 2, 196622, 655360, 1, 262158, 655360, 2, 196618, 524288, 4, 262154, 524288, 5, 196615, 655360, 4, 262151, 655360, 5, 196612, 589824, 1, 262148, 589824, 2, 196613, 589824, 1, 262149, 589824, 2, 196614, 589824, 1, 262150, 589824, 2, 196619, 589824, 1, 262155, 589824, 2, 196620, 589824, 1, 262156, 589824, 2, 196621, 589824, 1, 262157, 589824, 2, 655362, 655360, 5, 655375, 524288, 5, 851970, 393216, 0, 917506, 393216, 1, 983042, 393216, 1, 1048578, 393216, 1, 1114114, 393216, 1, 851983, 262144, 0, 917519, 393216, 5, 983055, 393216, 5, 1048591, 393216, 5, 1114127, 393216, 5, 1179650, 262144, 6, 1179651, 327680, 6, 1179652, 327680, 6, 1179653, 327680, 6, 1179654, 327680, 6, 1179655, 393216, 0, 1179658, 262144, 0, 1179659, 327680, 0, 1179660, 327680, 0, 1179661, 327680, 0, 1179662, 327680, 0, 1179663, 393216, 6, 589825, 589824, 1, 655361, 589824, 2, 589824, 589824, 1, 655360, 589824, 2, 589840, 589824, 1, 655376, 589824, 2, 589841, 589824, 1, 655377, 589824, 2, 851969, 327680, 6, 851968, 327680, 6, 851984, 327680, 6, 851985, 327680, 6, 524289, 327680, 4, 524288, 327680, 4, 524304, 327680, 4, 524305, 327680, 4, 1245191, 262144, 5, 1310727, 262144, 5, 1245194, 393216, 5, 1310730, 393216, 5, 65543, 393216, 1, 65546, 262144, 1)
 layer_2/name = "Objects"
-layer_2/tile_data = PackedInt32Array()
 script = ExtResource("2_4bfg0")
 sides = [NodePath("0"), NodePath("1"), NodePath("2"), NodePath("3")]
 
@@ -41,11 +40,17 @@ position = Vector2(80, 112)
 [node name="Spawnpoint4" parent="." instance=ExtResource("7_dbmn6")]
 position = Vector2(208, 256)
 
-[node name="Chest" parent="." instance=ExtResource("8_ykq62")]
+[node name="Chest" parent="." node_paths=PackedStringArray("boxSprite", "collider", "popupRoot") instance=ExtResource("8_ykq62")]
 position = Vector2(80, 256)
+boxSprite = NodePath("Sprite2D")
+collider = NodePath("CollisionShape2D")
+popupRoot = NodePath("Labels")
 
-[node name="AmmoCrate" parent="." instance=ExtResource("9_kbcqk")]
+[node name="AmmoCrate" parent="." node_paths=PackedStringArray("boxSprite", "collider", "popupRoot") instance=ExtResource("9_kbcqk")]
 position = Vector2(208, 112)
+boxSprite = NodePath("Sprite2D")
+collider = NodePath("CollisionShape2D")
+popupRoot = NodePath("Labels")
 
 [connection signal="OnTransition" from="0" to="." method="RoomExited"]
 [connection signal="OnTransition" from="1" to="." method="RoomExited"]

@@ -1,6 +1,7 @@
 using Godot;
 using DiscordRPC;
 using DiscordRPC.Logging;
+using System.Linq;
 
 public partial class DiscordHandler : Node {
 
@@ -8,13 +9,13 @@ public partial class DiscordHandler : Node {
 
     public override void _EnterTree()
 	{
-
+		GD.Print("Starting Discord");
 
         // Start up discord
         client = new DiscordRpcClient("1045184055521579038")
         {
             //Set the logger
-            Logger = new ConsoleLogger() { Level = LogLevel.Warning }
+            Logger = new ConsoleLogger() { Level = LogLevel.Trace }
         };
 
         //Subscribe to events
@@ -64,6 +65,12 @@ public partial class DiscordHandler : Node {
     }
 
 	void MainMenuStatus() {
+		DiscordRPC.Button[] button = new DiscordRPC.Button[1];
+		button.Append(new DiscordRPC.Button() {
+					Label = "Button",
+					Url = "https://www.google.com"
+				});
+
 		client.SetPresence(new RichPresence()
 		{
 			Details = "In the Main Menu...",
@@ -73,7 +80,8 @@ public partial class DiscordHandler : Node {
 				LargeImageText = "Dungeon of Guns",
 				SmallImageKey = "hbd-logo",
 				SmallImageText = "save yourself."
-			}
+			},
+			Buttons = button
 		});	
 	}
 
@@ -97,4 +105,9 @@ public partial class DiscordHandler : Node {
 		if (time == 0)
 			time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
 	}
+
+    public override void _ExitTree()
+    {
+        client.Dispose();
+    }
 }
