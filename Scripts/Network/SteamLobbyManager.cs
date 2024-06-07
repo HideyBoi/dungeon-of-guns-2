@@ -41,7 +41,9 @@ public partial class SteamLobbyManager: Node {
 
 		LobbyId = new CSteamID(callback.m_ulSteamIDLobby);
 
-		NetworkManager.I.Server.Start(0, 5);
+		SteamMatchmaking.SetLobbyData(LobbyId, "MDS_DOG_ID", "69696969");
+
+		NetworkManager.I.Server.Start(0, (ushort)MainMenuUi.current.maxPlayersSelector.Value);
 		NetworkManager.I.Client.Connect("127.0.0.1");
 		NetworkManager.CurrentState = NetworkManager.GameState.LOBBY;
 
@@ -51,6 +53,10 @@ public partial class SteamLobbyManager: Node {
 	public void JoinLobby(ulong lobbyId)
 	{	   
 		SteamMatchmaking.JoinLobby(new CSteamID(lobbyId));
+	}
+
+	public void JoinLobby(CSteamID lobbyId) {
+		SteamMatchmaking.JoinLobby(lobbyId);
 	}
 
 	private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)

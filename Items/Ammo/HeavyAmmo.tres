@@ -1,11 +1,11 @@
 [gd_resource type="Resource" load_steps=4 format=3 uid="uid://n32xv2uslnjw"]
 
-[ext_resource type="Texture2D" uid="uid://ca81apag2sobl" path="res://Sprites/Items/placeholderAmmo.png" id="1_1rgns"]
+[ext_resource type="Texture2D" uid="uid://dvxdrik2tx6ml" path="res://Sprites/Items/Ammo.png" id="1_wdd4l"]
 [ext_resource type="Script" path="res://Scripts/Inventory/Ammo.cs" id="1_x3sme"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a74b4"]
-atlas = ExtResource("1_1rgns")
-region = Rect2(32, 0, 16, 16)
+atlas = ExtResource("1_wdd4l")
+region = Rect2(25, 0, 6, 8)
 
 [resource]
 script = ExtResource("1_x3sme")

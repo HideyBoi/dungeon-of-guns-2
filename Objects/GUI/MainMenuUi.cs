@@ -1,24 +1,30 @@
-using Godot;
-using Riptide;
-using Steamworks;
 using System;
+using Godot;
+using Steamworks;
 
 public partial class MainMenuUi : Control
 {
 	public static MainMenuUi current;
 
 	[Export] PackedScene lobby;
-	[Export] SpinBox maxPlayersSelector;
+	[Export] PackedScene lobbyListElement;
+	[Export] Label lobbyCounter;
+	[Export] Control lobbyListElementRoot;
+	[Export] public SpinBox maxPlayersSelector;
 	[Export] OptionButton lobbyPrivacySelector;
 	[Export] LineEdit lobbyIdInput;
 	[Export] CanvasLayer connectingScreen;
+	[Export] CanvasLayer lobbyListGui;
+	protected Callback<LobbyMatchList_t> lobbyListReceived;
 
 	public override void _Ready()
 	{
 		current = this;
+
+		lobbyListReceived = Callback<LobbyMatchList_t>.Create(GotLobbyListData);
 	}
 
-	public void StartHosting() {
+    public void StartHosting() {
 		if (!NetworkManager.I.isSteamServer) {
 			StartLocalHost();
 			return;
@@ -74,6 +80,35 @@ public partial class MainMenuUi : Control
 
 		SteamLobbyManager.I.JoinLobby(id);
 		ShowConnectingScreen();
+	}
+
+	public void ShowLobbyListScreen() {
+		connectingScreen.Visible = true;
+		SteamMatchmaking.AddRequestLobbyListStringFilter("MDS_DOG_ID", "69696969", ELobbyComparison.k_ELobbyComparisonEqual);
+		SteamMatchmaking.RequestLobbyList();
+	}
+
+	void GotLobbyListData(LobbyMatchList_t lobbyListData) {
+		connectingScreen.Visible = false;
+		lobbyListGui.Visible = true;
+
+		lobbyCounter.Text = $"Lobbies found: {lobbyListData.m_nLobbiesMatching}";
+
+		foreach (Control control in lobbyListElementRoot.GetChildren()) {
+			control.QueueFree();
+		}
+
+		for (int i = 0; i < lobbyListData.m_nLobbiesMatching; i++)
+		{
+			CSteamID lobbyId = SteamMatchmaking.GetLobbyByIndex(i);
+			string username = SteamMatchmaking.GetLobbyData(lobbyId, "MDS_DOG_USERNAME");
+			string currentPlayerCount = SteamMatchmaking.GetLobbyData(lobbyId, "MDS_DOG_CPC");
+			string maxPlayerCount = SteamMatchmaking.GetLobbyData(lobbyId, "MDS_DOG_MPC");
+
+			LobbyListElement listElement = lobbyListElement.Instantiate<LobbyListElement>();
+			listElement.Setup(username, currentPlayerCount, maxPlayerCount, lobbyId);
+			lobbyListElementRoot.AddChild(listElement);
+		}
 	}
 
 	// Called by SteamLobbyManager if the lobby was successfully created/connected to

@@ -1,11 +1,11 @@
 [gd_resource type="Resource" load_steps=4 format=3 uid="uid://dgg3hhcapyvra"]
 
-[ext_resource type="Texture2D" uid="uid://ca81apag2sobl" path="res://Sprites/Items/placeholderAmmo.png" id="1_ka3y2"]
+[ext_resource type="Texture2D" uid="uid://dvxdrik2tx6ml" path="res://Sprites/Items/Ammo.png" id="1_hvbm8"]
 [ext_resource type="Script" path="res://Scripts/Inventory/Ammo.cs" id="1_lkrd5"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_aa2fh"]
-atlas = ExtResource("1_ka3y2")
-region = Rect2(0, 0, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_cga6c"]
+atlas = ExtResource("1_hvbm8")
+region = Rect2(16, 1, 8, 7)
 
 [resource]
 script = ExtResource("1_lkrd5")
@@ -13,4 +13,4 @@ count = 0
 ammoType = 0
 itemId = 0
 itemName = "Light Ammo"
-itemSprite = SubResource("AtlasTexture_aa2fh")
+itemSprite = SubResource("AtlasTexture_cga6c")

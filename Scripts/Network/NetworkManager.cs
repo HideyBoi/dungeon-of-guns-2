@@ -5,9 +5,10 @@ using Godot;
 using Riptide;
 using Riptide.Transports.Steam;
 using Riptide.Utils;
+using Steamworks;
 
 partial class NetworkManager : Node {
-	public bool isSteamServer = false;
+	public bool isSteamServer = true;
 
 	[Serializable]
 	public class Player {
@@ -56,6 +57,8 @@ partial class NetworkManager : Node {
 	public enum GameState { NOT_CONNECTED, LOBBY, LOADING_GAME, IN_GAME, GAME_END }
 	public static GameState CurrentState = GameState.NOT_CONNECTED; 
 
+	public string Username;
+
 	public override void _Ready()
 	{
 		String[] args = OS.GetCmdlineUserArgs();
@@ -77,7 +80,7 @@ partial class NetworkManager : Node {
 		if (isSteamServer) {
 			SteamServer steamServer = new SteamServer();
 			Server = new Server(steamServer);
-			Client = new Client(new SteamClient(steamServer));
+			Client = new Client(new Riptide.Transports.Steam.SteamClient(steamServer));
 		} else {
 			GD.PushWarning("/!\\ LOADING LOCAL MODE. IS THIS WHAT YOU WANTED TO DO?");
 			Server = new();
@@ -107,6 +110,8 @@ partial class NetworkManager : Node {
 		}
 
 		Server.RelayFilter = filter;
+
+		Username = SteamFriends.GetPersonaName();
 	}
 
 	public override void _Process(double delta)
@@ -114,8 +119,13 @@ partial class NetworkManager : Node {
 		if (Client == null)
 			return;
 		
-		if (Server.IsRunning)
+		if (Server.IsRunning) {
 			Server.Update();
+			SteamMatchmaking.SetLobbyData(SteamLobbyManager.I.LobbyId, "MDS_DOG_USERNAME", Username);
+			SteamMatchmaking.SetLobbyData(SteamLobbyManager.I.LobbyId, "MDS_DOG_CPC", ConnectedPlayers.Count.ToString());
+			SteamMatchmaking.SetLobbyData(SteamLobbyManager.I.LobbyId, "MDS_DOG_MPC", Server.MaxClientCount.ToString());
+		}
+			
 
 		Client.Update();
 	}
@@ -152,7 +162,8 @@ partial class NetworkManager : Node {
 
 		Message msg = Message.Create(MessageSendMode.Reliable, MessageIds.Hello);
 		msg.AddUShort(Client.Id);
-		msg.AddString(Steamworks.SteamFriends.GetPersonaName());
+		msg.AddString(Username);
+		msg.AddString((string)ProjectSettings.GetSetting("application/config/version"));
 		Client.Send(msg);
 	}
 
@@ -160,11 +171,12 @@ partial class NetworkManager : Node {
 	{
 		Message msg = Message.Create(MessageSendMode.Reliable, MessageIds.Hello);
 		msg.AddUShort(Client.Id);
-		msg.AddString(Steamworks.SteamFriends.GetPersonaName());
+		msg.AddString(Username);
+		msg.AddString((string)ProjectSettings.GetSetting("application/config/version"));
 		Client.Send(msg);
 		GD.Print("Connected to " + SteamLobbyManager.I.LobbyId);
 		ConnectedPlayers.Add(Client.Id, new Player {
-			name = Steamworks.SteamFriends.GetPersonaName(),
+			name = Username,
 			Id = Client.Id
 		});
 	}
@@ -173,6 +185,11 @@ partial class NetworkManager : Node {
 	static void NewPlayer(Message msg) {
 		ushort Id = msg.GetUShort();
 		string name = msg.GetString();
+		string version = msg.GetString();
+
+		if (I.Server.IsRunning && version != (string)ProjectSettings.GetSetting("application/config/version")) {
+			I.Server.DisconnectClient(Id);
+		}
 
 		// Player already handled, disregard.
 		if (ConnectedPlayers.ContainsKey(Id))
