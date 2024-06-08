@@ -9,7 +9,7 @@ using Riptide;
 public class ConfigManager 
 {
 	static string gameSettingsVersion = "1";
-	static string gameruleFileVersion = "5";
+	static string gameruleFileVersion = "6";
 
 	public static Dictionary<string, string> CurrentGameSettings;
 	static string gameSettingsPath = OS.GetUserDataDir() + "/GAME_SETTINGS.sav";
@@ -76,16 +76,16 @@ public class ConfigManager
 			{ "respawn_time", "5.0"},
 			{ "max_health", "100" },
 			{ "med_multiplier", "1" },
-			{ "legendary_chance", "30"},
-			{ "rare_chance", "45"},
+			{ "legendary_chance", "35"},
+			{ "rare_chance", "50"},
 			{ "secondary_chance", "70"},
-			{ "secondary_max_count", "1"},
+			{ "secondary_max_count", "2"},
 			{ "heal_multiplier", "1"},
 			{ "bonus_healable_chance", "4"},
-			{ "ammo_multiplier", "1.2"},
+			{ "ammo_multiplier", "1.65"},
 			{ "ammo_crate_drop_count", "1"},
-			{ "chests_regenerate", "False"},
-			{ "chests_regeneration_time", "120"}
+			{ "chests_regenerate", "True"},
+			{ "chests_regeneration_time", "100"}
 		};
 	}
 
