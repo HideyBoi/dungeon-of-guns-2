@@ -31,7 +31,17 @@ public partial class SceneManager : Node
 		I.ChangeScene(msg.GetString());
 	}
 
+    public override void _Notification(int what)
+    {
+        if (what == NotificationWMCloseRequest)
+			isClosing = true;
+    }
+
+    bool isClosing = false;
 	public void ChangeScene(string resourcePath, bool show = true, bool sync = false) {
+		if (isClosing)
+			return;
+
 		finishedPlayers.Clear();
 		
 		sceneToLoad = resourcePath;

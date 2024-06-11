@@ -85,11 +85,6 @@ public partial class SteamManager : Node
 		GD.PrintErr(pchDebugText);
 	}
 
-	public override void _ExitTree()
-	{
-		SteamAPI.Shutdown();
-	}
-
 	public override void _Process(double delta)
 	{
 		if ((I != this) || ! Initialized) {

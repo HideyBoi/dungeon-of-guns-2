@@ -140,11 +140,16 @@ partial class NetworkManager : Node {
 		Client.ConnectionFailed -= FailedToConnect;
 		Client.ClientDisconnected -= ClientPlayerLeft;
 		Client.Disconnected -= DidDisconnect;
+
+		SteamAPI.Shutdown();
 	}
 
 	// Tell local server to stop
 	internal void StopServer()
 	{
+		if (!Server.IsRunning)
+			return;
+		
 		Server.Stop();
 	}
 

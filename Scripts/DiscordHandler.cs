@@ -1,113 +1,114 @@
+using System;
+using Discord;
 using Godot;
-using DiscordRPC;
-using DiscordRPC.Logging;
-using System.Linq;
+using Steamworks;
 
-public partial class DiscordHandler : Node {
+public partial class DiscordHandler : Node
+{
 
-	public DiscordRpcClient client;
+	Discord.Discord discord;
+	ActivityManager activityManager;
+
+	Discord.Discord.SetLogHookHandler discordLogger;
 
     public override void _EnterTree()
-	{
-		GD.Print("Starting Discord");
-
-        // Start up discord
-        client = new DiscordRpcClient("1045184055521579038")
-        {
-            //Set the logger
-            Logger = new ConsoleLogger() { Level = LogLevel.Trace }
-        };
-
-        //Subscribe to events
-        client.OnReady += (sender, e) =>
-		{
-			GD.Print("Received Ready from user: " + e.User.Username);
-		};
-			
-		client.OnPresenceUpdate += (sender, e) =>
-		{
-			GD.Print("Received Update! " + e.Presence);
-		};
+    {
+		return;
 		
-		//Connect to the RPC
-		client.Initialize();
-
-		MainMenuStatus();
+        discord = new(1045184055521579038, (ulong)Discord.CreateFlags.Default);
+		activityManager = discord.GetActivityManager();
+		activityManager.RegisterCommand();
     }
 
-	bool unreachablecodemyass = true;
+	void logger(LogLevel level, string message) {GD.Print($"[Discord - {level}] {message}");}
+
+	NetworkManager.GameState setState = NetworkManager.GameState.GAME_END;
     public override void _PhysicsProcess(double delta)
     {
-		if (unreachablecodemyass) {
-			// Disable
+		return;
+
+		// I don't understand this shit and quite honestly I give up for now lol
+
+		discord.RunCallbacks();
+
+		if (NetworkManager.CurrentState == setState)
 			return;
-		}
+		
+		setState = NetworkManager.CurrentState;
 
         switch (NetworkManager.CurrentState)
 		{
 			case NetworkManager.GameState.NOT_CONNECTED:
-				
+				//time = System.DateTime.MinValue;
+				MainMenuStatus();
 				break;
 			case NetworkManager.GameState.LOBBY:
-				
+				//time = System.DateTime.MinValue;
+				LobbyStatus();
 				break;
 			case NetworkManager.GameState.LOADING_GAME:
-				
+				//time = System.DateTime.MinValue;
+				//LoadingStatus();
 				break;
 			case NetworkManager.GameState.IN_GAME:
 
+				//InGameStatus();
 				break;
 			case NetworkManager.GameState.GAME_END:
-
-				break;
-			
+				//time = System.DateTime.MinValue;
+				//LoadingStatus();
+				break;	
 		}
     }
 
-	void MainMenuStatus() {
-		DiscordRPC.Button[] button = new DiscordRPC.Button[1];
-		button.Append(new DiscordRPC.Button() {
-					Label = "Button",
-					Url = "https://www.google.com"
-				});
-
-		client.SetPresence(new RichPresence()
-		{
-			Details = "In the Main Menu...",
-			Assets = new Assets()
-			{
-				LargeImageKey = "newicon",
-				LargeImageText = "Dungeon of Guns",
-				SmallImageKey = "hbd-logo",
-				SmallImageText = "save yourself."
-			},
-			Buttons = button
-		});	
-	}
-
-	void LoadingStatus() {
-		client.SetPresence(new RichPresence()
-		{
-			Details = "Loading...",
-			Assets = new Assets()
-			{
-				LargeImageKey = "newicon",
-				LargeImageText = "Dungeon of Guns",
-				SmallImageKey = "hbd-logo",
-				SmallImageText = "save yourself."
-			}
-		});	
-	}
-
-	long time = 0;
-
-	void InGameStatus() {
-		if (time == 0)
-			time = System.DateTimeOffset.Now.ToUnixTimeMilliseconds();
-	}
-
     public override void _ExitTree()
     {
-        client.Dispose();
+        discord.Dispose();
     }
+
+    #region statuses
+
+    void MainMenuStatus() {
+		activityManager.UpdateActivity(new Activity {
+			Details = "In the Main Menu...",
+			Assets =
+			{
+				LargeImage = "newicon",
+				LargeText = "Dungeon of Guns",
+				SmallImage = "hbd-logo",
+				SmallText = "save yourself."
+			}	
+		}, result => {
+			GD.Print(result);
+		});
+	}
+
+	void LobbyStatus() {
+		activityManager.UpdateActivity(new Activity {
+			Details = "In the lobby...",
+			Assets =
+			{
+				LargeImage = "newicon",
+				LargeText = "Dungeon of Guns",
+				SmallImage = "hbd-logo",
+				SmallText = "save yourself."
+			},
+			Party = {
+				Id = "totally a real id fucking accept it now why are you a bitch",
+				Size = {
+					CurrentSize = 0,
+					MaxSize = 69
+				},
+				Privacy = ActivityPartyPrivacy.Public
+			},
+			Secrets = {
+				Join = SteamLobbyManager.I.LobbyId.ToString(),
+			},
+			Instance = true
+		}, result => {
+			GD.Print(result);
+		});
+	}
+
+	#endregion
 }
