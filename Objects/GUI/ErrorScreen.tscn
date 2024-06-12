@@ -1,0 +1,167 @@
+[gd_scene load_steps=6 format=3 uid="uid://cs2a3d6edw5oy"]
+
+[ext_resource type="Script" path="res://Objects/GUI/ErrorScreen.cs" id="1_hqfru"]
+[ext_resource type="Texture2D" uid="uid://bw5yjn0tlinmc" path="res://Sprites/UI/criticalPopup.png" id="2_m1s72"]
+[ext_resource type="FontFile" uid="uid://yklo8ih7un4s" path="res://Sprites/UI/fonts/vhs.ttf" id="3_r1x3q"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l61js"]
+texture = ExtResource("2_m1s72")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_2yiry"]
+font = ExtResource("3_r1x3q")
+font_size = 21
+
+[node name="ErrorScreen" type="CanvasLayer" node_paths=PackedStringArray("steamConnectErrorScreen", "steamLibraryErrorScreen")]
+layer = 128
+script = ExtResource("1_hqfru")
+steamConnectErrorScreen = NodePath("SteamConnect")
+steamLibraryErrorScreen = NodePath("SteamLibrary")
+
+[node name="SteamConnect" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="SteamConnect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0547517, 0, 0.00281376, 1)
+
+[node name="Panel" type="Panel" parent="SteamConnect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -100.0
+offset_right = 175.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_l61js")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SteamConnect/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="SteamConnect/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Critical Error"
+label_settings = SubResource("LabelSettings_2yiry")
+
+[node name="Label2" type="Label" parent="SteamConnect/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(344, 143)
+layout_mode = 2
+size_flags_vertical = 3
+text = "An error occurred while trying to connect to Steam.
+
+Try:
+* Restarting the game
+* Ensure Steam is running
+* Signing into Steam
+* Ensure you're connected to the internet"
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SteamConnect/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+alignment = 2
+
+[node name="Button" type="Button" parent="SteamConnect/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Close Game"
+
+[node name="SteamLibrary" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="SteamLibrary"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0547517, 0, 0.00281376, 1)
+
+[node name="Panel" type="Panel" parent="SteamLibrary"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -100.0
+offset_right = 175.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_l61js")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SteamLibrary/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="SteamLibrary/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Critical Error"
+label_settings = SubResource("LabelSettings_2yiry")
+
+[node name="Label2" type="Label" parent="SteamLibrary/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(344, 143)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Unable to find the Steam library. Game files might be corrupt or missing.
+
+Try:
+* Restarting the game
+* Reinstalling the game"
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SteamLibrary/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+alignment = 2
+
+[node name="Button" type="Button" parent="SteamLibrary/Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Close Game"
+
+[connection signal="pressed" from="SteamConnect/Panel/VBoxContainer/HBoxContainer/Button" to="." method="Quit"]
+[connection signal="pressed" from="SteamLibrary/Panel/VBoxContainer/HBoxContainer/Button" to="." method="Quit"]

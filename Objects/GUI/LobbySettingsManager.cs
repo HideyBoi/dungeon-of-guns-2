@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class LobbySettingsManager : Panel
+public partial class LobbySettingsManager : Control
 {
 
 	[Export] OptionButton gamemode;

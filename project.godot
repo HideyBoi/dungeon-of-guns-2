@@ -25,10 +25,11 @@ import/import_plugin/default_automatic_importer="SpriteFrames"
 
 [autoload]
 
-NetworkManager="*res://Scripts/Network/NetworkManager.cs"
+MainThreadInvoker="*res://Scripts/MainThreadInvoker.cs"
+ErrorScreen="*res://Objects/GUI/ErrorScreen.tscn"
 SteamManager="*res://Scripts/Network/SteamManager.cs"
 SteamLobbyManager="*res://Scripts/Network/SteamLobbyManager.cs"
-MainThreadInvoker="*res://Scripts/MainThreadInvoker.cs"
+NetworkManager="*res://Scripts/Network/NetworkManager.cs"
 DiscordHandler="*res://Scripts/DiscordHandler.cs"
 
 [display]

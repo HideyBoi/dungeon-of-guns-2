@@ -28,10 +28,12 @@ public partial class SteamManager : Node
 
 		if (!Packsize.Test()) {
 			GD.PrintErr("[Steamworks.NET] Packsize Test returned false, the wrong version of Steamworks.NET is being run in this platform.", this);
+			ErrorScreen.instance.ShowSteamLibraryError();
 		}
 
 		if (!DllCheck.Test()) {
 			GD.PrintErr("[Steamworks.NET] DllCheck Test returned false, One or more of the Steamworks binaries seems to be the wrong version.", this);
+			ErrorScreen.instance.ShowSteamLibraryError();
 		}
 
 		try {
@@ -50,8 +52,7 @@ public partial class SteamManager : Node
 		catch (System.DllNotFoundException e) { // We catch this exception here, as it will be the first occurrence of it.
 			GD.PrintErr("[Steamworks.NET] Could not load [lib]steam_api.dll/so/dylib. It's likely not in the correct location. Refer to the README for more details.\n" + e, this);
 
-			// Force quit the game. Nothing will shut down correctly.
-			GetTree().Quit();
+			ErrorScreen.instance.ShowSteamLibraryError();
 			return;
 		}
 
@@ -67,7 +68,7 @@ public partial class SteamManager : Node
 		Initialized = SteamAPI.Init();
 		if (!Initialized) {
 			GD.PrintErr("[Steamworks.NET] SteamAPI_Init() failed. Refer to Valve's documentation or the comment above this line for more information.", this);
-
+			ErrorScreen.instance.ShowSteamConnectError();
 			return;
 		}
 
