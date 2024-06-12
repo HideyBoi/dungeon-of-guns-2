@@ -15,6 +15,8 @@ public partial class DiscordHandler : Node
     {
 		return;
 		
+		// I don't understand this shit and quite honestly I give up for now lol
+
         discord = new(1045184055521579038, (ulong)Discord.CreateFlags.Default);
 		activityManager = discord.GetActivityManager();
 		activityManager.RegisterCommand();
@@ -63,7 +65,11 @@ public partial class DiscordHandler : Node
 
     public override void _ExitTree()
     {
-        discord.Dispose();
+        return;
+
+		// I don't understand this shit and quite honestly I give up for now lol
+
+		discord.Dispose();
     }
 
     #region statuses
