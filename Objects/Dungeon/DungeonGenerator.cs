@@ -54,7 +54,7 @@ public partial class DungeonGenerator : Node2D
 			return;
 		}
 
-		maxRooms = desiredSize * 2;
+		maxRooms = (int)(desiredSize * 1.5);
 		minRooms = (int)(desiredSize * 1.6);
 		minConnections = desiredSize * 4;
 
@@ -192,7 +192,7 @@ public partial class DungeonGenerator : Node2D
 	}
 
 	void Done() {
-			if (roomCount < minRooms) {
+		if (roomCount < minRooms) {
 			GD.Print($"Expected {minRooms}, got {roomCount}. Restarting generation.");
 			StartGen();		
 			return;
