@@ -45,6 +45,10 @@ window/stretch/aspect="expand"
 
 project/assembly_name="DungeonOfGuns"
 
+[editor]
+
+run/main_run_args="--local_mode"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")

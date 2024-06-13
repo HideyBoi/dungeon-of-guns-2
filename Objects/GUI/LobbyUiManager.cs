@@ -13,6 +13,7 @@ public partial class LobbyUiManager : Control
 	[Export] PackedScene playerListItem;
 	[Export] PackedScene gameWorld;
 	[Export] Button readyButton;
+	[Export] Button gamerulesButton;
 	[Export] ConfirmationDialog leaveGameDialog;
 
     public override void _Ready()
@@ -20,6 +21,10 @@ public partial class LobbyUiManager : Control
 		I = this;
 		id = NetworkManager.I.Client.Id;
 		NetworkManager.I.Client.ClientDisconnected += ClientPlayerLeft;
+
+		if (!NetworkManager.I.Server.IsRunning) {
+			gamerulesButton.Hide();
+		}
     }
 
     public override void _Process(double delta)

@@ -8,7 +8,7 @@ using Riptide.Utils;
 using Steamworks;
 
 partial class NetworkManager : Node {
-	public bool isSteamServer = true;
+	public bool isSteamServer = false;
 
 	[Serializable]
 	public class Player {
@@ -61,9 +61,11 @@ partial class NetworkManager : Node {
 
 	public override void _Ready()
 	{
-		String[] args = OS.GetCmdlineUserArgs();
+        string[] args = OS.GetCmdlineUserArgs();
 		if (isSteamServer) {
-			isSteamServer = !args.Contains("--local_mode");
+			if (args.Contains("--local_mode")) {
+				isSteamServer = false;
+			}
 		}
 
 		I = this;

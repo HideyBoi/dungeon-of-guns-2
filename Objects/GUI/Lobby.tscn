@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://cwhd3lti0hfcx"]
+[gd_scene load_steps=12 format=3 uid="uid://cwhd3lti0hfcx"]
 
 [ext_resource type="Theme" uid="uid://dd8pxex3rwxau" path="res://DefaultTheme.tres" id="1_n7m4c"]
 [ext_resource type="Script" path="res://Objects/GUI/LobbyUiManager.cs" id="1_preq1"]
 [ext_resource type="PackedScene" uid="uid://cqe22byepta7l" path="res://Objects/GUI/ListItems/PlayerlistItem.tscn" id="2_gfsbb"]
 [ext_resource type="Script" path="res://Objects/GUI/LobbySettingsManager.cs" id="4_aidtt"]
 [ext_resource type="PackedScene" uid="uid://cbems1yjd83uv" path="res://Objects/Dungeon/Dungeon.tscn" id="4_g3mek"]
+[ext_resource type="Texture2D" uid="uid://bj60nuq0fsjuk" path="res://Sprites/UI/background.png" id="5_02ce0"]
 [ext_resource type="FontFile" uid="uid://yklo8ih7un4s" path="res://Sprites/UI/fonts/vhs.ttf" id="6_6d7ed"]
 [ext_resource type="Texture2D" uid="uid://lsndqj45lp6d" path="res://Sprites/UI/button.png" id="6_aevcw"]
 
@@ -22,7 +23,7 @@ texture_margin_right = 3.0
 texture_margin_bottom = 3.0
 modulate_color = Color(1, 0.686275, 0.647059, 1)
 
-[node name="Lobby" type="Control" node_paths=PackedStringArray("playerListContainer", "readyButton", "leaveGameDialog")]
+[node name="Lobby" type="Control" node_paths=PackedStringArray("playerListContainer", "readyButton", "gamerulesButton", "leaveGameDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,6 +37,7 @@ playerListContainer = NodePath("Playerlist/VBoxContainer/ScrollContainer/VBoxCon
 playerListItem = ExtResource("2_gfsbb")
 gameWorld = ExtResource("4_g3mek")
 readyButton = NodePath("Playerlist/VBoxContainer/HBoxContainer/ReadyUp")
+gamerulesButton = NodePath("Playerlist/VBoxContainer/HBoxContainer/Gamerules")
 leaveGameDialog = NodePath("Playerlist/LeaveLobbyConfirm")
 
 [node name="Playerlist" type="Panel" parent="."]
@@ -116,6 +118,18 @@ text = "Gamerules"
 
 [node name="GamerulesScreen" type="CanvasLayer" parent="."]
 visible = false
+
+[node name="ColorRect" type="TextureRect" parent="GamerulesScreen"]
+modulate = Color(1, 1, 1, 0.403922)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_02ce0")
+expand_mode = 1
+stretch_mode = 6
+flip_h = true
 
 [node name="Control" type="Control" parent="GamerulesScreen"]
 layout_mode = 3
