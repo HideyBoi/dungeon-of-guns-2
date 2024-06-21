@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using Riptide;
+using Steamworks;
 using System;
 using TextCopy;
 
@@ -13,8 +14,9 @@ public partial class LobbyUiManager : Control
 	[Export] PackedScene playerListItem;
 	[Export] PackedScene gameWorld;
 	[Export] Button readyButton;
-	[Export] Button gamerulesButton;
+	[Export] Button hostSettingsButton;
 	[Export] ConfirmationDialog leaveGameDialog;
+	[Export] OptionButton privacySelector;
 
     public override void _Ready()
     {
@@ -23,7 +25,19 @@ public partial class LobbyUiManager : Control
 		NetworkManager.I.Client.ClientDisconnected += ClientPlayerLeft;
 
 		if (!NetworkManager.I.Server.IsRunning) {
-			gamerulesButton.Hide();
+			hostSettingsButton.Hide();
+		} else {
+			switch (SteamLobbyManager.I.firstLobbyType) {
+				case ELobbyType.k_ELobbyTypeFriendsOnly:
+					privacySelector.Selected = 0;
+					break;
+				case ELobbyType.k_ELobbyTypePublic:
+					privacySelector.Selected = 1;
+					break;
+				case ELobbyType.k_ELobbyTypePrivate:
+					privacySelector.Selected = 2;
+					break;
+			}
 		}
     }
 
@@ -148,6 +162,31 @@ public partial class LobbyUiManager : Control
 		} catch {
 			GD.Print("Player left, but was not ready, so nothing to remove.");
 		}
+	}
+
+	public void OnLobbyPrivacyChanged(int newPrivacy) {
+		ELobbyType type = ELobbyType.k_ELobbyTypePrivate;
+		switch (newPrivacy) {
+			case 0:
+				// Visible only to friends and people who are invited.
+				type = ELobbyType.k_ELobbyTypeFriendsOnly;
+				break;
+			case 1:
+				// Visible to everyone.
+				type = ELobbyType.k_ELobbyTypePublic;
+				break;
+			case 2:
+				// Invisible to everyone, invite only.
+				type = ELobbyType.k_ELobbyTypePrivate;
+				break;
+			case 3:
+				// Invisible to friends but visible to the server list.
+				// Not supported.
+				type = ELobbyType.k_ELobbyTypeInvisible;
+				break;
+		}
+		bool success = SteamMatchmaking.SetLobbyType(SteamLobbyManager.I.LobbyId, type);
+		GD.Print($"Lobby privacy was changed: {success}");
 	}
 
     public override void _ExitTree()

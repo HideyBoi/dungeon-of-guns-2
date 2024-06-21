@@ -36,10 +36,11 @@ public class ConfigManager
 	}
 
 	public static void SaveGamerules(bool saveNew = false) {
-		if (!saveNew) {
-			File.WriteAllText(gamerulesPath, JsonSerializer.Serialize(CurrentGamerules));
-		} else {
+		if (saveNew) {
 			File.WriteAllText(gamerulesPath, JsonSerializer.Serialize(GetDefaultGamerules()));
+			LoadGamerules(forceNew: true);
+		} else {
+			File.WriteAllText(gamerulesPath, JsonSerializer.Serialize(CurrentGamerules));
 		}
 
 		if (NetworkManager.I != null) {

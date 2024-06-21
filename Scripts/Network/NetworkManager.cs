@@ -8,7 +8,7 @@ using Riptide.Utils;
 using Steamworks;
 
 partial class NetworkManager : Node {
-	public bool isSteamServer = false;
+	public bool isSteamServer = true;
 
 	[Serializable]
 	public class Player {

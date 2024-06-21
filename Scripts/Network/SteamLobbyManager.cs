@@ -26,9 +26,12 @@ public partial class SteamLobbyManager: Node {
 		lobbyEnter = Callback<LobbyEnter_t>.Create(OnLobbyEnter);
 	}
 
+	public ELobbyType firstLobbyType;
+
 	public void CreateLobby(ELobbyType lobbyType, int maxPlayers)
 	{
 		SteamMatchmaking.CreateLobby(lobbyType, maxPlayers);
+		firstLobbyType = lobbyType;
 	}
 
 	private void OnLobbyCreated(LobbyCreated_t callback)

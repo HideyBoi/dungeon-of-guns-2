@@ -23,7 +23,7 @@ texture_margin_right = 3.0
 texture_margin_bottom = 3.0
 modulate_color = Color(1, 0.686275, 0.647059, 1)
 
-[node name="Lobby" type="Control" node_paths=PackedStringArray("playerListContainer", "readyButton", "gamerulesButton", "leaveGameDialog")]
+[node name="Lobby" type="Control" node_paths=PackedStringArray("playerListContainer", "readyButton", "hostSettingsButton", "leaveGameDialog", "privacySelector")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,8 +37,9 @@ playerListContainer = NodePath("Playerlist/VBoxContainer/ScrollContainer/VBoxCon
 playerListItem = ExtResource("2_gfsbb")
 gameWorld = ExtResource("4_g3mek")
 readyButton = NodePath("Playerlist/VBoxContainer/HBoxContainer/ReadyUp")
-gamerulesButton = NodePath("Playerlist/VBoxContainer/HBoxContainer/Gamerules")
+hostSettingsButton = NodePath("Playerlist/VBoxContainer/HBoxContainer/HostSettings")
 leaveGameDialog = NodePath("Playerlist/LeaveLobbyConfirm")
+privacySelector = NodePath("GamerulesScreen/MainLobbySettings/Panel/VBoxContainer/PrivacySelector")
 
 [node name="Playerlist" type="Panel" parent="."]
 custom_minimum_size = Vector2(198, 0)
@@ -104,17 +105,17 @@ custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 text = "Leave Game"
 
+[node name="HostSettings" type="Button" parent="Playerlist/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Host Settings"
+
 [node name="CopyLobby" type="Button" parent="Playerlist/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Copy Lobby ID"
-
-[node name="Gamerules" type="Button" parent="Playerlist/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(90, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Gamerules"
 
 [node name="GamerulesScreen" type="CanvasLayer" parent="."]
 visible = false
@@ -131,7 +132,7 @@ expand_mode = 1
 stretch_mode = 6
 flip_h = true
 
-[node name="Control" type="Control" parent="GamerulesScreen"]
+[node name="MainLobbySettings" type="Control" parent="GamerulesScreen"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -139,7 +140,93 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Gamerules" type="Panel" parent="GamerulesScreen/Control" node_paths=PackedStringArray("gamemode", "mapSize", "livesCount", "infiniteLivesToggle")]
+[node name="Panel" type="Panel" parent="GamerulesScreen/MainLobbySettings"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -61.0
+offset_right = 125.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="GamerulesScreen/MainLobbySettings/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 3.0
+offset_right = -3.0
+offset_bottom = 27.0
+grow_horizontal = 2
+text = "Host Settings"
+label_settings = SubResource("LabelSettings_08iyr")
+vertical_alignment = 1
+
+[node name="Close" type="Button" parent="GamerulesScreen/MainLobbySettings/Panel/Title"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -10.5
+offset_right = -3.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "X"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GamerulesScreen/MainLobbySettings/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 28.0
+offset_right = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LobbyPrivacy" type="Label" parent="GamerulesScreen/MainLobbySettings/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25.175)
+layout_mode = 2
+text = "Lobby Privacy"
+vertical_alignment = 2
+
+[node name="PrivacySelector" type="OptionButton" parent="GamerulesScreen/MainLobbySettings/Panel/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Friends Only"
+popup/item_1/text = "Public"
+popup/item_1/id = 1
+popup/item_2/text = "Invite Only"
+popup/item_2/id = 2
+
+[node name="Spacer" type="Control" parent="GamerulesScreen/MainLobbySettings/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Gamerules" type="Button" parent="GamerulesScreen/MainLobbySettings/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Change Gamerules"
+
+[node name="GamerulesRoot" type="Control" parent="GamerulesScreen"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Gamerules" type="Panel" parent="GamerulesScreen/GamerulesRoot" node_paths=PackedStringArray("gamemode", "mapSize", "livesCount", "infiniteLivesToggle")]
 custom_minimum_size = Vector2(290, 290)
 layout_mode = 1
 anchors_preset = 8
@@ -160,7 +247,7 @@ mapSize = NodePath("SettingsList/ScrollContainer/VBoxContainer/MapSize/Count")
 livesCount = NodePath("SettingsList/ScrollContainer/VBoxContainer/LivesCount/Count")
 infiniteLivesToggle = NodePath("SettingsList/ScrollContainer/VBoxContainer/LivesCount/Infinite")
 
-[node name="Title" type="Label" parent="GamerulesScreen/Control/Gamerules"]
+[node name="Title" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules"]
 layout_mode = 0
 offset_left = 3.0
 offset_right = 287.0
@@ -169,7 +256,7 @@ text = "Gamerules"
 label_settings = SubResource("LabelSettings_08iyr")
 vertical_alignment = 1
 
-[node name="Close" type="Button" parent="GamerulesScreen/Control/Gamerules/Title"]
+[node name="Close" type="Button" parent="GamerulesScreen/GamerulesRoot/Gamerules/Title"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -184,7 +271,7 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "X"
 
-[node name="ResetConfirm" type="ConfirmationDialog" parent="GamerulesScreen/Control/Gamerules"]
+[node name="ResetConfirm" type="ConfirmationDialog" parent="GamerulesScreen/GamerulesRoot/Gamerules"]
 transparent_bg = true
 mode = 3
 initial_position = 1
@@ -196,7 +283,7 @@ ok_button_text = "Reset"
 dialog_text = "Are you sure you want to reset all settings to their default values?"
 dialog_autowrap = true
 
-[node name="SettingsList" type="VBoxContainer" parent="GamerulesScreen/Control/Gamerules"]
+[node name="SettingsList" type="VBoxContainer" parent="GamerulesScreen/GamerulesRoot/Gamerules"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -208,33 +295,33 @@ offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="GamerulesScreen/Control/Gamerules/SettingsList"]
+[node name="ScrollContainer" type="ScrollContainer" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList"]
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
 vertical_scroll_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Manage" type="PanelContainer" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+[node name="Manage" type="PanelContainer" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(260, 24)
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_eslae")
 
-[node name="ResetToDefaults" type="Button" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Manage"]
+[node name="ResetToDefaults" type="Button" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Manage"]
 layout_mode = 2
 theme_override_styles/hover = SubResource("StyleBoxTexture_l3bfa")
 text = "Reset"
 
-[node name="Gamemode" type="Panel" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+[node name="Gamemode" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(260, 28)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Gamemode"]
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Gamemode"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -246,7 +333,7 @@ offset_bottom = 6.5
 grow_vertical = 2
 text = "Gamemode:"
 
-[node name="OptionButton" type="OptionButton" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Gamemode"]
+[node name="OptionButton" type="OptionButton" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Gamemode"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -263,11 +350,11 @@ selected = 0
 item_count = 1
 popup/item_0/text = "FFA"
 
-[node name="MapSize" type="Panel" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+[node name="MapSize" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(260, 28)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -279,7 +366,7 @@ offset_bottom = 6.5
 grow_vertical = 2
 text = "Map Size:"
 
-[node name="Count" type="SpinBox" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -299,7 +386,7 @@ rounded = true
 alignment = 1
 prefix = "Size:"
 
-[node name="Lar" type="Button" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
+[node name="Lar" type="Button" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -314,7 +401,7 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "L"
 
-[node name="Med" type="Button" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
+[node name="Med" type="Button" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -329,7 +416,7 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "M"
 
-[node name="Small" type="Button" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
+[node name="Small" type="Button" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -344,11 +431,11 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "S"
 
-[node name="LivesCount" type="Panel" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+[node name="LivesCount" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(260, 28)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount"]
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -361,7 +448,7 @@ grow_vertical = 2
 text = "Lives
 "
 
-[node name="Count" type="SpinBox" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount"]
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -379,7 +466,7 @@ rounded = true
 alignment = 1
 prefix = "Count:"
 
-[node name="Infinite" type="CheckBox" parent="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount"]
+[node name="Infinite" type="CheckBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -398,15 +485,18 @@ text = "Infinite"
 [connection signal="confirmed" from="Playerlist/LeaveLobbyConfirm" to="." method="LeaveGame"]
 [connection signal="pressed" from="Playerlist/VBoxContainer/HBoxContainer/ReadyUp" to="." method="ReadyButton"]
 [connection signal="pressed" from="Playerlist/VBoxContainer/HBoxContainer/LeaveGame" to="." method="ShowLeaveGameConfirmation"]
+[connection signal="pressed" from="Playerlist/VBoxContainer/HBoxContainer/HostSettings" to="GamerulesScreen" method="show"]
 [connection signal="pressed" from="Playerlist/VBoxContainer/HBoxContainer/CopyLobby" to="." method="CopyLobbyId"]
-[connection signal="pressed" from="Playerlist/VBoxContainer/HBoxContainer/Gamerules" to="GamerulesScreen" method="show"]
-[connection signal="pressed" from="GamerulesScreen/Control/Gamerules/Title/Close" to="GamerulesScreen" method="hide"]
-[connection signal="confirmed" from="GamerulesScreen/Control/Gamerules/ResetConfirm" to="GamerulesScreen/Control/Gamerules" method="ResetSettings"]
-[connection signal="pressed" from="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Manage/ResetToDefaults" to="GamerulesScreen/Control/Gamerules/ResetConfirm" method="show"]
-[connection signal="pressed" from="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Gamemode/OptionButton" to="GamerulesScreen/Control/Gamerules" method="UpdateValues"]
-[connection signal="value_changed" from="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Count" to="GamerulesScreen/Control/Gamerules" method="UpdateValues"]
-[connection signal="pressed" from="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Lar" to="GamerulesScreen/Control/Gamerules" method="MapSizePreset" binds= [6]]
-[connection signal="pressed" from="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Med" to="GamerulesScreen/Control/Gamerules" method="MapSizePreset" binds= [4]]
-[connection signal="pressed" from="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Small" to="GamerulesScreen/Control/Gamerules" method="MapSizePreset" binds= [2]]
-[connection signal="value_changed" from="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount/Count" to="GamerulesScreen/Control/Gamerules" method="UpdateValues"]
-[connection signal="pressed" from="GamerulesScreen/Control/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount/Infinite" to="GamerulesScreen/Control/Gamerules" method="UpdateValues"]
+[connection signal="pressed" from="GamerulesScreen/MainLobbySettings/Panel/Title/Close" to="GamerulesScreen" method="hide"]
+[connection signal="item_selected" from="GamerulesScreen/MainLobbySettings/Panel/VBoxContainer/PrivacySelector" to="." method="OnLobbyPrivacyChanged"]
+[connection signal="pressed" from="GamerulesScreen/MainLobbySettings/Panel/VBoxContainer/Gamerules" to="GamerulesScreen/GamerulesRoot" method="show"]
+[connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/Title/Close" to="GamerulesScreen/GamerulesRoot" method="hide"]
+[connection signal="confirmed" from="GamerulesScreen/GamerulesRoot/Gamerules/ResetConfirm" to="GamerulesScreen/GamerulesRoot/Gamerules" method="ResetSettings"]
+[connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Manage/ResetToDefaults" to="GamerulesScreen/GamerulesRoot/Gamerules/ResetConfirm" method="show"]
+[connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/Gamemode/OptionButton" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Lar" to="GamerulesScreen/GamerulesRoot/Gamerules" method="MapSizePreset" binds= [6]]
+[connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Med" to="GamerulesScreen/GamerulesRoot/Gamerules" method="MapSizePreset" binds= [4]]
+[connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Small" to="GamerulesScreen/GamerulesRoot/Gamerules" method="MapSizePreset" binds= [2]]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount/Infinite" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]

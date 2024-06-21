@@ -77,7 +77,7 @@ anchor_bottom = 0.5
 offset_left = -150.0
 offset_top = -100.0
 offset_right = 150.0
-offset_bottom = 100.0
+offset_bottom = 62.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
@@ -101,29 +101,8 @@ label_settings = SubResource("LabelSettings_q3qm7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LobbyNote" type="Label" parent="HostMenu/Control/FG/VBoxContainer"]
-custom_minimum_size = Vector2(0, 35.325)
-layout_mode = 2
-text = "These settings can't be changed after the lobby has been created. You're going to need to make a new lobby if you want to change any of these settings."
-label_settings = SubResource("LabelSettings_8vxip")
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="Spacer" type="Control" parent="HostMenu/Control/FG/VBoxContainer"]
-custom_minimum_size = Vector2(0, 8.925)
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="MaxPlayersSelector" type="SpinBox" parent="HostMenu/Control/FG/VBoxContainer"]
-layout_mode = 2
-max_value = 99.0
-value = 16.0
-rounded = true
-alignment = 1
-prefix = "Max Players:"
-
 [node name="LobbyPrivacy" type="Label" parent="HostMenu/Control/FG/VBoxContainer"]
-custom_minimum_size = Vector2(0, 27.87)
+custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Lobby Privacy"
 vertical_alignment = 2
@@ -134,9 +113,22 @@ selected = 0
 item_count = 3
 popup/item_0/text = "Friends Only"
 popup/item_1/text = "Public"
-popup/item_1/id = 2
+popup/item_1/id = 1
 popup/item_2/text = "Invite Only"
-popup/item_2/id = 3
+popup/item_2/id = 2
+
+[node name="MaxPlayersSelector" type="SpinBox" parent="HostMenu/Control/FG/VBoxContainer"]
+layout_mode = 2
+max_value = 99.0
+value = 16.0
+rounded = true
+alignment = 1
+prefix = "Max Players:"
+
+[node name="Spacer" type="Control" parent="HostMenu/Control/FG/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 0
 
 [node name="HostButton" type="Button" parent="HostMenu/Control/FG/VBoxContainer"]
 layout_mode = 2
