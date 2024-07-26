@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=23 format=3 uid="uid://dd8pxex3rwxau"]
+[gd_resource type="Theme" load_steps=25 format=3 uid="uid://dd8pxex3rwxau"]
 
 [ext_resource type="FontFile" uid="uid://c0sn104x31nfm" path="res://Sprites/UI/fonts/monogram.ttf" id="1_0xrtr"]
 [ext_resource type="Texture2D" uid="uid://bw5yjn0tlinmc" path="res://Sprites/UI/criticalPopup.png" id="1_44n6b"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cpdkp82dastrs" path="res://Sprites/UI/optionYesSelect.png" id="5_5jdbv"]
 [ext_resource type="Texture2D" uid="uid://cqdme83b5a2bt" path="res://Sprites/UI/incrementDecrement.png" id="5_jm2pj"]
 [ext_resource type="Texture2D" uid="uid://dv21b4dx3durf" path="res://Sprites/UI/optionNotSelect.png" id="6_jqhd7"]
+[ext_resource type="FontFile" uid="uid://csekyx4lnrjo0" path="res://Sprites/UI/fonts/Minimal3x5.ttf" id="11_ciy2s"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6juvg"]
 texture = ExtResource("1_44n6b")
@@ -100,6 +101,14 @@ texture_margin_top = 3.0
 texture_margin_right = 3.0
 texture_margin_bottom = 3.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tkcjv"]
+texture = ExtResource("1_dcmku")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+modulate_color = Color(0.223103, 0.223103, 0.223103, 1)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r1ln2"]
 texture_margin_left = 1.0
 texture_margin_top = 3.0
@@ -138,4 +147,7 @@ PopupMenu/styles/panel = SubResource("StyleBoxTexture_pf2sm")
 RichTextLabel/font_sizes/normal_font_size = 16
 RichTextLabel/fonts/normal_font = ExtResource("1_0xrtr")
 SpinBox/icons/updown = ExtResource("5_jm2pj")
+TooltipLabel/font_sizes/font_size = 8
+TooltipLabel/fonts/font = ExtResource("11_ciy2s")
+TooltipPanel/styles/panel = SubResource("StyleBoxTexture_tkcjv")
 VScrollBar/styles/grabber = SubResource("StyleBoxTexture_r1ln2")

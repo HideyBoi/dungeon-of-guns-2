@@ -118,7 +118,6 @@ size_flags_horizontal = 4
 text = "Copy Lobby ID"
 
 [node name="GamerulesScreen" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="ColorRect" type="TextureRect" parent="GamerulesScreen"]
 modulate = Color(1, 1, 1, 0.403922)
@@ -218,7 +217,6 @@ layout_mode = 2
 text = "Change Gamerules"
 
 [node name="GamerulesRoot" type="Control" parent="GamerulesScreen"]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -296,6 +294,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList"]
+clip_contents = false
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
@@ -353,6 +352,7 @@ popup/item_0/text = "FFA"
 [node name="MapSize" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(260, 28)
 layout_mode = 2
+tooltip_text = "Controls how large the generated map should be."
 
 [node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
@@ -384,7 +384,6 @@ max_value = 20.0
 value = 3.0
 rounded = true
 alignment = 1
-prefix = "Size:"
 
 [node name="Lar" type="Button" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize"]
 layout_mode = 1
@@ -431,6 +430,84 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "S"
 
+[node name="Health" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+text = "Health Settings"
+vertical_alignment = 2
+
+[node name="MaxHealth" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MaxHealth"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Max Health"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MaxHealth"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+min_value = 1.0
+max_value = 200.0
+value = 100.0
+rounded = true
+alignment = 1
+
+[node name="MedMultiplier" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+tooltip_text = "Multiplies the amount of health recieved from healing items."
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MedMultiplier"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Heal Mutliplier"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MedMultiplier"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+min_value = 1.0
+max_value = 5.0
+step = 0.1
+value = 1.0
+alignment = 1
+suffix = "x"
+
 [node name="LivesCount" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(260, 28)
 layout_mode = 2
@@ -464,7 +541,7 @@ grow_vertical = 2
 max_value = 99.0
 rounded = true
 alignment = 1
-prefix = "Count:"
+suffix = "lives"
 
 [node name="Infinite" type="CheckBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount"]
 layout_mode = 1
@@ -482,6 +559,333 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 16
 text = "Infinite"
 
+[node name="RespawnTime" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/RespawnTime"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Respawn Time"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/RespawnTime"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+min_value = 2.0
+max_value = 16.0
+value = 5.0
+rounded = true
+alignment = 1
+suffix = "seconds"
+
+[node name="Loot" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+text = "Loot Settings"
+vertical_alignment = 2
+
+[node name="RareChance" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+tooltip_text = "Chance of a common weapon being upgraded to rare."
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/RareChance"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Rare Chance"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/RareChance"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+value = 50.0
+rounded = true
+alignment = 1
+suffix = "%"
+
+[node name="LegendaryChance" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+tooltip_text = "Chance of a common weapon being upgraded to legendary."
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LegendaryChance"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Legendary Chance"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LegendaryChance"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+value = 35.0
+rounded = true
+alignment = 1
+suffix = "%"
+
+[node name="SecondaryChance" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+tooltip_text = "The chance that a secondary item drops. (ex: Medical or Grenades)"
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/SecondaryChance"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Secondary Drop Chance"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/SecondaryChance"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+value = 70.0
+rounded = true
+alignment = 1
+suffix = "%"
+
+[node name="MaxSecondaryCount" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+tooltip_text = "Controls the largest possible amount of secondaries that can drop."
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MaxSecondaryCount"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Max Secondary Count"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MaxSecondaryCount"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+min_value = 2.0
+value = 2.0
+rounded = true
+alignment = 1
+suffix = "max"
+
+[node name="AmmoCrateDrop" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+tooltip_text = "How many ammo bundles should be dropped."
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/AmmoCrateDrop"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Ammo Crate Drop Amount"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/AmmoCrateDrop"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+min_value = 1.0
+max_value = 10.0
+value = 1.0
+rounded = true
+alignment = 1
+suffix = "x"
+
+[node name="AmmoMultiplier" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+tooltip_text = "Multiplies the amount of ammo in a dropped bundle."
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/AmmoMultiplier"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Ammo Drop Multipler"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/AmmoMultiplier"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+min_value = 1.0
+max_value = 999.0
+value = 1.0
+rounded = true
+alignment = 1
+suffix = "x"
+
+[node name="CrateRegen" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+tooltip_text = "Crates will be refilled after the amount of seconds defined."
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/CrateRegen"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Crates Regen"
+
+[node name="Toggle" type="CheckBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/CrateRegen"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -12.0
+offset_right = -4.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+text = "Regen"
+
+[node name="CrateRegenTime" type="Panel" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(260, 28)
+layout_mode = 2
+tooltip_text = "Controls how long should it take for crates to refill."
+
+[node name="Label" type="Label" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/CrateRegenTime"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -6.5
+offset_right = 46.0
+offset_bottom = 6.5
+grow_vertical = 2
+text = "Crate Regen Time"
+
+[node name="Count" type="SpinBox" parent="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/CrateRegenTime"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -87.0
+offset_top = -10.5
+offset_right = -4.0
+offset_bottom = 10.5
+grow_horizontal = 0
+grow_vertical = 2
+min_value = 2.0
+max_value = 300.0
+value = 100.0
+rounded = true
+alignment = 1
+suffix = "seconds"
+
 [connection signal="confirmed" from="Playerlist/LeaveLobbyConfirm" to="." method="LeaveGame"]
 [connection signal="pressed" from="Playerlist/VBoxContainer/HBoxContainer/ReadyUp" to="." method="ReadyButton"]
 [connection signal="pressed" from="Playerlist/VBoxContainer/HBoxContainer/LeaveGame" to="." method="ShowLeaveGameConfirmation"]
@@ -498,5 +902,16 @@ text = "Infinite"
 [connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Lar" to="GamerulesScreen/GamerulesRoot/Gamerules" method="MapSizePreset" binds= [6]]
 [connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Med" to="GamerulesScreen/GamerulesRoot/Gamerules" method="MapSizePreset" binds= [4]]
 [connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MapSize/Small" to="GamerulesScreen/GamerulesRoot/Gamerules" method="MapSizePreset" binds= [2]]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MaxHealth/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MedMultiplier/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
 [connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
 [connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LivesCount/Infinite" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/RespawnTime/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/RareChance/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/LegendaryChance/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/SecondaryChance/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/MaxSecondaryCount/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/AmmoCrateDrop/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/AmmoMultiplier/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="pressed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/CrateRegen/Toggle" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]
+[connection signal="value_changed" from="GamerulesScreen/GamerulesRoot/Gamerules/SettingsList/ScrollContainer/VBoxContainer/CrateRegenTime/Count" to="GamerulesScreen/GamerulesRoot/Gamerules" method="UpdateValues"]

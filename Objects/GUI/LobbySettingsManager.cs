@@ -9,6 +9,16 @@ public partial class LobbySettingsManager : Control
 	[Export] SpinBox mapSize;
 	[Export] SpinBox livesCount;
 	[Export] CheckBox infiniteLivesToggle;
+	[Export] SpinBox respawnTime;
+	[Export] SpinBox maxHealth;
+	[Export] SpinBox medMultiplier;
+	[Export] SpinBox legendaryChance;
+	[Export] SpinBox rareChance;
+	[Export] SpinBox secondaryChance;
+	[Export] SpinBox ammoMultiplier;
+	[Export] SpinBox ammoCrateDropCount;
+	[Export] CheckBox chestsRegenToggle;
+	[Export] SpinBox chestRegenTime;
 
 	public override void _Ready()
 	{

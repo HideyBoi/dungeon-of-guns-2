@@ -68,6 +68,8 @@ public class ConfigManager
 	static Dictionary<string, string> GetDefaultGamerules() {
 		return new()
 		{
+			//{ "heal_multiplier", "1"},
+			//{ "bonus_healable_chance", "4"},
 			// Add gamerules here. Set them up to be configured in the gamerule menu later.
 			{ "version", gameruleFileVersion },
 			{ "gamemode", "0" },
@@ -76,13 +78,13 @@ public class ConfigManager
 			{ "infinite_lives", "False" },
 			{ "respawn_time", "5.0"},
 			{ "max_health", "100" },
+			{ "drop_items", "True"},
+			{ "dropped_ammo_multiplier", "1"},
 			{ "med_multiplier", "1" },
 			{ "legendary_chance", "35"},
 			{ "rare_chance", "50"},
 			{ "secondary_chance", "70"},
 			{ "secondary_max_count", "2"},
-			{ "heal_multiplier", "1"},
-			{ "bonus_healable_chance", "4"},
 			{ "ammo_multiplier", "1.65"},
 			{ "ammo_crate_drop_count", "1"},
 			{ "chests_regenerate", "True"},
@@ -112,12 +114,13 @@ public class ConfigManager
 	}
 
 	public static void SaveSettings(bool saveNew = false) {
-		if (!saveNew) {
-			File.WriteAllText(gameSettingsPath, JsonSerializer.Serialize(CurrentGameSettings));
+        if (saveNew) {
+            File.WriteAllText(gameSettingsPath, JsonSerializer.Serialize(GetDefaultSettings()));
+			LoadSettings(forceNew: true);
 		} else {
-			File.WriteAllText(gameSettingsPath, JsonSerializer.Serialize(GetDefaultSettings()));
-		}
-	}
+            File.WriteAllText(gameSettingsPath, JsonSerializer.Serialize(CurrentGameSettings));
+        }
+    }
 
 	public static void LoadSettings(bool forceNew = false) {
 		if (forceNew || CurrentGameSettings == null) {
