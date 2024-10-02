@@ -105,15 +105,15 @@ public partial class HealthManager : Node2D
 
 		if (isHealing) {
 			currentTime += (float)delta;
-			if (currentTime > timeToHeal) {
-				inventory.UpdateUi();
-				
+			if (currentTime > timeToHeal) {				
 				currentTime = 0;
 				inventory.heals[healIndex]--;
 				currentHealth += (int)Mathf.Floor(heals[healIndex].healAmount * float.Parse(ConfigManager.CurrentGamerules["med_multiplier"]));
 				isHealing = false;
 				if (currentHealth > maxHealth)
 					currentHealth = maxHealth;
+			
+				inventory.UpdateUi();
 			}
 		}
 
