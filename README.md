@@ -1,5 +1,5 @@
 # Dungeon of Guns
-## [Original here](https://github.com/HideyBoi/dungeon-of-guns)
+## [Original here](https://github.com/HideyBoi/topdown-pvp)
 *Work in progress recreation of an earlier project.*
 
 This recreation features much more robust code in an entirely different engine.
